@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  get 'users/new'
+  
+  get 'home/new'
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get 'login/new'
+
+  get "signup" => "login#new", :as => "signup"
+  root 'home#new'
+  resources :users
+
 end
