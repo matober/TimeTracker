@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  get 'welcome/index'
- 
-  resources :articles
+  get 'home/new'
 
-  root 'welcome#index'
+  get 'login/new'
+
+  get "signup" => "login#new", :as => "signup"
+  root 'home#new'
+  resources :users
 end
