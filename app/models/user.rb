@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
     validates :first_name, presence: true, length: {minimum: 1}
     validates :last_name, presence: true, length: {minimum: 1}
-    validates :email, presence: true, uniqueness: true, legnth: {minimum: 5}
+    validates :email, presence: true, uniqueness: true, length: {minimum: 5}
     validates :username, presence: true, uniqueness: true, length: {minimum: 1}
     validates :password_digest, length: {minimum: 6}
 
