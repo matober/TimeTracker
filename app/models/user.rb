@@ -19,7 +19,6 @@ class User < ApplicationRecord
     validates_uniqueness_of :email
     validates :email, length: {minimum: 5}
 
-
     def self.authenticate(email, password)
       user = find_by_email(email)
       if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
