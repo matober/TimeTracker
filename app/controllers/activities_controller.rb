@@ -1,4 +1,7 @@
 class ActivitiesController < ApplicationController
+  def home
+  end
+
   def index
     @activities = Activity.all
   end
