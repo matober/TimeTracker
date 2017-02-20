@@ -69,7 +69,6 @@
         <option value="$PROJECT_DIR$/app/controllers/home_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/users/new.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20170208004056_create_activities.rb" />
-        <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/config/database.yml" />
         <option value="$PROJECT_DIR$/db/migrate/20170208193858_create_users.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20170209020733_add_index_to_users_email.rb" />
@@ -82,6 +81,7 @@
         <option value="$PROJECT_DIR$/db/schema.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20170209214301_fix_activities_name.rb" />
         <option value="$PROJECT_DIR$/app/controllers/activities_controller.rb" />
+        <option value="$PROJECT_DIR$/Gemfile" />
       </list>
     </option>
   </component>
@@ -431,7 +431,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31554000" />
+    <option name="totallyTimeSpent" value="31641000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="180" y="107" width="1080" height="646" extended-state="0" />
