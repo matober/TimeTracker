@@ -4,8 +4,14 @@ Rails.application.routes.draw do
 
   get 'login/new'
 
-  get "signup" => "login#new", :as => "signup"
+  get 'activities/new'
+
+  get 'activities/display'
+
+  get 'signup' => 'login#new', :as => 'signup'
   root 'home#new'
+
   resources :users
+  resources :activities
 
 end

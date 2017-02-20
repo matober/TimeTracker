@@ -1,0 +1,44 @@
+<!--
+<div class="centre-content">
+  <div class="main-title">
+    All Activities
+  </div>
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Time Spent</th>
+    </tr>
+    <% @activity.each do |activities| %>
+      <tr>
+        <td><%= activities.a_name %></td>
+        <td><%= activities.total_time %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<br />
+
+  <%= link_to 'Home', root_path %>
+</div>
+-->
+
+
+<html>
+....
+
+<body>
+<div id="main-container" class="container">
+  <div class="row">
+    <div id="A_Name_Title" class="col-xs-3">
+      <h2>Activity Name</h2>
+    </div>
+    <div id="A_Time_Spent" class="col-xs-3" style="background-color: LightSteelBlue" >
+      <h2>Time Spent</h2>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
+
