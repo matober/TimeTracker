@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'login/new'
 
   get 'activities/new'
+  get 'activities/new.html.erb' => 'activities#new'
   get '/activities' => 'activities#display'
 
   delete 'add_activities_path', to: 'activities#new', as: :new

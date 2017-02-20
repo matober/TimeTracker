@@ -19,7 +19,7 @@ class ActivitiesController < ApplicationController
   	@activity = Activity.new(activity_params)
     if @activity.save
       flash[:success] = 'Activity created successfully!'
-      redirect_to root_path
+      redirect_to activities_display_path
     else
       flash[:error] = 'ERROR: Activity was not saved!'
       #render_to_string #normally would have it render to the name of view ex: :new
