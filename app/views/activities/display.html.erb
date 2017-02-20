@@ -1,0 +1,40 @@
+<div class="centre-content">
+  <!--<div class="main-title text-center">
+    <h2>
+      All Activities
+    </h2>
+  </div > -->
+
+  <% @activities.each do |activity| %>
+
+      <div class = "row text-center">
+        <div class = 'col-md-4'>
+          <h3>
+            <%= activity.a_name %>
+          </h3>
+        </div>
+
+        <div class = 'col-md-4'>
+
+        </div>
+
+        <div class ='col-md-4'>
+          <h3>
+            <%= activity.total_time %>
+          </h3>
+        </div>
+
+      </div>
+
+  <% end %>
+
+  <br />
+  <!--<div class="text-center">
+    <h2>
+      <%= link_to 'Home', root_path %>
+    </h2>
+  </div> -->
+</div>
+
+
+
