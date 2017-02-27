@@ -86,13 +86,23 @@
               </div>
               <div class = 'col-md-4'>
               </div>
+              <div class="bubbles">
+                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
+                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
+                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
+                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
+                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
+                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
+                <img src="<%=asset_path('filledbubble.png')%>" id="filled" style="display: none" height="15" width="15">
+              </div>
               <div class ='col-md-4'>
                 <h3>
                   <%= activity.total_time %>
                 </h3>
               </div>
             </div>
-        <% end %>
+
+      <% end %>
       </div>
       <div class="btn-group" role="group" aria-label="...">
         <a href="new" class="btn_act">AddActivity</a>
@@ -100,7 +110,17 @@
     </div>
   </ul>
 </nav>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#unfilled").click(function(){
+            if($("#unfilled").attr("src") == "<%=asset_path('unfilledbubble.png')%>"){
+                $("#unfilled").attr("src", "<%=asset_path('filledbubble.png')%>");
+            }else{
+                $("#unfilled").attr("src", "<%=asset_path('unfilledbubble.png')%>");
+            }
+        });
+    });
+</script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

@@ -12,13 +12,12 @@ class User < ApplicationRecord
 
     #EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-<<<<<<< HEAD
+
     validates :first_name, presence: true, length: {minimum: 1}
     validates :last_name, presence: true, length: {minimum: 1}
     validates :email, presence: true, uniqueness: true, length: {minimum: 5}
     validates :username, presence: true, uniqueness: true, length: {minimum: 1}
     validates :password_digest, length: {minimum: 6}
-=======
     validates_confirmation_of :password
     validates_presence_of :password, :on => :create
     validates :password, presence: true, length: {minimum: 6}
@@ -26,7 +25,6 @@ class User < ApplicationRecord
     validates_uniqueness_of :email
     validates :email, length: {minimum: 5}
 
->>>>>>> refs/remotes/origin/dev
 
     def self.authenticate(email, password)
       user = find_by_email(email)
