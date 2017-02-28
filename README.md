@@ -1,3 +1,24 @@
-# TimeTracker
+# README
 
-A time tracking web application used to keep track of how time is spent throughout the day in order to make more efficient time management decisions.
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...

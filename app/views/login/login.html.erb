@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- Latest compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+
+  <title>Bootstrap 101 Template</title>
+
+  <!-- Bootstrap -->
+  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+</head>
+<body>
+
+<style>
+  body {
+    background-color: #2F4F4F;
+  }
+</style>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">TimeTracker</a>
+    </div>
+
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Login<span class="sr-only">(current)</span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<form action="/action_page.php">
+  <div class="loginContainer" align="center">
+    <h1 align="center"><b>Welcome</b></h1>
+
+
+    <div class="container">
+      <label><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <br><label><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+      </br>
+      <br>
+      <button type="submit">Sign Up</button>
+      <a href="/activities" class="btn">Login</a>
+      <!-- <button type="submit">Login</button> -->
+
+      </br>
+    </div>
+
+    <div class="container" style="background-color:#D3D3D3">
+      <input type="checkbox" checked="checked"> Remember me
+      <span class="psw">Forgot <a align="center" href="#">password?</a></span>
+    </div>
+  </div>
+</form>
+
+<!-- <script src="js/jquery.min.js"></script> -->
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- <script src="js/bootstrap.min.js"></script> -->
+</body>
+</html>
