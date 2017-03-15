@@ -1,27 +1,24 @@
-class ActivitiesController < ApplicationController
-  def display
-    @activities = Activity.all
-    @activity = Activity.new
-    @category = Category.new
+class CategoriesController < ApplicationController
+
+  def index
     @categories = Category.all
   end
 
-  def index
-    @activity = Activity.all
-    @activity = Activity.new
+  def display
+    @categories = Category.all
   end
 
   def show
-    @activity = Activity.all
+    @categories = Category.all
   end
 
   def new
-    @activity = Activity.new
+    @category = Category.new
   end
 
   def create
-  	@activity = Activity.create(activity_params)
-    if @activity.save
+    @category = Category.new(category_params)
+    if @category.save!
       flash[:success] = 'Activity created successfully!'
       redirect_to activities_display_path
     else
@@ -31,12 +28,12 @@ class ActivitiesController < ApplicationController
   end
 
   def edit
-    @activity = Activity.find(params[:id])
+    @category = Category.find(params[:id])
   end
 
   def update
-    @activity = Activity.update(activity_params)
-    if @activity.save
+    @category = Category.update(category_params)
+    if @categories.save
       flash[:success] = 'Activity successfully updated!'
       redirect_to root
     else
@@ -46,8 +43,7 @@ class ActivitiesController < ApplicationController
   end
 
   private
-    def activity_params
-  	  params.require(:activity).permit(:a_name)
-  	end
-
+  def category_params
+    params.require(:category).permit(:c_name)
+  end
 end
