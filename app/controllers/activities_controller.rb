@@ -52,6 +52,14 @@ class ActivitiesController < ApplicationController
     redirect_to root_path #Not optimal, fix if possible
   end
 
+  def increment
+    Activity.update_counters(a_name, :total_time => 1)
+  end
+
+  def decrement
+    Activity.update_counters(a_name, :total_time => -1)
+  end
+
   private
     def activity_params
   	  params.require(:activity).permit(:a_name, :category_id)

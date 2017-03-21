@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   post '/activity/unhide' => 'activities#unhide_activity', as: :unhide_act
   patch 'activity/update_act/:id' => 'activities#update_activity', as: :update_act
 
+  get 'activities/new'
+  get 'activities/new.html.erb' => 'activities#new'
+  get '/activities' => 'activities#display'
+ 
 
   #Category Routes
   get '/edit_category/:id' => 'categories#edit_category', as: :edit_cat
