@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'activities/new'
   get 'activities/new.html.erb' => 'activities#new'
   get '/activities' => 'activities#display'
+  put 'activities/increment' => 'activities#increment'
+  put 'activities/decrement' => 'activities#decrement'
 
   delete 'add_activities_path', to: 'activities#new', as: :new
 

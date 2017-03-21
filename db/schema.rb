@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20170220161648) do
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
-    t.integer  "total_time", default: 0
+    t.integer  "total_time", default: 15
     t.string   "a_name"
     t.datetime "date"
     t.datetime "created_at",             null: false
