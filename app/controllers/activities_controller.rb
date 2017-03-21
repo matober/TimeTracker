@@ -1,9 +1,14 @@
 class ActivitiesController < ApplicationController
   def home
+    @activities = Activity.all
+    @categories = Category.all
+    @activity = Activity.new
+    @category = Category.new
   end
 
   def index
     @activities = Activity.all
+    @activity = Activity.new #MODIFIED
   end
 
   def show
@@ -13,17 +18,35 @@ class ActivitiesController < ApplicationController
   def new
     @activity = Activity.new
   end
-
+=begin
   def create
   	@activity = Activity.create(activity_params)
-    if @activity = Activity.save
+    if @activity.save!
       flash[:success] = "Activity created successfully!"
-      redirect_to @activity
     else
       flash[:error] = "ERROR: Activity was not saved!"
-      render_to_string #normally would have it render to the name of view ex: :new
     end
   end
+=end
+  def create #Modified all new
+    @activity = Activity.new(activity_params)
+
+    respond_to do |format|
+      if @activity.save 
+        format.html {flash[:notice] ='Activity was successfully created!'
+        redirect_to @activity }
+        format.js {}
+        format.json { render json: @activity, status:
+          :created, location: @activity }
+      else
+        format.html { render action: "new"}
+        format.json { render json: @activity.errors,
+         status: :unprocessable_entity}
+      end
+    end
+  end
+
+
 
   def edit
     @activity = Activity.find(params[:id])
@@ -33,16 +56,14 @@ class ActivitiesController < ApplicationController
     @activity = Activity.update(activity_params)
     if @activity.save
       flash[:success] = "Activity successfully updated!"
-      redirect_to @section
     else
       flash[:error] = "ERROR: Activity failed to update"
-      render_to_string
     end
   end
 
   private
     def activity_params
-  	  params.require(:activity).permit(:name)
+  	  params.require(:activity).permit(:a_name)
   	end
 
 end
