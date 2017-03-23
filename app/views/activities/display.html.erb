@@ -7,28 +7,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Bootstrap 101 Template</title>
-
-  <!-- Bootstrap -->
-  <!--<link href="css/bootstrap.min.css" rel="stylesheet"> -->
-
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <![endif]-->
 </head>
 <body>
-<!--
-<style>
-.navbar {
-  background-color:#2F4F4F
-}
-</style>
--->
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -52,10 +35,6 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Profile</a></li>
-            <!--
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            -->
             <li role="separator" class="divider"></li>
             <li><a href="#">Account Settings</a></li>
           </ul>
@@ -87,13 +66,8 @@
               <div class = 'col-md-4'>
               </div>
               <div class="bubbles">
-                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
-                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
-                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
-                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
-                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
-                <img src="<%=asset_path('unfilledbubble.png')%>" id="unfilled" height="15" width="15">
-                <img src="<%=asset_path('filledbubble.png')%>" id="filled" style="display: none" height="15" width="15">
+                <%= image_tag("unfilledbubble.png", :size => "15x15", :id =>"unfilled")%>
+                <%= image_tag("filledbubble.png", :size => "15x15", :id => "filled", :style => "display:none")%>
               </div>
               <div class ='col-md-4'>
                 <h3>
@@ -115,8 +89,16 @@
         $("#unfilled").click(function(){
             if($("#unfilled").attr("src") == "<%=asset_path('unfilledbubble.png')%>"){
                 $("#unfilled").attr("src", "<%=asset_path('filledbubble.png')%>");
+                $.ajax({
+                    url: '/activities/increment',
+                    type: 'put'
+                });
             }else{
                 $("#unfilled").attr("src", "<%=asset_path('unfilledbubble.png')%>");
+                $.ajax({
+                    url: '/activities/decrement',
+                    type: 'put'
+                });
             }
         });
     });

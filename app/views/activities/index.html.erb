@@ -1,0 +1,31 @@
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="jquery.js"></script>
+
+<b>Actvities</b>
+
+<ul id="activities">
+<%= render @activities %>
+</ul>
+
+<br>
+
+<%= form_for(@activity, remote: true) do |f| %>
+	<%= f.label :a_name %><br>
+	<%= f.text_field :a_name %>
+	<%= f.submit 'Create', :onclick => 'saveActivity();', class: 'btn btn-primary'%>
+        </div>
+<% end %>
+
+<script>
+function saveActivity(){
+  $('#activities').load('_activity.html.erb');
+  $( "#success" ).load( "/not-here.php", function( response, status, xhr ) {
+  if ( status == "error" ) {
+    var msg = "Sorry but there was an error: ";
+    $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+  }
+});
+}
+</script>
