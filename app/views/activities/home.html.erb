@@ -67,14 +67,14 @@
 </nav>
 
 <nav aria-label="...">
-
+  <ol class="list-group" id="Activities" >
   <h1 align = "center">Activities</h1>
-
   <% @activities.each do |activity| %>
-      <h4 align = 'center'>
+        <a id="mySelect" class="list-group-item">
         <%= activity.a_name %>
-      </h4>
+        </a>
   <% end %>
+  </ol>
 
   <h1 align = "center">Categories</h1>
 
@@ -114,20 +114,29 @@
 
     <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
     <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
-    <button onclick="hideActivityRender()">Add Activity</button>
+    <!-- <button onclick="hideActivityRender()">Add Activity</button> -->
     <button onclick="hideCategoryRender()">Add Category</button>
   </ul>
 
 
-  <div id = 'ActRend' style="display:none">
+  <div id = 'ActRend' style="display:none"> <!-- DO DELETE -->
       <div class = 'text-center'>
         <h3>Activity Name</h3>
         <%= render 'activities/new'%>
       </div>
     </div>
 
+  <!-- *****************NEW*********************** -->
+  <%= form_for @activity do |a| %>
+      <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
+      <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+  <% end %>
 
-  <div id = 'CategoryRend' style="display:none">
+  <button onclick="myFunction()">Delete</button>
+
+<!-- ***************************************** -->
+
+  <div id = 'CategoryRend' style="display:none"> <!-- TO Delete -->
     <div class = 'container'>
       <div class = 'text-center'>
         <h3>Category Name</h3>
@@ -144,7 +153,10 @@
 
 
 
-<script type="text/javascript">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+    $(document).ready(function(){
+        $("#Activities").load("_renderActivity.html.erb");
+    });
     $(document).ready(function(){
         $("#unfilled").click(function(){
             if($("#unfilled").attr("src") == "<%=asset_path('unfilledbubble.png')%>"){
@@ -160,6 +172,9 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- NEW 3/23 -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
 <script>
     function hideActivityRender(){
         var x = document.getElementById('ActRend');
@@ -180,6 +195,15 @@
             x.style.display = 'block'
         }
     }
+
+    function myFunction() {
+        var x = document.getElementById("mySelect");
+        x.remove(x.selectedIndex);
+    }
+
+    $( function() {
+        $("ol.list-group").sortable();
+    });
 </script>
 
 </body>

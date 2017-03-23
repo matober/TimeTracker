@@ -13,10 +13,12 @@ Rails.application.routes.draw do
 
   # Direct to activities page
   get '/activities' => 'activities#home'
+  get '/jsTest' => 'activities#JSloadMethod'
   get '/activities/list' =>'activities#index'
 
   # TODO
   get '/home' => 'home#new'
+
 
   resources :categories
   resources :activities

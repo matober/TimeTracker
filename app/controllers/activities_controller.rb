@@ -1,4 +1,8 @@
 class ActivitiesController < ApplicationController
+  def JSloadMethod
+
+  end
+
   def home
     @activities = Activity.all
     @categories = Category.all
@@ -33,15 +37,12 @@ class ActivitiesController < ApplicationController
 
     respond_to do |format|
       if @activity.save 
-        format.html {flash[:notice] ='Activity was successfully created!'
-        redirect_to @activity }
+        format.html {flash[:notice] = 'Activity was successfully created!'
+        redirect_to '/activities'
+        }
         format.js {}
-        format.json { render json: @activity, status:
-          :created, location: @activity }
       else
-        format.html { render action: "new"}
-        format.json { render json: @activity.errors,
-         status: :unprocessable_entity}
+        format.html { flash[:notice] ='ERROR: Activity could not be create'}
       end
     end
   end
@@ -59,6 +60,10 @@ class ActivitiesController < ApplicationController
     else
       flash[:error] = "ERROR: Activity failed to update"
     end
+  end
+
+  def destroy
+
   end
 
   private
