@@ -1,0 +1,186 @@
+<!--<h1>Time Tracker</h1>
+<li><%= link_to 'Login', login_new_path %></li> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>Bootstrap 101 Template</title>
+  <link rel='stylesheet' type='text/css' href='../stylesheets/bootstrap.min.css'/>
+  <script src='../javascripts/bootstrap.min.js'></script>
+  <!-- Bootstrap -->
+  <!--<link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <![endif]-->
+</head>
+<body>
+<!--
+<style>
+.navbar {
+  background-color:#2F4F4F
+}
+</style>
+-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">TimeTracker</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Activities<span class="sr-only">(current)</span></a></li>
+      </ul>
+      </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Signed in as Admin</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Profile</a></li>
+            <!--
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            -->
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Account Settings</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<nav aria-label="...">
+
+  <h1 align = "center">Activities</h1>
+
+  <% @activities.each do |activity| %>
+      <h4 align = 'center'>
+        <%= activity.a_name %>
+      </h4>
+  <% end %>
+
+  <h1 align = "center">Categories</h1>
+
+  <% @categories.each do |cats| %>
+      <h3 align = 'center'>
+        <%= cats.c_name %>
+      </h3>
+  <% end %>
+
+  <div class="panel-group">
+    <div class="panel-body">
+    </div>
+    <div class="panel-group">
+      <div class="panel text-center">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" href="#collapse1">Collapsible list group</a>
+          </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <h1>ONE</h1>
+            </li>
+            <li class="list-group-item">Two</li>
+            <li class="list-group-item">Three</li>
+          </ul>
+          <div class="panel-footer">Footer</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <ul class="pager">
+
+    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
+    <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
+    <button onclick="hideActivityRender()">Add Activity</button>
+    <button onclick="hideCategoryRender()">Add Category</button>
+  </ul>
+
+
+  <div id = 'ActRend' style="display:none">
+      <div class = 'text-center'>
+        <h3>Activity Name</h3>
+        <%= render 'activities/new'%>
+      </div>
+    </div>
+
+
+  <div id = 'CategoryRend' style="display:none">
+    <div class = 'container'>
+      <div class = 'text-center'>
+        <h3>Category Name</h3>
+      </div>
+      <%= render 'categories/new'%>
+    </div>
+  </div>
+
+
+</nav>
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#unfilled").click(function(){
+            if($("#unfilled").attr("src") == "<%=asset_path('unfilledbubble.png')%>"){
+                $("#unfilled").attr("src", "<%=asset_path('filledbubble.png')%>");
+            }else{
+                $("#unfilled").attr("src", "<%=asset_path('unfilledbubble.png')%>");
+            }
+        });
+    });
+</script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<script>
+    function hideActivityRender(){
+        var x = document.getElementById('ActRend');
+        if (x.style.display == 'block'){
+            x.style.display = 'none';
+        }
+        else{
+            x.style.display = 'block'
+        }
+    }
+
+    function hideCategoryRender(){
+        var x = document.getElementById('CategoryRend');
+        if (x.style.display == 'block'){
+            x.style.display = 'none';
+        }
+        else{
+            x.style.display = 'block'
+        }
+    }
+</script>
+
+</body>
+</html>
