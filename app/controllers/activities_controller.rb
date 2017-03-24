@@ -1,7 +1,5 @@
 class ActivitiesController < ApplicationController
-  def JSloadMethod
-
-  end
+  before_action :find_activity, only: [:show, :edit, :update, :destroy]
 
   def home
     @activities = Activity.all
@@ -16,7 +14,6 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    @activity = Activity.find(params[:id])
   end
 
   def new
@@ -63,12 +60,24 @@ class ActivitiesController < ApplicationController
   end
 
   def destroy
-
+    @activity.destroy
+    redirect_to root_path
   end
+=begin
+  def delete
+    @activity = Activity.find(params[:id])
+    @activity.destroy
+    redirect_to '/activities'
+    flash[:alert] = "Task deleted!"
+  end
+=end
 
   private
     def activity_params
   	  params.require(:activity).permit(:a_name)
   	end
 
+    def find_activity
+      @activity = Activity.find(params[:id])
+    end
 end

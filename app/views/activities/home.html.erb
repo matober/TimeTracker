@@ -66,15 +66,19 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<nav aria-label="...">
-  <ol class="list-group" id="Activities" >
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+  <ul class="list-group-sortable" id="Activities" >
   <h1 align = "center">Activities</h1>
   <% @activities.each do |activity| %>
-        <a id="mySelect" class="list-group-item">
+        <li class="list-group-item" style="list-style: none;">
         <%= activity.a_name %>
-        </a>
+          <%= link_to activity, method: :delete, data: { confirm: "Are you sure?" } do %>
+              <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+          <% end %>
+        </li>
   <% end %>
-  </ol>
+  </ul>
 
   <h1 align = "center">Categories</h1>
 
@@ -119,7 +123,7 @@
   </ul>
 
 
-  <div id = 'ActRend' style="display:none"> <!-- DO DELETE -->
+  <div id = 'ActRend' style="display:none"> <!-- TO DELETE -->
       <div class = 'text-center'>
         <h3>Activity Name</h3>
         <%= render 'activities/new'%>
@@ -132,7 +136,6 @@
       <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
   <% end %>
 
-  <button onclick="myFunction()">Delete</button>
 
 <!-- ***************************************** -->
 
@@ -146,7 +149,6 @@
   </div>
 
 
-</nav>
 
 
 
@@ -154,9 +156,6 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
-    $(document).ready(function(){
-        $("#Activities").load("_renderActivity.html.erb");
-    });
     $(document).ready(function(){
         $("#unfilled").click(function(){
             if($("#unfilled").attr("src") == "<%=asset_path('unfilledbubble.png')%>"){
@@ -175,6 +174,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- NEW 3/23 -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+
+<script src="jquery.sortable.js"></script>
 <script>
     function hideActivityRender(){
         var x = document.getElementById('ActRend');
@@ -202,9 +203,10 @@
     }
 
     $( function() {
-        $("ol.list-group").sortable();
+        $('#Activities').sortable({});
+        $('#Activities').disableSelection();
     });
 </script>
 
-</body>ra
+</body>
 </html>

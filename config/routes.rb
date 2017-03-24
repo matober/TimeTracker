@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  root 'activities#home'
   # Direct to login page
   get '/login' => 'login#login'
 
