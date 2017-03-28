@@ -1,42 +1,51 @@
 class ActivitiesController < ApplicationController
-  respond_to :html, :js
+  before_action :find_activity, only: [:show, :edit, :update, :destroy]
 
-  def display
+  def home
     @activities = Activity.all
+    @categories = Category.all
     @activity = Activity.new
     @category = Category.new
-    @categories = Category.all
   end
 
   def index
     @activities = Activity.all
-    @activity = Activity.new
-
+    @activity = Activity.new #MODIFIED
   end
 
   def show
-    @activities = Activity.all
-    @activity = Activity.new
-
-    respond_to do |format|
-      format.html
-      format.json
-    end
+    @activity = Activity.find(params[:id])
   end
-
-    def all_activities
-      @activities = Activity.all
-    end
 
   def new
     @activity = Activity.new
-    @activities = Activity.all
+  end
+=begin
+  def create
+  	@activity = Activity.create(activity_params)
+    if @activity.save!
+      flash[:success] = "Activity created successfully!"
+    else
+      flash[:error] = "ERROR: Activity was not saved!"
+    end
+  end
+=end
+  def create #Modified all new
+    @activity = Activity.new(activity_params)
+
+    respond_to do |format|
+      if @activity.save 
+        format.html {flash[:notice] = 'Activity was successfully created!'
+        redirect_to '/activities'
+        }
+        format.js {}
+      else
+        format.html { flash[:notice] ='ERROR: Activity could not be create'}
+      end
+    end
   end
 
-  def create #Modified all new
-    @activity = Activity.create(activity_params)
-    @activities = Activity.all
-  end
+
 
   def edit
     @activity = Activity.find(params[:id])
@@ -45,17 +54,29 @@ class ActivitiesController < ApplicationController
   def update
     @activity = Activity.update(activity_params)
     if @activity.save
-      flash[:success] = 'Activity successfully updated!'
-      redirect_to root
+      flash[:success] = "Activity successfully updated!"
     else
-      flash[:error] = 'ERROR: Activity failed to update'
+      flash[:error] = "ERROR: Activity failed to update"
       render_to_string
     end
   end
 
+  def destroy
+    @activity.destroy
+    redirect_to root_path
+  end
+=begin
+  def delete
+    @activity = Activity.find(params[:id])
+    @activity.destroy
+    redirect_to '/activities'
+    flash[:alert] = "Task deleted!"
+  end
+=end
+
   private
     def activity_params
-  	  params.require(:activity).permit(:a_name)
+  	  params.require(:activity).permit(:name)
   	end
 
 end

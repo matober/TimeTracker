@@ -8,4 +8,7 @@ class LoginController < ApplicationController
     @user.save
     redirect_to home_new_path
   end
+
+  def login
+  end
 end

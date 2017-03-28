@@ -4,12 +4,6 @@ class CategoriesController < ApplicationController
     @categories = Category.all
   end
 
-  def display
-    @categories = Category.all
-    @activities = Activity.all
-    #@category = Category.find(params[:id])
-  end
-
   def show
     @categories = Category.all
   end

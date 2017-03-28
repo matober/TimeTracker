@@ -1,7 +1,4 @@
 class User < ApplicationRecord
-
-
-
   class User < ActiveRecord::Base
     attr_accessor :email, :password, :password_confirmation
     has_many :activity
@@ -12,7 +9,6 @@ class User < ApplicationRecord
 
     #EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-
     validates :first_name, presence: true, length: {minimum: 1}
     validates :last_name, presence: true, length: {minimum: 1}
     validates :email, presence: true, uniqueness: true, length: {minimum: 5}
@@ -20,7 +16,7 @@ class User < ApplicationRecord
     validates :password_digest, length: {minimum: 6}
     validates_confirmation_of :password
     validates_presence_of :password, :on => :create
-    validates :password, presence: true, length: {minimum: 6}
+    validates :password, presense:true, length: {minimum: 6}
     validates_presence_of :email
     validates_uniqueness_of :email
     validates :email, length: {minimum: 5}

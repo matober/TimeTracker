@@ -1,35 +1,28 @@
 Rails.application.routes.draw do
-
+  
   get 'home/new'
 
+  root 'activities#home'
+  # Direct to login page
   get '/login' => 'login#login'
+
+  # Direct to sign up page
   get 'login/new'
 
-  get 'activities/new'
-  get 'activities/new.html.erb' => 'activities#new'
-  get '/activities' => 'activities#home'
-
-  get 'activities/create' => 'activities#create'
-
-  get 'activities_new_path' => 'activities#new'
-  post 'activities/create'
-
-  delete 'add_activities_path', to: 'activities#new', as: :new
-
-  get 'categories/new' => 'categories#new'
-  get 'categories/display' => 'categories#display'
-
-
-  get 'signup' => 'login#new', :as => 'signup'
-
-  get '/activities/create' => 'activities#create', :as => :create_activities
-
+  get "signup" => "login#new", :as => "signup"
   root 'home#new'
-
   resources :users
-  resources :activities, :except => :edit do
-    get 'edit', :on => :collection
-  end
-  resources :categories, except: [:edit]
+
+  # Direct to activities page
+  get '/activities' => 'activities#home'
+  get '/jsTest' => 'activities#JSloadMethod'
+  get '/activities/list' =>'activities#index'
+
+  # TODO
+  get '/home' => 'home#new'
+
+
+  resources :categories
+  resources :activities
 
 end
