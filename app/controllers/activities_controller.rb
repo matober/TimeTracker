@@ -1,4 +1,6 @@
 class ActivitiesController < ApplicationController
+  respond_to :html, :js
+
   def display
     @activities = Activity.all
     @activity = Activity.new
@@ -7,27 +9,33 @@ class ActivitiesController < ApplicationController
   end
 
   def index
-    @activity = Activity.all
+    @activities = Activity.all
     @activity = Activity.new
+
   end
 
   def show
-    @activity = Activity.all
+    @activities = Activity.all
+    @activity = Activity.new
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
+
+    def all_activities
+      @activities = Activity.all
+    end
 
   def new
     @activity = Activity.new
+    @activities = Activity.all
   end
 
-  def create
-  	@activity = Activity.create(activity_params)
-    if @activity.save
-      flash[:success] = 'Activity created successfully!'
-      redirect_to activities_display_path
-    else
-      flash[:error] = 'ERROR: Activity was not saved!'
-      #render_to_string #normally would have it render to the name of view ex: :new
-    end
+  def create #Modified all new
+    @activity = Activity.create(activity_params)
+    @activities = Activity.all
   end
 
   def edit

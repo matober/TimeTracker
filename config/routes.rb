@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   get 'home/new'
 
   get '/login' => 'login#login'
@@ -7,15 +7,18 @@ Rails.application.routes.draw do
 
   get 'activities/new'
   get 'activities/new.html.erb' => 'activities#new'
-  get '/activities' => 'activities#display'
-  get 'activities/display'
+  get '/activities' => 'activities#home'
 
+  get 'activities/create' => 'activities#create'
+
+  get 'activities_new_path' => 'activities#new'
   post 'activities/create'
 
   delete 'add_activities_path', to: 'activities#new', as: :new
 
   get 'categories/new' => 'categories#new'
   get 'categories/display' => 'categories#display'
+
 
   get 'signup' => 'login#new', :as => 'signup'
 
@@ -24,7 +27,9 @@ Rails.application.routes.draw do
   root 'home#new'
 
   resources :users
-  resources :activities
-  resources :categories
+  resources :activities, :except => :edit do
+    get 'edit', :on => :collection
+  end
+  resources :categories, except: [:edit]
 
 end

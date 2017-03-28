@@ -3,32 +3,20 @@
     <div class="alert alert-<%= key %>"><%= value %></div>
 <% end %>
 
-<%= form_for @activity  do |act| %>
+<%= form_for @activity do |a| %>
     <div class = "form-group">
       <div class = "row top-buffer text-center">
         <div class='col-md-3'>
-          <%= act.label :a_name, 'Activity Name' %>:
-          <%= act.text_field :a_name, id:'a_name_field', placeholder:'Activity Name' %>
+          <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
         </div>
       </div>
 
       <div class ="row top-buffer text-center">
         <div class="col-md-3">
-          <%= act.submit 'Create', id:'submitButton', class: 'btn btn-primary'%>
+          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
         </div>
       </div>
     </div>
 <% end %>
 
 </body>
-
-<script>
-    if($("#a_name_field").val() == "")
-        $('#submitButton').prop('disabled', false);
-    $('#submitButton').keyup(function(){
-        if($('#a_name_field').val() != "")
-            $("#submitButton").prop('disabled', false);
-        else
-            $('#submitButton').prop('disabled',true);
-    });
-</script>

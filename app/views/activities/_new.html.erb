@@ -3,7 +3,7 @@
     <div class="alert alert-<%= key %>"><%= value %></div>
 <% end %>
 
-<%= form_for @activity do |a| %>
+<%= form_for @activity, remote: true do |a| %>
     <div class = "form-group">
       <div class = "row top-buffer text-center">
         <div class='col-md-3'>
@@ -13,7 +13,7 @@
 
       <div class ="row top-buffer text-center">
         <div class="col-md-3">
-          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+          <%= a.submit 'Create', id: 'submitButton', onclick: 'saveActivity()', class: 'btn btn-primary'%>
         </div>
       </div>
     </div>
@@ -22,13 +22,13 @@
 </body>
 
 <script>
-  if($('#a_name_field').val() == "")
-      $('#submitButton').prop('disabled', false);
-  $('#submitButton').keyup(function(){
-      if($('#a_name_field').val() != "")
-          $('#submitButton').prop('disabled', false);
-      else
-      $('#submitButton').prop('disabled',true);
-
-  });
+    function saveActivity(){
+        $('#activities').load('_activity.html.erb');
+        $( "#success" ).load( "/not-here.php", function( response, status, xhr ) {
+            if ( status == "error" ) {
+                var msg = "Sorry but there was an error: ";
+                $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+            }
+        });
+    }
 </script>
