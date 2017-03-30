@@ -68,17 +68,28 @@
 
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
+<span>Change This</span>
+<div id="activity_container">
+<input type="text" class="rename"/> <!--***NEW to edit -->
+<input type="button" value="rename"/> <!--***NEW to edit -->
   <ul class="list-group-sortable" id="Activities" >
   <h1 align = "center">Activities</h1>
   <% @activities.each do |activity| %>
-        <li class="list-group-item" style="list-style: none;">
+        <li class="list-group-item" id="item" style="list-style: none;">
+          <input type="text" class="edit" /> <!-- New 3/28 -->
+          <input type="button" value="rename" class="showButton"/> <!--***NEW to edit -->
         <%= activity.a_name %>
           <%= link_to activity, method: :delete, data: { confirm: "Are you sure?" } do %>
               <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
           <% end %>
+                <i onclick="editClick()" class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                <button id="hideActivity" style="border:none; padding:0">
+                  <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                </button>
         </li>
   <% end %>
   </ul>
+</div>
 
   <h1 align = "center">Categories</h1>
 
@@ -203,9 +214,84 @@
     }
 
     $( function() {
-        $('#Activities').sortable({});
+        $('#Activities').sortable({
+            containment: '#activity_container',
+            cursorAt: {left:event.offsetX, top:event.offsetY}, //to keep item near cursor NOT WORKING
+            update: function (event, ui) { //to save order NOT WORKING
+                var data = $(this).sortable('serialize');
+
+                // POST to server using $.post or $.ajax
+                $.ajax({
+                    data: data,
+                    type: 'POST',
+                    url: 'localhost:3000/activities'
+                });
+            }
+    });
         $('#Activities').disableSelection();
     });
+
+
+
+    //<input type="text" class="rename"/> <!--***NEW to edit -->
+    //<input type="button" value="rename"/> <!--***NEW to edit -->
+    var chosenValue;
+    var chosenIndex;
+    var newValue;
+//    $('li').click(function(){ //new for edit***
+//
+//        $(this).addClass('active').siblings("li").removeClass('active'); //makes one of them active and other list items inactive
+//        chosenValue = $(this).text();
+//        chosenIndex = $(this).index();
+//        $(".rename").show().val(chosenValue);
+//
+//    });
+//
+//    $("input[type=button]").click(function(){ //new for edit**
+//        newValue = $(".rename").val();
+//        $("li:nth-of-type("+chosenIndex+")").text(newValue);
+//    });
+
+    //NEW 3/28
+//    function editClick(){
+//    $('.edit').hide();
+//    $('.showButton').hide();
+//    $("li").click(function() {
+//        var index = $('li').index(this);
+//        $('.edit').show();
+//        $('.showButton').show();
+//
+////        $('.edit').eq(index).show();
+////        $('.showButton').eq(index).show();
+//        $(this).addClass('active').siblings("li").removeClass('active');//makes one of them active and other list items inactive
+//        chosenValue = $(this).text();
+//        chosenIndex = $(this).index();
+////        $(".edit").show().val(chosenValue);
+//    });
+//
+//    $("input[class=showButton]").click(function(){
+//        newValue = $(".edit").val();
+//        $("li:nth-of-type("+chosenIndex+")").text(newValue);
+//    });
+//    };
+
+    //New 3/29 hide activity
+
+    var index;
+//    $( 'li' ).click(function() {
+//
+//        index = $('li').index(this);
+//        $('li').eq(index).hide();
+//        $('span').text("That was li index #" + index);
+//    });
+
+    $('#hideActivity').click(function() {
+        index = $('li').index(this);
+        $('li').eq(index).hide("slow"); //deletes everything //$(this).hide('li') deletes logo //$(this).closest('li').hide() only deletes first one
+//
+        $('span').text("That was div index #" + index);
+    });
+
 </script>
 
 </body>

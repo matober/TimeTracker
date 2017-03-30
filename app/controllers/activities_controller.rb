@@ -48,15 +48,12 @@ class ActivitiesController < ApplicationController
 
   def edit
     @activity = Activity.find(params[:id])
+    @activity.update(:id)
   end
 
   def update
-    @activity = Activity.update(activity_params)
-    if @activity.save
-      flash[:success] = "Activity successfully updated!"
-    else
-      flash[:error] = "ERROR: Activity failed to update"
-    end
+    @activity = Activity.update(:id => params[:id], :a_name => params[:a_name])
+
   end
 
   def destroy
@@ -80,4 +77,8 @@ class ActivitiesController < ApplicationController
     def find_activity
       @activity = Activity.find(params[:id])
     end
+
+  def update_params
+    @activity = Activity.find(params[:id, :a_name])
+  end
 end
