@@ -83,7 +83,7 @@
               <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
           <% end %>
                 <i onclick="editClick()" class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                <button id="hideActivity" style="border:none; padding:0">
+                <button class="hideActivity" style="border:none; padding:0">
                   <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
                 </button>
         </li>
@@ -277,20 +277,20 @@
 
     //New 3/29 hide activity
 
-    var index;
-//    $( 'li' ).click(function() {
-//
-//        index = $('li').index(this);
-//        $('li').eq(index).hide();
-//        $('span').text("That was li index #" + index);
-//    });
+//    var index;
+    $( 'li' ).click(function() {
 
-    $('#hideActivity').click(function() {
-        index = $('li').index(this);
-        $('li').eq(index).hide("slow"); //deletes everything //$(this).hide('li') deletes logo //$(this).closest('li').hide() only deletes first one
-//
-        $('span').text("That was div index #" + index);
+        var index = $('li').index();
+        $('li').eq(index).hide();
+        $('span').text("That was li index #" + index);
     });
+
+        $('#Activities li .hideActivity').click(function () {
+            var index = $('#Activities li .hideActivity').index(this);
+            $(this).closest('li').hide();//deletes everything //$(this).hide('li') deletes logo //$(this).closest('li').hide() only deletes first one
+//
+            $('span').text("That was .hideActivity index #" + index);
+        });
 
 </script>
 
