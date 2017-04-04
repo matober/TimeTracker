@@ -19,7 +19,7 @@ class ActivitiesController < ApplicationController
   def new
     @activity = Activity.new
   end
-=begin
+
   def create
   	@activity = Activity.create(activity_params)
     if @activity.save!
@@ -27,22 +27,23 @@ class ActivitiesController < ApplicationController
     else
       flash[:error] = "ERROR: Activity was not saved!"
     end
+    redirect_to '/activities'
   end
-=end
-  def create #Modified all new
-    @activity = Activity.new(activity_params)
 
-    respond_to do |format|
-      if @activity.save 
-        format.html {flash[:notice] = 'Activity was successfully created!'
-        redirect_to '/activities'
-        }
-        format.js {}
-      else
-        format.html { flash[:notice] ='ERROR: Activity could not be create'}
-      end
-    end
-  end
+  # def create #Modified all new
+  #   @activity = Activity.new(activity_params)
+  #
+  #   respond_to do |format|
+  #     if @activity.save
+  #       format.html {flash[:notice] = 'Activity was successfully created!'
+  #       redirect_to '/activities'
+  #       }
+  #       format.js {}
+  #     else
+  #       format.html { flash[:notice] ='ERROR: Activity could not be create'}
+  #     end
+  #   end
+  # end
 
 
 
@@ -68,6 +69,16 @@ class ActivitiesController < ApplicationController
     flash[:alert] = "Task deleted!"
   end
 =end
+
+  def set_hidden_true
+    @activity = Activity.find(params[:id])
+    @activity.update_attribute(:hidden, true)
+    if @activity.save!
+      flash[:success] = "Activity hidden successfully!"
+    end
+    redirect_to root_path
+  end
+
 
   private
     def activity_params

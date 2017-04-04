@@ -22,6 +22,9 @@ Rails.application.routes.draw do
 
 
   resources :categories
-  resources :activities
+  resources :activities do
+    patch :set_hidden_true, on: :member
+  end
+
 
 end
