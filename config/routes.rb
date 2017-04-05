@@ -15,14 +15,18 @@ Rails.application.routes.draw do
 
   # Direct to activities page
   get '/activities' => 'activities#home'
-  get '/jsTest' => 'activities#JSloadMethod'
   get '/activities/list' =>'activities#index'
+  get '/activities/:id' => 'activities#show'
+  get '/activities/edit/:id' => 'activities#edit', :as => 'edit_activity'
 
   # TODO
   get '/home' => 'home#new'
 
+  get '/categories/:id' => 'categories#show'
 
   resources :categories
-  resources :activities
+  resources :activities do
+    patch :set_hidden_true, on: :member
+  end
 
 end

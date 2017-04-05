@@ -1,7 +1,9 @@
 class User < ApplicationRecord
+
+  has_many :activities
+
   class User < ActiveRecord::Base
     attr_accessor :email, :password, :password_confirmation
-    has_many :activity
 
 
     before_save :encrypt_password
@@ -16,7 +18,7 @@ class User < ApplicationRecord
     validates :password_digest, length: {minimum: 6}
     validates_confirmation_of :password
     validates_presence_of :password, :on => :create
-    validates :password, presense:true, length: {minimum: 6}
+    validates :password, presence: true, length: {minimum: 6}
     validates_presence_of :email
     validates_uniqueness_of :email
     validates :email, length: {minimum: 5}

@@ -1,3 +1,5 @@
+<!-- home.html.erb -->
+
 <!--<h1>Time Tracker</h1>
 <li><%= link_to 'Login', login_new_path %></li> -->
 
@@ -9,8 +11,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Bootstrap 101 Template</title>
-  <link rel='stylesheet' type='text/css' href='../stylesheets/bootstrap.min.css'/>
-  <script src='../javascripts/bootstrap.min.js'></script>
   <!-- Bootstrap -->
   <!--<link href="css/bootstrap.min.css" rel="stylesheet"> -->
 
@@ -68,93 +68,74 @@
 
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
-  <ul class="list-group-sortable" id="Activities" >
-  <h1 align = "center">Activities</h1>
-  <% @activities.each do |activity| %>
-        <li class="list-group-item" style="list-style: none;">
-        <%= activity.a_name %>
-          <%= link_to activity, method: :delete, data: { confirm: "Are you sure?" } do %>
-              <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
-          <% end %>
-        </li>
-  <% end %>
-  </ul>
-
-  <h1 align = "center">Categories</h1>
-
+<div id='activities'>
   <% @categories.each do |cats| %>
-      <h3 align = 'center'>
-        <%= cats.c_name %>
-      </h3>
+      <div class="panel-group">
+        <div class="panel text-center">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse<%= cats.id%>">
+                <%= cats.c_name %>
+              </a>
+            </h4>
+          </div>
+          <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
+            <ul class="list-group-sortable" id="Activities" >
+              <% cats.activities.each do |activity| %>
+                  <li class="list-group-item" id="item" style="list-style: none;">
+
+                    <!-- text boxes show upon edit button click -->
+                    <!--<input type="text" class="edit" />-->
+                    <!--<input type="button" value="rename" class="showButton"/> -->
+
+                    <!-- Display activity name -->
+                    <%= activity.a_name %>
+
+                    <!-- Delete Activity -->
+                    <%= link_to activity, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                        <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                    <% end %>
+
+                    <!-- Edit activity -->
+                    <i onclick="editClick()" class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+
+                    <!-- Hide activity -->
+                    <%= link_to activity, :controller => :activities, :action => :set_hidden_true, method: :put do %>
+                        <button class="hideActivity" style="border:none; padding:0">
+                          <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                        </button>
+                    <% end %>
+
+                  </li> <!-- End of list item -->
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
   <% end %>
-
-  <div class="panel-group">
-    <div class="panel-body">
-    </div>
-    <div class="panel-group">
-      <div class="panel text-center">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" href="#collapse1">Collapsible list group</a>
-          </h4>
-        </div>
-        <div id="collapse1" class="panel-collapse collapse">
-          <ul class="list-group">
-            <li class="list-group-item">
-              <h1>ONE</h1>
-            </li>
-            <li class="list-group-item">Two</li>
-            <li class="list-group-item">Three</li>
-          </ul>
-          <div class="panel-footer">Footer</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
+</div>
 
 
-  <ul class="pager">
+<ul class="pager">
 
-    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
-    <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
-    <!-- <button onclick="hideActivityRender()">Add Activity</button> -->
-    <button onclick="hideCategoryRender()">Add Category</button>
-  </ul>
-
-
-  <div id = 'ActRend' style="display:none"> <!-- TO DELETE -->
-      <div class = 'text-center'>
-        <h3>Activity Name</h3>
-        <%= render 'activities/new'%>
-      </div>
-    </div>
+  <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
+  <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
 
   <!-- *****************NEW*********************** -->
-  <%= form_for @activity do |a| %>
+  <%= form_for @activity, remote: true do |a| %>
       <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
+      <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true %>
       <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
   <% end %>
 
+  <%= form_for @category, remote: true do |c| %>
+      <%= c.text_field :c_name, id: 'c_name_field', placeholder: 'Category Name'%>
+      <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+  <% end %>
 
-<!-- ***************************************** -->
+  <!-- ***************************************** -->
 
-  <div id = 'CategoryRend' style="display:none"> <!-- TO Delete -->
-    <div class = 'container'>
-      <div class = 'text-center'>
-        <h3>Category Name</h3>
-      </div>
-      <%= render 'categories/new'%>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
+</ul>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
     $(document).ready(function(){
         $("#unfilled").click(function(){
@@ -166,7 +147,7 @@
         });
     });
 </script>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
@@ -177,36 +158,29 @@
 
 <script src="jquery.sortable.js"></script>
 <script>
-    function hideActivityRender(){
-        var x = document.getElementById('ActRend');
-        if (x.style.display == 'block'){
-            x.style.display = 'none';
-        }
-        else{
-            x.style.display = 'block'
-        }
-    }
-
-    function hideCategoryRender(){
-        var x = document.getElementById('CategoryRend');
-        if (x.style.display == 'block'){
-            x.style.display = 'none';
-        }
-        else{
-            x.style.display = 'block'
-        }
-    }
-
-    function myFunction() {
-        var x = document.getElementById("mySelect");
-        x.remove(x.selectedIndex);
-    }
-
     $( function() {
-        $('#Activities').sortable({});
+        $('#Activities').sortable({
+            containment: '#activity_container',
+            cursorAt: {left:event.offsetX, top:event.offsetY}, //to keep item near cursor NOT WORKING
+            update: function (event, ui) { //to save order NOT WORKING
+                var data = $(this).sortable('serialize');
+                // POST to server using $.post or $.ajax. May or may not be deleted
+                $.ajax({
+                    data: data,
+                    type: 'POST',
+                    url: 'localhost:3000/activities'
+                });
+            }
+        });
         $('#Activities').disableSelection();
     });
+    $('#Activities li .hideActivity').on('click', function () {
+        var index = $('#Activities li .hideActivity').index(this);
+        $(this).closest('li').hide();//deletes everything //$(this).hide('li') deletes logo //$(this).closest('li').hide() only deletes first one
+            $('span').text("That was .hideActivity index #" + index);
+    });
 </script>
+
 
 </body>
 </html>

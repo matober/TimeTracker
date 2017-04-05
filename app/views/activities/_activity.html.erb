@@ -1,5 +1,95 @@
-<% @activities.each do |activity| %>
-    <h4 align = 'center'>
-      <%= activity.a_name %>
-    </h4>
+<!-- _activity.html.erb -->
+<span>For Testing: Change This</span>
+
+<% @categories.each do |cats| %>
+    <div class="panel-group">
+      <div class="panel text-center">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" href="#collapse<%= cats.id%>">
+              <%= cats.c_name %>
+            </a>
+          </h4>
+        </div>
+        <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
+          <ul class="list-group-sortable" id="Activities" >
+            <% cats.activities.each do |activity| %>
+                <li class="list-group-item" id="item" style="list-style: none;">
+
+                  <!-- text boxes show upon edit button click -->
+                  <!--<input type="text" class="edit" />-->
+                  <!--<input type="button" value="rename" class="showButton"/> -->
+
+                  <!-- Display activity name -->
+                  <%= activity.a_name %>
+
+                  <!-- Delete Activity -->
+                  <%= link_to activity, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                      <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                  <% end %>
+
+                  <!-- Edit activity -->
+                  <i onclick="editClick()" class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+
+                  <!-- Hide activity -->
+                  <%= link_to activity, :controller => :activities, :action => :set_hidden_true, method: :put do %>
+                      <button class="hideActivity" style="border:none; padding:0">
+                        <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                      </button>
+                  <% end %>
+
+                </li> <!-- End of list item -->
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
 <% end %>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+    $(document).ready(function(){
+        $("#unfilled").click(function(){
+            if($("#unfilled").attr("src") == "<%=asset_path('unfilledbubble.png')%>"){
+                $("#unfilled").attr("src", "<%=asset_path('filledbubble.png')%>");
+            }else{
+                $("#unfilled").attr("src", "<%=asset_path('unfilledbubble.png')%>");
+            }
+        });
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- NEW 3/23 -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+
+<script src="jquery.sortable.js"></script>
+<script>
+    $( function() {
+        $('#Activities').sortable({
+            containment: '#activity_container',
+            cursorAt: {left:event.offsetX, top:event.offsetY}, //to keep item near cursor NOT WORKING
+            update: function (event, ui) { //to save order NOT WORKING
+                var data = $(this).sortable('serialize');
+                // POST to server using $.post or $.ajax. May or may not be deleted
+                $.ajax({
+                    data: data,
+                    type: 'POST',
+                    url: 'localhost:3000/activities'
+                });
+            }
+        });
+        $('#Activities').disableSelection();
+    });
+
+    $('#Activities li .hideActivity').click(function () {
+        var index = $('#Activities li .hideActivity').index(this);
+        $(this).closest('li').hide();//deletes everything //$(this).hide('li') deletes logo //$(this).closest('li').hide() only deletes first one
+            $('span').text("That was .hideActivity index #" + index);
+    });
+</script>
+

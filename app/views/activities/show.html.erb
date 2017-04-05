@@ -1,36 +1,7 @@
-<div class = "row top-buffer text-center">
-  <div class='col-md-3'>
-    <h1>
-      Activities
-    </h1>
-  </div>
-</div>
+<h1>
+  <%= @activity.a_name %>
+</h1>
 
-<div class = 'row top-buffer text-center'>
-  <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>"><%= value %></div>
-  <% end %>
-
-  <%= form_for @activity, remote: true do |a| %>
-      <div class = "form-group">
-        <div class = "row top-buffer text-center">
-          <div class='col-md-3'>
-            <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
-          </div>
-        </div>
-
-        <div class ="row top-buffer text-center">
-          <div class="col-md-3">
-            <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
-          </div>
-        </div>
-      </div>
-  <% end %>
-</div>
-
-
-<div class = 'row top-buffer text-center'>
-  <div id = 'activities'>
-    <%= render @activities %>
-  </div>
-</div>
+<p>
+  <%= @activity.total_time %>
+</p>

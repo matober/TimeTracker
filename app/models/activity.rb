@@ -2,9 +2,8 @@ class Activity < ApplicationRecord
 
   validates :a_name, presence: true, length: {minimum: 1}
 
- #belongs_to :user, dependent: destroy
-  #belongs_to :category
-
+  #belongs_to :user, dependent: destroy
+  belongs_to :category, optional: true
   #accepts_nested_attributes_for :category
 
 end
