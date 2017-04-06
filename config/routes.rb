@@ -20,11 +20,15 @@ Rails.application.routes.draw do
   # TODO
   get '/home' => 'home#new'
 
+  post '/activities/:id' => 'activities#set_hidden_true'
+  post 'Unhide All' => 'activities#unhide_all'
 
   resources :categories
-  resources :activities do
-    patch :set_hidden_true, on: :member
-  end
+  resources :activities
+
+#   do
+#   patch :set_hidden_true, on: :member
+# end
 
 
 end

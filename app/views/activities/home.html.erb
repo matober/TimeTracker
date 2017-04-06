@@ -67,7 +67,8 @@
     <h1 align = "center">Activities</h1>
 
       <!-- List each activity in database -->
-      <% @activities.each do |activity| %>
+      <%  @activities.each do |activity| %>
+        <% if activity.hidden == false || activity.hidden == nil %>
         <li class="list-group-item" id="item" style="list-style: none;">
 
           <!-- text boxes show upon edit button click -->
@@ -86,13 +87,14 @@
           <i onclick="editClick()" class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
 
           <!-- Hide activity -->
-          <%= link_to activity, :controller => :activities, :action => :set_hidden_true, method: :put do %>
+          <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true do %>
               <button class="hideActivity" style="border:none; padding:0">
                 <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
               </button>
           <% end %>
 
         </li> <!-- End of list item -->
+        <% end %> <!-- End of if statement -->
       <% end %> <!-- End of activity loop -->
   </ul>
 </div>
@@ -100,9 +102,13 @@
   <!-- text box and button to create activity -->
   <%= form_for @activity do |a| %>
       <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
-
       <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
   <% end %>
+
+  <!-- Button for showing all hidden items -->
+  <%= link_to 'Unhide All', method: :post, :controller => :activities, :action => :unhide_all do %>
+  <button class="showHidden" >Show Hidden</button>
+    <% end %>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -123,11 +129,11 @@
                 var data = $(this).sortable('serialize');
 
                 // POST to server using $.post or $.ajax
-                $.ajax({
-                    data: data,
-                    type: 'POST',
-                    url: 'localhost:3000/activities'
-                });
+//                $.ajax({
+//                    data: data,
+//                    type: 'POST',
+//                    url: 'localhost:3000/activities'
+//                });
             }
     });
         $('#Activities').disableSelection();
@@ -187,11 +193,20 @@
 
         $('#Activities li .hideActivity').click(function () {
             var index = $('#Activities li .hideActivity').index(this);
-            $(this).closest('li').hide();//deletes everything //$(this).hide('li') deletes logo //$(this).closest('li').hide() only deletes first one
-
+            $(this).closest('li').hide();
+//            $.ajax({
+//                url: '/activities/set_hidden_true',
+//                type: 'PUT',
+//                data: {hidden: true},
+//                success: function() { alert('Hidden item updated') }
+//            });
 //            $('span').text("That was .hideActivity index #" + index);
         });
 
+        //shows hidden elements
+        $('.showHidden').click(function () {
+            $('li').show();
+        });
 </script>
 
 </body>

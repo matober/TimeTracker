@@ -30,20 +30,6 @@ class ActivitiesController < ApplicationController
     redirect_to '/activities'
   end
 
-  # def create #Modified all new
-  #   @activity = Activity.new(activity_params)
-  #
-  #   respond_to do |format|
-  #     if @activity.save
-  #       format.html {flash[:notice] = 'Activity was successfully created!'
-  #       redirect_to '/activities'
-  #       }
-  #       format.js {}
-  #     else
-  #       format.html { flash[:notice] ='ERROR: Activity could not be create'}
-  #     end
-  #   end
-  # end
 
 
 
@@ -54,29 +40,28 @@ class ActivitiesController < ApplicationController
 
   def update
     @activity = Activity.update(:id => params[:id], :a_name => params[:a_name])
-
   end
 
   def destroy
     @activity.destroy
     redirect_to root_path
   end
-=begin
-  def delete
-    @activity = Activity.find(params[:id])
-    @activity.destroy
-    redirect_to '/activities'
-    flash[:alert] = "Task deleted!"
-  end
-=end
 
   def set_hidden_true
     @activity = Activity.find(params[:id])
-    @activity.update_attribute(:hidden, true)
+    @activity.update(hidden: true)
     if @activity.save!
       flash[:success] = "Activity hidden successfully!"
+    else
+      flash[:notice] = "Not hidden!"
     end
-    redirect_to root_path
+    # redirect_to root_path
+  end
+
+  def unhide_all
+    @activities = Activity.all
+    @activities.update_all(hidden: false)
+    # redirect_to root_path
   end
 
 
