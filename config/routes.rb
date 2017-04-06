@@ -24,6 +24,10 @@ Rails.application.routes.draw do
 
   get '/categories/:id' => 'categories#show'
 
+  #User Routes
+  resources :users, only: [:new, :create]
+  resources :user_sessions, only: [:create, :destroy]
+
   resources :categories
   resources :activities do
     patch :set_hidden_true, on: :member

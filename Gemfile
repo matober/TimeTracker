@@ -54,3 +54,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "bcrypt-ruby", :require => "bcrypt"
 
 gem 'responders'
+
+gem 'authlogic', '3.5.0'
