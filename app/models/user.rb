@@ -1,23 +1,14 @@
 class User < ApplicationRecord
 
   has_many :activities
-  attr_accessor :email, :password, :password_confirmation
-
-  class User < ActiveRecord::Base
-
-
-    before_save :encrypt_password
-    before_save { self.email = email.downcase }
-
-    #EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-
+  has_secure_password
 
     validates :first_name, presence: true, length: {minimum: 1}
     validates :last_name, presence: true, length: {minimum: 1}
     validates :email, presence: true, uniqueness: true, length: {minimum: 5}
-    validates :username, presence: true, uniqueness: true, length: {minimum: 1}
     validates :password_digest, length: {minimum: 6}
-    validates :password, length: {minimum: 4}
+    validates :password, :confirmation => true, length: {minimum: 4}
+    validates :password_confirmation, presence: true
 
     #-----------------------New Stuff ---------------------------------------
     acts_as_authentic do |c|
@@ -26,10 +17,9 @@ class User < ApplicationRecord
     #------------------------------------------------------------------------
 
     #---------------Unsure if working--------------
-    validates_confirmation_of :password
-    validates_presence_of :password, :on => :create
-    validates_presence_of :email
-    validates_uniqueness_of :email
+    #validates_presence_of :password, :on => :create
+    #validates_presence_of :email
+    #validates_uniqueness_of :email
     #----------------------------------------------
 
     def self.authenticate(email, password)
@@ -48,4 +38,4 @@ class User < ApplicationRecord
       end
     end
   end
-end
+
