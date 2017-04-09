@@ -1,14 +1,10 @@
 class ActivitiesController < ApplicationController
-<<<<<<< HEAD
-  def display
-    @activities = Activity.all
-=======
+
   def home
     @activities = Activity.all
     @categories = Category.all
     @activity = Activity.new
     @category = Category.new
->>>>>>> cd84a5d73a4862dec852b95d742ee0061a298f2f
   end
 
   def index
@@ -70,17 +66,9 @@ class ActivitiesController < ApplicationController
   def update
     @activity = Activity.update(activity_params)
     if @activity.save
-<<<<<<< HEAD
-      flash[:success] = 'Activity successfully updated!'
-      redirect_to @section
-    else
-      flash[:error] = 'ERROR: Activity failed to update'
-      render_to_string
-=======
       flash[:success] = "Activity successfully updated!"
     else
       flash[:error] = "ERROR: Activity failed to update"
->>>>>>> cd84a5d73a4862dec852b95d742ee0061a298f2f
     end
   end
 
