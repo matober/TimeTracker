@@ -29,6 +29,9 @@ class ActivitiesController < ApplicationController
       flash[:notice] = 'Activity was not updated'
     end
   end
+=end
+  def create #Modified all new
+    @activity = Activity.new(activity_params)
 
   def destroy_activity
     @activity = Activity.find(params[:id])
