@@ -71,28 +71,34 @@
         <% if activity.hidden == false || activity.hidden == nil %>
         <li class="list-group-item" id="item" style="list-style: none;">
 
-          <!-- text boxes show upon edit button click -->
-          <!--<input type="text" class="edit" />-->
-          <!--<input type="button" value="rename" class="showButton"/> -->
 
           <!-- Display activity name -->
-          <%= activity.a_name %>
+          <div id="parent">
+            <div class="first_child">
+              <label class="my_label"><%= activity.a_name %></label>
+            </div>
 
+          <div class="second_child">
           <!-- Delete Activity -->
           <%= link_to activity, method: :delete, data: { confirm: "Are you sure?" } do %>
               <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
           <% end %>
 
           <!-- Edit activity -->
-          <i onclick="editClick()" class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+         <!-- link_to 'update_activity', method: :post, :controller => :activities, :action => :update, :id => :id do %> -->
+              <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+              </button>
+         <!--  end %> -->
 
           <!-- Hide activity -->
           <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true do %>
-              <button class="hideActivity" style="border:none; padding:0">
+              <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
                 <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
               </button>
           <% end %>
-
+          </div> <!-- end of second_child div -->
+          </div> <!-- end of parent div -->
         </li> <!-- End of list item -->
         <% end %> <!-- End of if statement -->
       <% end %> <!-- End of activity loop -->
@@ -140,57 +146,46 @@
     });
 
 
+        //Edit Activity
+    $('#Activities li .editActivity').click(function() {
+        var name = $(this).closest('li').text(); //correctly gets text just adds a bunch of white spaces
+        $('span').text("text is: " + name);
+        var input = $('<input id="attribute" class="textbox" type="text" value="' + name + '" />')
+        $(this).closest('li').append(input); //puts textbox on the name will need to find exact combination for specific
+        input.select(); //lets you highlight
 
-    //<input type="text" class="rename"/> <!--***NEW to edit -->
-    //<input type="button" value="rename"/> <!--***NEW to edit -->
-    var chosenValue;
-    var chosenIndex;
-    var newValue;
-//    $('li').click(function(){ //new for edit***
-//
-//        $(this).addClass('active').siblings("li").removeClass('active'); //makes one of them active and other list items inactive
-//        chosenValue = $(this).text();
-//        chosenIndex = $(this).index();
-//        $(".rename").show().val(chosenValue);
-//
-//    });
-//
-//    $("input[type=button]").click(function(){ //new for edit**
-//        newValue = $(".rename").val();
-//        $("li:nth-of-type("+chosenIndex+")").text(newValue);
-//    });
+        input.blur(function(event) {
+            var text = $('input:text').val();
+            $('span').text("text is: " + text);
 
-    //NEW 3/28
-//    function editClick(){
-//    $('.edit').hide();
-//    $('.showButton').hide();
-//    $("li").click(function() {
-//        var index = $('li').index(this);
-//        $('.edit').show();
-//        $('.showButton').show();
-//
-////        $('.edit').eq(index).show();
-////        $('.showButton').eq(index).show();
-//        $(this).addClass('active').siblings("li").removeClass('active');//makes one of them active and other list items inactive
-//        chosenValue = $(this).text();
-//        chosenIndex = $(this).index();
-////        $(".edit").show().val(chosenValue);
-//    });
-//
-//    $("input[class=showButton]").click(function(){
-//        newValue = $(".edit").val();
-//        $("li:nth-of-type("+chosenIndex+")").text(newValue);
-//    });
-//    };
+//            $(event.target).closest('li').find('label').css( "background-color", "red" ).text(text);
+            $(event.target).closest('li').find('label').text(text);
+            $('#attribute').remove(); //removes the newly created text box
+            update_name(text); //updates to database
+        });
+    });
 
-    //New 3/29 hide activity
-//    $( 'li' ).click(function() {
-//
-//        var index = $('li').index();
-//        $('li').eq(index).hide();
-//        $('span').text("That was li index #" + index);
-//    });
+    function update_name(){ //updates changed name to database
+//        var name = $('#ref').val();
+        var name = text;
+        var url = '/activities/update/?a_name='+name;
+        $.ajax({
+            type: 'post',
+            url: url,
+            dataType: 'script',
+            error: function(data){
+                alert('Error occurred while updating the record.');
+            },
+            success: function(data){
+                alert('Record updated successfully.');
+            },
+            });
+        return false;
+    }
 
+
+
+        //Hide Activity
         $('#Activities li .hideActivity').click(function () {
             var index = $('#Activities li .hideActivity').index(this);
             $(this).closest('li').hide();

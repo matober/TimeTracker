@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   post '/activities/:id' => 'activities#set_hidden_true'
   post 'Unhide All' => 'activities#unhide_all'
+  # post '/update_activity/:id' => 'activities#update'
+  # post 'update_activity' => 'activities#update'
 
   resources :categories
   resources :activities

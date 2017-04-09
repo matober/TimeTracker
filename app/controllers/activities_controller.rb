@@ -1,5 +1,5 @@
 class ActivitiesController < ApplicationController
-  before_action :find_activity, only: [:show, :edit, :update, :destroy]
+  # before_action :find_activity, only: [:show, :edit, :update, :destroy]
 
   def home
     @activities = Activity.all
@@ -39,10 +39,12 @@ class ActivitiesController < ApplicationController
   end
 
   def update
-    @activity = Activity.update(:id => params[:id], :a_name => params[:a_name])
+    @activity = Activity.find(params[:a_name])
+    @activity = Activity.update(a_name: session[:a_name])
   end
 
   def destroy
+    @activity = Activity.find(params[:id])
     @activity.destroy
     redirect_to root_path
   end
