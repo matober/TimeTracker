@@ -1,0 +1,102 @@
+<!-- home.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Bootstrap 101 Template</title>
+
+</head>
+
+
+
+<!--IF THE USER IS LOGGED IN, DISPLAY THE FOLLOWING -->
+<% if current_user %>
+    <!--
+    <style>
+    .navbar {
+      background-color:#2F4F4F
+    }
+    </style>
+    -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">TimeTracker</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Signed in as <%=current_user.email %></a></li>
+            <li>
+              <%= link_to 'Sign Out', sign_out_path, method: :delete %>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <h1 class = 'text-center'>
+      Welcome <%=current_user.first_name %>
+    </h1>
+
+<!-- IF THE USER IS NOT LOGGED IN, DISPLAY THE FOLLOWING -->
+<% else %>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">TimeTracker</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+      <div class="loginContainer" align="center">
+        <h1 align="center">
+          <b>
+            Please log in or sign up
+          </b>
+        </h1>
+
+        <div class="container">
+          <br>
+          <%= button_to 'Login', sign_in_path, :method => 'get', class: 'btn' %>
+          <br>
+          <%= button_to 'Sign Up', sign_up_path, :method => 'get', class: 'btn' %>
+        </div>
+
+        <!--<div class="container" style="background-color:#D3D3D3">
+          <input type="checkbox" checked="checked"> Remember me
+          <span class="psw">Forgot <a align="center" href="#">password?</a></span>
+        </div> -->
+      </div>
+
+
+<% end %>
+
+</html>

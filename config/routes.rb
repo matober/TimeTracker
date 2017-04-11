@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   # Activity Routes
   get '/activities' => 'activities#home'
-  get '/activities/edit/:id' => 'activities#edit', :as => 'edit_activity'
   resources :activities do
     patch :set_hidden_true, on: :member
   end
@@ -27,5 +26,7 @@ Rails.application.routes.draw do
 
   #Home Routes
   get '/home/index' => 'home#index'
+  get '/home' => 'home#home', as: :home
+  get '/welcome' => 'home#welcome'
 
 end
