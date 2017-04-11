@@ -1,29 +1,18 @@
 require 'test_helper'
+require 'authlogic/test_case'
 require 'bcrypt'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-
   def setup
-    @user = User.new(first_name: 'test', last_name: 'tester', password: BCrypt::Password.create("my password") ,
-                     email: 'test1@mail.com', password_confirmation: 'my password')
-
-    @user1 = User.new(last_name: 'tester', password: BCrypt::Password.create("my password") ,
-                     email: 'test1@mail.com', password_confirmation: 'my password')
-
-    @user2 = User.new(first_name: 'test', last_name: 'tester', password: BCrypt::Password.create("my password") ,
-                     email: 'test1@mail.com', password_confirmation: 'my pass')
-
-    @user3 = User.new(first_name: 'test', last_name: 'tester', password: BCrypt::Password.create("my password") ,
-                     password_confirmation: 'my password')
+    @user = User.new(
+        first_name: 'ben',
+        last_name: 'rocks',
+        email: 'whatever@whatever.com',
+        password: 'benrocks',
+        password_confirmation: 'benrocks',
+        persistence_token: Authlogic::Random.hex_token)
   end
   test 'should be valid' do
     assert @user.valid?
-    assert_not @user1.valid?
-    assert_not @user2.valid?
-    assert_not @user3.valid?
-
   end
 end

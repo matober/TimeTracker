@@ -3,6 +3,11 @@ class HomeController < ApplicationController
     @activities = Activity.all
 
   end
+
+  def index
+    
+  end
+
   def display_activities
     @activities = Activity.all
   end

@@ -38,51 +38,45 @@
   </div>
 </nav>
 
-  <div class="loginContainer" align="center">
+<div class="loginContainer" align="center">
 
-    <% flash.each do |key, value| %>
-        <%= content_tag :div, value, class: "flash #{key}" %>
-    <% end %>
+  <% flash.each do |key, value| %>
+      <%= content_tag :div, value, class: "flash #{key}" %>
+  <% end %>
 
-    <h1 align="center"><b>Sign Up</b></h1>
+  <h1 align="center"><b>Log In</b></h1>
 
-    <%= form_for @user do |u| %>
-        <div class="container">
+  <%= form_for @user_session do |u| %>
+      <div class="container">
 
-          <%= render 'shared/errors', object:@user %>
+        <%= render 'shared/errors', object:@user_session %>
 
-          <label><b>First Name</b></label>
-          <%= u.text_field :first_name, placeholder: 'First Name' %>
+        <label><b>Email</b></label>
+        <%= u.text_field :email, placeholder: 'Email Address' %>
+        <!--<input type="text" placeholder="Enter Username" name="uname" required> -->
 
-          <label><b>Last Name</b></label>
-          <%= u.text_field :last_name, placeholder: 'Last Name' %>
+        <br>
+        <label>
+          <b>Password</b>
+        </label>
+        <%= u.password_field :password, placeholder: 'Password' %>
+        <!--<input type="password" placeholder="Enter Password" name="psw" required> -->
 
-          <label><b>Username</b></label>
-          <%= u.text_field :email, placeholder: 'Email Address' %>
-          <!--<input type="text" placeholder="Enter Username" name="uname" required> -->
+        </br>
+        <br>
+        <%= u.submit 'Login', class: 'btn btn-primary' %>
+        <!-- <button type="submit">Login</button> -->
 
-          <br><label><b>Password</b></label>
-          <%= u.password_field :password, placeholder: 'Password' %>
-          <!--<input type="password" placeholder="Enter Password" name="psw" required> -->
-
-          <br><label><b>Confirm </b></label>
-          <%= u.password_field :password_confirmation, placeholder: 'Confirm Password' %>
-
-          </br>
-          <br>
-          <%= u.submit 'Sign Up', class: 'btn btn-primary' %>
-          <!-- <button type="submit">Login</button> -->
-
-          </br>
-        </div>
-    <% end %>
+        </br>
+      </div>
+  <% end %>
 
 
-    <div class="container" style="background-color:#D3D3D3">
-      <input type="checkbox" checked="checked"> Remember me
-      <span class="psw">Forgot <a align="center" href="#">password?</a></span>
-    </div>
+  <div class="container" style="background-color:#D3D3D3">
+    <input type="checkbox" checked="checked"> Remember me
+    <span class="psw">Forgot <a align="center" href="#">password?</a></span>
   </div>
+</div>
 
 <!-- <script src="js/jquery.min.js"></script> -->
 <!-- Include all compiled plugins (below), or include individual files as needed -->

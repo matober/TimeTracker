@@ -1,19 +1,17 @@
 class User < ApplicationRecord
 
   has_many :activities
-  has_secure_password
+  acts_as_authentic
 
     validates :first_name, presence: true, length: {minimum: 1}
     validates :last_name, presence: true, length: {minimum: 1}
     validates :email, presence: true, uniqueness: true, length: {minimum: 5}
-    validates :password_digest, length: {minimum: 6}
     validates :password, :confirmation => true, length: {minimum: 4}
     validates :password_confirmation, presence: true
 
     #-----------------------New Stuff ---------------------------------------
-    acts_as_authentic do |c|
-      c.crypto_provider = Authlogic::CryptoProviders::Sha512
-    end
+
+
     #------------------------------------------------------------------------
 
     #---------------Unsure if working--------------

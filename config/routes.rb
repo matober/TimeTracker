@@ -24,9 +24,21 @@ Rails.application.routes.draw do
 
   get '/categories/:id' => 'categories#show'
 
+
+  get '/pages/index' => 'pages#index'
+
   #User Routes
   resources :users, only: [:new, :create]
+
+  #User Session Routes
   resources :user_sessions, only: [:create, :destroy]
+
+  delete '/sign_out', to: 'user_sessions#destroy', as: :sign_out
+  get '/sign_in', to: 'user_sessions#new', as: :sign_in
+
+  #Home Routes
+  get '/home/index' => 'home#index'
+
 
   resources :categories
   resources :activities do
