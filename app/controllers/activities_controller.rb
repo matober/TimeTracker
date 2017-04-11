@@ -26,7 +26,7 @@ class ActivitiesController < ApplicationController
     @activities = Activity.all
     @categories = Category.all
 
-      if @activity.save!
+      if @activity.save
         flash[:success] = 'Activity created successfully'
       else
        flash[:notice] ='ERROR: Activity could not be create'

@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   def new
-    @activities = Activity.all
 
   end
 
@@ -8,7 +7,9 @@ class HomeController < ApplicationController
     
   end
 
+  #Unsure if this is needed but kept just in case
   def display_activities
     @activities = Activity.all
   end
+
 end

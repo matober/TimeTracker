@@ -17,7 +17,7 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user_session.destroy
     flash[:success] = 'Goodbye'
-    #redirect_to root_path - Should redirect somewhere after logout
+    #redirect_to root_path - Should redirect somewhere after signout
   end
 
   private
