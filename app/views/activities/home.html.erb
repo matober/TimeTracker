@@ -85,11 +85,11 @@
           <% end %>
 
           <!-- Edit activity -->
-         <!-- link_to 'update_activity', method: :post, :controller => :activities, :action => :update, :id => :id do %> -->
+         <!-- link_to 'edit activity', edit_activity_path(activity) do %>-->
               <button class="editActivity" style="border:none; padding:0; background-color: transparent">
                 <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
               </button>
-         <!--  end %> -->
+         <!-- end %>-->
 
           <!-- Hide activity -->
           <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true do %>
@@ -106,7 +106,7 @@
 </div>
 
   <!-- text box and button to create activity -->
-  <%= form_for @activity do |a| %>
+  <%= form_for @activity do |a| %> <!-- calls the create action -->
       <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
       <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
   <% end %>
@@ -148,11 +148,11 @@
 
         //Edit Activity
     $('#Activities li .editActivity').click(function() {
-        var name = $(this).closest('li').text(); //correctly gets text just adds a bunch of white spaces
+        var name = $(this).closest('li').text();
         $('span').text("text is: " + name);
         var input = $('<input id="attribute" class="textbox" type="text" value="' + name + '" />')
-        $(this).closest('li').append(input); //puts textbox on the name will need to find exact combination for specific
-        input.select(); //lets you highlight
+        $(this).closest('li').append(input);
+        input.select();
 
         input.blur(function(event) {
             var text = $('input:text').val();
@@ -161,27 +161,22 @@
 //            $(event.target).closest('li').find('label').css( "background-color", "red" ).text(text);
             $(event.target).closest('li').find('label').text(text);
             $('#attribute').remove(); //removes the newly created text box
-            update_name(text); //updates to database
+
+            //ajax request to update database
+            $(document).ajaxError(function(){
+                alert("Error with AJAX call!");
+                alert($(this).closest('li').attr('id'));
+            });
+
+            $.ajax({
+                method: 'PUT',
+                url: '/activities/' + id,
+                data: { a_name: text}
+            });
+
         });
     });
 
-    function update_name(){ //updates changed name to database
-//        var name = $('#ref').val();
-        var name = text;
-        var url = '/activities/update/?a_name='+name;
-        $.ajax({
-            type: 'post',
-            url: url,
-            dataType: 'script',
-            error: function(data){
-                alert('Error occurred while updating the record.');
-            },
-            success: function(data){
-                alert('Record updated successfully.');
-            },
-            });
-        return false;
-    }
 
 
 
@@ -189,13 +184,6 @@
         $('#Activities li .hideActivity').click(function () {
             var index = $('#Activities li .hideActivity').index(this);
             $(this).closest('li').hide();
-//            $.ajax({
-//                url: '/activities/set_hidden_true',
-//                type: 'PUT',
-//                data: {hidden: true},
-//                success: function() { alert('Hidden item updated') }
-//            });
-//            $('span').text("That was .hideActivity index #" + index);
         });
 
         //shows hidden elements

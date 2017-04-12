@@ -35,12 +35,20 @@ class ActivitiesController < ApplicationController
 
   def edit
     @activity = Activity.find(params[:id])
-    @activity.update(:id)
+    # @activity.update(:a_name)
   end
 
   def update
-    @activity = Activity.find(params[:a_name])
-    @activity = Activity.update(a_name: session[:a_name])
+    @activity = Activity.find(params[:id])
+    @activity.update_attributes(:a_name)
+    # if @activity.update_attributes(params[:a_name])
+    #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
+    # else
+    #   redirect_to root_path, :notice => "Not updated :("
+    # end
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   def destroy
@@ -77,6 +85,6 @@ class ActivitiesController < ApplicationController
     end
 
   def update_params
-    @activity = Activity.find(params[:id, :a_name])
+    params.require(:activity).permit(:a_name)
   end
 end
