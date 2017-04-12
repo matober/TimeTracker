@@ -5,6 +5,8 @@ class ActivitiesController < ApplicationController
     @categories = Category.all
     @activity = Activity.new
     @category = Category.new
+
+
   end
 
   def index
@@ -31,6 +33,15 @@ class ActivitiesController < ApplicationController
       else
        flash[:notice] ='ERROR: Activity could not be create'
       end
+  end
+
+  def create_category
+    @category = Category.new(category_params)
+    if @category.save!
+      flash[:success] = 'Category created successfully!'
+    else
+      flash[:error] = 'ERROR: Category was not saved!'
+    end
   end
 
   def edit
@@ -67,5 +78,9 @@ class ActivitiesController < ApplicationController
 
   def update_params
     @activity = Activity.find(params[:id, :a_name])
+  end
+
+  def category_params
+    params.require(:category).permit(:c_name)
   end
 end

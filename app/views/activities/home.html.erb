@@ -1,7 +1,5 @@
 <!-- home.html.erb -->
 
-<!--<h1>Time Tracker</h1>
-<li><%= link_to 'Login', login_new_path %></li> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,7 +128,7 @@
       <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
   <% end %>
 
-  <%= form_for @category, remote: true do |c| %>
+  <%= form_for @category, :url => create_cat_path, remote: true do |c| %>
       <%= c.text_field :c_name, id: 'c_name_field', placeholder: 'Category Name'%>
       <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
   <% end %>
