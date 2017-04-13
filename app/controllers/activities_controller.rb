@@ -36,6 +36,7 @@ class ActivitiesController < ApplicationController
   def destroy_activity
     @activity = Activity.find(params[:id])
     @activity.destroy
+    redirect_to root_path
   end
 
   def hide_activity
