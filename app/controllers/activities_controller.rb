@@ -61,7 +61,6 @@ class ActivitiesController < ApplicationController
     if @activity.save!
       flash[:success] = 'Activity hidden successfully!'
     end
-    redirect_to root_path
   end
 
   def unhide_all

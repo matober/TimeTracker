@@ -97,10 +97,8 @@
                   <!-- end %>-->
 
                   <!-- Hide activity -->
-                  <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true do %>
-                      <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                  <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true, :id => 'hideActivity' do %>
                         <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
-                      </button>
                   <% end %>
                 </div> <!-- end of second_child div -->
               </div> <!-- end of parent div -->

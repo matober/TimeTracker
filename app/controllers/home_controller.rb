@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
   respond_to :html, :js
-
-
+  
   def new
 
   end
@@ -20,9 +19,8 @@ class HomeController < ApplicationController
 
   def create_activity
     @activity = Activity.create(activity_params)
+    @category = Category.all
     @activity.user_id = current_user.id
-    #@activities = Activity.all
-    #@categories = Category.all
 
     if @activity.save
       flash[:success] = 'Activity created successfully'
@@ -33,6 +31,7 @@ class HomeController < ApplicationController
 
   def create_category
     @category = Category.new(category_params)
+    @activities = Activity.all
     @category.user_id = current_user.id
     if @category.save!
       flash[:success] = 'Category created successfully!'
@@ -54,10 +53,10 @@ class HomeController < ApplicationController
   def hide_activity
     @activity = Activity.find(params[:id])
     @activity.update_attribute(:hidden, true)
+    @category = Category.all
     if @activity.save!
       flash[:success] = 'Activity hidden successfully!'
     end
-    redirect_to :back
   end
 
 

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get '/home/index' => 'home#index'
   get '/home' => 'home#home', as: :home
   get '/welcome' => 'home#welcome'
+
   post  '/home/activity' => 'home#create_activity', as: :create_act
   post '/home/category' => 'home#create_category', as: :create_cat
   post 'home/set_hide/:id' => 'home#hide_activity', as: :hide_act
