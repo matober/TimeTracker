@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- Latest compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+
+  <title>Bootstrap 101 Template</title>
+
+  <!-- Bootstrap -->
+  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">TimeTracker</a>
+    </div>
+  </div>
+</nav>
+
+  <div class="loginContainer" align="center">
+    <h1 align="center"><b>Sign Up</b></h1>
+
+    <%= form_for @user do |u| %>
+        <div class="container">
+
+          <%= render 'shared/errors', object:@user %>
+
+          <label><b>First Name</b></label>
+          <%= u.text_field :first_name, placeholder: 'First Name' %>
+
+          <label><b>Last Name</b></label>
+          <%= u.text_field :last_name, placeholder: 'Last Name' %>
+
+          <label><b>Username</b></label>
+          <%= u.text_field :email, placeholder: 'Email Address' %>
+          <!--<input type="text" placeholder="Enter Username" name="uname" required> -->
+
+          <br><label><b>Password</b></label>
+          <%= u.password_field :password, placeholder: 'Password' %>
+          <!--<input type="password" placeholder="Enter Password" name="psw" required> -->
+
+          <br><label><b>Confirm </b></label>
+          <%= u.password_field :password_confirmation, placeholder: 'Confirm Password' %>
+
+          </br>
+          <br>
+          <%= u.submit 'Sign Up', class: 'btn btn-primary' %>
+          <!-- <button type="submit">Login</button> -->
+
+          </br>
+        </div>
+    <% end %>
+
+
+  </div>
+
+<!-- <script src="js/jquery.min.js"></script> -->
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- <script src="js/bootstrap.min.js"></script> -->
+</body>
+</html>

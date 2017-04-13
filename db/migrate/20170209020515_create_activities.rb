@@ -4,6 +4,7 @@ class CreateActivities < ActiveRecord::Migration[5.0]
 
       t.integer :total_time
       t.string :name
+      t.boolean :hidden
       t.datetime :date
 
       t.timestamps
