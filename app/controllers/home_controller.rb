@@ -41,13 +41,25 @@ class HomeController < ApplicationController
     end
   end
 
+  def delete_activity
+    @activity = Activity.find(params[:id])
+    @activity.destroy
+    redirect_to :back
+  end
+
   def welcome
   end
 
-  #Unsure if this is needed but kept just in case
-  def display_activities
-    @activities = Activity.all
+
+  def hide_activity
+    @activity = Activity.find(params[:id])
+    @activity.update_attribute(:hidden, true)
+    if @activity.save!
+      flash[:success] = 'Activity hidden successfully!'
+    end
+    redirect_to :back
   end
+
 
   private
 

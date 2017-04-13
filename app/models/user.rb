@@ -1,6 +1,8 @@
 class User < ApplicationRecord
 
-  has_many :activities
+  has_many :activities, dependent: :destroy
+  has_many :categories, dependent: :destroy
+
   acts_as_authentic
 
     validates :first_name, presence: true, length: {minimum: 1}

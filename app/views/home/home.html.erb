@@ -55,7 +55,7 @@
     <ul>
       <!-- IF STATEMENT FOR THE LOOP BELOW IS NOT WORKING SO IT IS COMMENTED OUT -->
       <% @categories.each do |cats| %>
-         <!-- <% if cats.user_id == current_user.id %> -->
+         <!-- <% if cats.user_id == current_user.id || cats.id == 1 %> -->
                   <div class="panel-group">
                     <div class="panel text-center">
                       <div class="panel-heading">
@@ -68,7 +68,38 @@
                       <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
                         <ul class="list-group-sortable" id="Activities" >
                           <% cats.activities.each do |activity| %>
-                                <%= activity.a_name %>
+
+                              <% if activity.hidden == false || activity.hidden == nil%>
+
+                                  <div id="parent">
+                                    <div class="first_child">
+                                      <label class="my_label"><%= activity.a_name %></label>
+                                    </div>
+
+                                    <div class="second_child">
+                                      <!-- Delete Activity -->
+                                      <%= link_to delete_act_path(activity.id), method: :delete, data: { confirm: "Are you sure?" } do %>
+                                          <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                                      <% end %>
+
+                                      <!--
+                                        Edit activity
+                                      <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                                      </button>
+                                      -->
+
+                                      <!-- Hide activity -->
+                                      <%= link_to hide_act_path(activity.id), method: :post do %>
+                                          <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                                            <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                                          </button>
+                                      <% end %>
+                                    </div> <!-- end of second_child div -->
+                                  </div> <!-- end of parent div -->
+
+                              <% end %>
+
                           <% end %>
                         </ul>
                       </div>

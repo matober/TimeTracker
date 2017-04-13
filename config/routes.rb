@@ -5,9 +5,13 @@ Rails.application.routes.draw do
 
   # Activity Routes
   get '/activities' => 'activities#home'
-  resources :activities do
-    patch :set_hidden_true, on: :member
-  end
+  post '/activities/:id' => 'activities#set_hidden_true'
+  post 'Unhide All' => 'activities#unhide_all'
+  put '/activities/:id' => 'activities#update'
+  #post 'update_activity' => 'activities#update'
+  get 'activities/:id/edit' => 'activities#edit'
+  get 'edit activity' => 'activities#edit'
+  resources :activities
 
   #Category Routes
   resources :categories
@@ -30,4 +34,9 @@ Rails.application.routes.draw do
   get '/welcome' => 'home#welcome'
   post  '/home/activity' => 'home#create_activity', as: :create_act
   post '/home/category' => 'home#create_category', as: :create_cat
+  post 'home/set_hide/:id' => 'home#hide_activity', as: :hide_act
+
+  delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
+
+
 end

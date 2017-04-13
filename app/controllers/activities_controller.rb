@@ -25,9 +25,6 @@ class ActivitiesController < ApplicationController
 
   def create #Modified all new
     @activity = Activity.create(activity_params)
-    @activities = Activity.all
-    @categories = Category.all
-
       if @activity.save
         flash[:success] = 'Activity created successfully'
       else
@@ -35,21 +32,21 @@ class ActivitiesController < ApplicationController
       end
   end
 
-  def create_category
-    @category = Category.new(category_params)
-    if @category.save!
-      flash[:success] = 'Category created successfully!'
-    else
-      flash[:error] = 'ERROR: Category was not saved!'
-    end
-  end
-
   def edit
     @activity = Activity.find(params[:id])
   end
 
   def update
-    @activities = Activity.update(:id => params[:id], :a_name => params[:a_name])
+    @activity = Activity.find(params[:id])
+    @activity.update_attributes(:a_name)
+    # if @activity.update_attributes(params[:a_name])
+    #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
+    # else
+    #   redirect_to root_path, :notice => "Not updated :("
+    # end
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   def destroy
@@ -67,6 +64,12 @@ class ActivitiesController < ApplicationController
     redirect_to root_path
   end
 
+  def unhide_all
+    @activities = Activity.all
+    @activities.update_all(hidden: false)
+    # redirect_to root_path
+  end
+
   private
     def activity_params
   	  params.require(:activity).permit(:a_name, :category_id)
@@ -80,7 +83,5 @@ class ActivitiesController < ApplicationController
     @activity = Activity.find(params[:id, :a_name])
   end
 
-  def category_params
-    params.require(:category).permit(:c_name)
-  end
+
 end
