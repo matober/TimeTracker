@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
     #-----------------------New Stuff ---------------------------------------
 
+    before_save :encrypt_password
+    before_save { self.email = email.downcase }
 
     #------------------------------------------------------------------------
 

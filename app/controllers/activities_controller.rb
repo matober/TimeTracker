@@ -30,7 +30,10 @@ class ActivitiesController < ApplicationController
       else
        flash[:notice] ='ERROR: Activity could not be create'
       end
+    end
   end
+
+
 
   def edit
     @activity = Activity.find(params[:id])

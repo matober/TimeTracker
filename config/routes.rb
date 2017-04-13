@@ -39,5 +39,14 @@ Rails.application.routes.draw do
 
   delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
 
+  # Direct to activities page
+  get '/activities' => 'activities#home'
+  get '/activities/list' =>'activities#index'
+
+  # TODO
+  get '/home' => 'home#new'
+
+  resources :categories
+  resources :activities
 
 end
