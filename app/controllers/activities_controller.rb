@@ -5,8 +5,6 @@ class ActivitiesController < ApplicationController
     @categories = Category.all
     @activity = Activity.new
     @category = Category.new
-
-
   end
 
   def index
@@ -16,7 +14,6 @@ class ActivitiesController < ApplicationController
 
   def show
     @activity = Activity.find(params[:id])
-
   end
 
   def new
@@ -40,6 +37,11 @@ class ActivitiesController < ApplicationController
   end
 
   def update
+    @activity = Activity.update(activity_params)
+    if @activity.save
+      flash[:success] = "Activity successfully updated!"
+    else
+      flash[:error] = "ERROR: Activity failed to update"
     @activity = Activity.find(params[:id])
     @activity.update_attributes(:a_name)
     # if @activity.update_attributes(params[:a_name])

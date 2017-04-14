@@ -1,4 +1,3 @@
-<<<<<<<<< Temporary merge branch 1
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -60,4 +59,3 @@ ActiveRecord::Schema.define(version: 20170412172315) do
   add_foreign_key "activities", "users"
   add_foreign_key "categories", "users"
 end
->>>>>>>>> Temporary merge branch 2
