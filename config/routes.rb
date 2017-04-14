@@ -1,34 +1,43 @@
 Rails.application.routes.draw do
+  
+  #Set default page to home page
+  root 'home#home'
 
-<<<<<<< HEAD
-  get '/login' => 'login#login'
-  get 'login/new'
-
-  get 'activities/new'
-  get 'activities/new.html.erb' => 'activities#new'
-  get '/activities' => 'activities#display'
-  put 'activities/increment' => 'activities#increment'
-  put 'activities/decrement' => 'activities#decrement'
-
-  delete 'add_activities_path', to: 'activities#new', as: :new
-
-  get 'activities/display'
-
-  get 'signup' => 'login#new', :as => 'signup'
-=======
-  # Direct to login page
-  get '/login' => 'login#login'
-
-  # Direct to sign up page
-  get 'login/new'
-
-  #TODO
-  get "signup" => "login#new", :as => "signup"
->>>>>>> cd84a5d73a4862dec852b95d742ee0061a298f2f
-  root 'home#new'
-
-  resources :users
+  # Activity Routes
+  get '/activities' => 'activities#home'
+  post '/activities/:id' => 'activities#set_hidden_true'
+  post 'Unhide All' => 'activities#unhide_all'
+  put '/activities/:id' => 'activities#update'
+  #post 'update_activity' => 'activities#update'
+  get 'activities/:id/edit' => 'activities#edit'
+  get 'edit activity' => 'activities#edit'
   resources :activities
+
+  #Category Routes
+  resources :categories
+  get '/categories/:id' => 'categories#show'
+
+  #User Routes
+  resources :users, only: [:new, :create]
+  get '/sign_up', to: 'users#new', as: :sign_up
+
+  #User Session Routes
+  resources :user_sessions, only: [:create, :destroy]
+
+  #Misc. Routes
+  delete '/sign_out', to: 'user_sessions#destroy', as: :sign_out
+  get '/sign_in', to: 'user_sessions#new', as: :sign_in
+
+  #Home Routes
+  get '/home/index' => 'home#index'
+  get '/home' => 'home#home', as: :home
+  get '/welcome' => 'home#welcome'
+
+  post  '/home/activity' => 'home#create_activity', as: :create_act
+  post '/home/category' => 'home#create_category', as: :create_cat
+  post 'home/set_hide/:id' => 'home#hide_activity', as: :hide_act
+
+  delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
 
   # Direct to activities page
   get '/activities' => 'activities#home'

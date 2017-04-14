@@ -1,4 +1,16 @@
-<<<<<<< HEAD
+// Place all the styles related to the activities controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.btn_act {
+  background-color: #0000CD;
+  color: white;
+  padding: 14px 50px;
+  margin: 0px 20px;
+  border: 2px solid;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 100px;
+}
 // Place all the styles related to the activities controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -13,19 +25,3 @@
   cursor: pointer;
   width: 100px;
 }
-=======
-// Place all the styles related to the activities controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-.btn_act {
-  background-color: #0000CD;
-  color: white;
-  padding: 14px 50px;
-  margin: 0px 20px;
-  border: 2px solid;
-  border-radius: 15px;
-  cursor: pointer;
-  width: 100px;
-}
->>>>>>> cd84a5d73a4862dec852b95d742ee0061a298f2f

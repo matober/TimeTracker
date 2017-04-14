@@ -1,32 +1,28 @@
 class User < ApplicationRecord
 
+  has_many :activities, dependent: :destroy
+  has_many :categories, dependent: :destroy
 
-
-  class User < ActiveRecord::Base
-    attr_accessor :email, :password, :password_confirmation
-    has_many :activity
-
-
-    before_save :encrypt_password
-    before_save { self.email = email.downcase }
-
-    #EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  acts_as_authentic
 
     validates :first_name, presence: true, length: {minimum: 1}
     validates :last_name, presence: true, length: {minimum: 1}
     validates :email, presence: true, uniqueness: true, length: {minimum: 5}
-    validates :username, presence: true, uniqueness: true, length: {minimum: 1}
-    validates :password_digest, length: {minimum: 6}
-    validates_confirmation_of :password
-    validates_presence_of :password, :on => :create
-    validates :password, presence: true, length: {minimum: 6}
-    validates_confirmation_of :password
-    validates_presence_of :password, :on => :create
-    validates :password, presense:true, length: {minimum: 6}
-    validates_presence_of :email
-    validates_uniqueness_of :email
-    validates :email, length: {minimum: 5}
+    validates :password, :confirmation => true, length: {minimum: 4}
+    validates :password_confirmation, presence: true
 
+    #-----------------------New Stuff ---------------------------------------
+
+    before_save :encrypt_password
+    before_save { self.email = email.downcase }
+
+    #------------------------------------------------------------------------
+
+    #---------------Unsure if working--------------
+    #validates_presence_of :password, :on => :create
+    #validates_presence_of :email
+    #validates_uniqueness_of :email
+    #----------------------------------------------
 
     def self.authenticate(email, password)
       user = find_by_email(email)
@@ -44,4 +40,4 @@ class User < ApplicationRecord
       end
     end
   end
-end
+

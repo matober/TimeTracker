@@ -14,10 +14,13 @@ gem 'pg'
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
-# Use Bootstrap
-gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap-sass'
 
+<<<<<<< HEAD
+=======
 gem 'coffee-script-source', '~> 1.8.0'
+>>>>>>>>> Temporary merge branch 2
+>>>>>>> origin/dev
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -54,4 +57,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'bcrypt-ruby', :require => 'bcrypt'
-gem 'best_in_place', '~> 3.0.1'
+
+gem 'responders'
+
+gem 'authlogic', '3.5.0'

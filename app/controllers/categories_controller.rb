@@ -5,7 +5,8 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @categories = Category.all
+    @category = Category.find(params[:id])
+    @activities = @category.activities
   end
 
   def new
@@ -15,11 +16,9 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
     if @category.save!
-      flash[:success] = 'Activity created successfully!'
-      redirect_to activities_display_path
+      flash[:success] = 'Category created successfully!'
     else
-      flash[:error] = 'ERROR: Activity was not saved!'
-      #render_to_string #normally would have it render to the name of view ex: :new
+      flash[:error] = 'ERROR: Category was not saved!'
     end
   end
 
@@ -31,10 +30,8 @@ class CategoriesController < ApplicationController
     @category = Category.update(category_params)
     if @categories.save
       flash[:success] = 'Activity successfully updated!'
-      redirect_to root
     else
       flash[:error] = 'ERROR: Activity failed to update'
-      render_to_string
     end
   end
 

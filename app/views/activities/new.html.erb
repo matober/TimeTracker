@@ -1,27 +1,22 @@
+<body>
+<% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
 
-
-<%= form_for @activity, :url => url_for(:action => 'create') do |a| %>
-  <div class = "form-group">
-    <div class = "row top-buffer text-center">
-
-      <div class='col-md-3'>
-        <p class="h1">Activity Name</p>
-      </div>
-    </div>
-
-    <div class = "row top-buffer text-center">
+<%= form_for @activity do |a| %>
+    <div class = "form-group">
+      <div class = "row top-buffer text-center">
         <div class='col-md-3'>
-          <%= a.text_field(:a_name, class: 'form-control', placeholder: 'Activity Name') %>
+          <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
         </div>
       </div>
 
-    <div class ="row top-buffer text-center">
-      <div class="col-md-3">
-        <%= a.submit 'Create', class: 'btn btn-primary'%>
+      <div class ="row top-buffer text-center">
+        <div class="col-md-3">
+          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+        </div>
       </div>
     </div>
-
-
-
-  </div>
 <% end %>
+
+</body>
