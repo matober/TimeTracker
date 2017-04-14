@@ -10,17 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316203804) do
+ActiveRecord::Schema.define(version: 20170412172315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
-    t.integer  "total_time", default: 0
+    t.integer  "total_time",  default: 0
     t.string   "a_name"
     t.datetime "date"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "hidden",      default: false
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.index ["category_id"], name: "index_activities_on_category_id", using: :btree
+    t.index ["user_id"], name: "index_activities_on_user_id", using: :btree
   end
 
   create_table "categories", force: :cascade do |t|
@@ -28,15 +33,29 @@ ActiveRecord::Schema.define(version: 20170316203804) do
     t.datetime "updated_at", null: false
     t.string   "c_name"
     t.integer  "num_of_act"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_categories_on_user_id", using: :btree
   end
 
-  create_table "user", force: :cascade do |t|
+  create_table "user_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "username"
     t.string   "email"
-    t.string   "password"
-    t.string   "password_hash"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "persistence_token"
+    t.string   "crypted_password",  null: false
     t.string   "password_salt"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "activities", "categories"
+  add_foreign_key "activities", "users"
+  add_foreign_key "categories", "users"
 end
