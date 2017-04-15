@@ -32,10 +32,13 @@ Rails.application.routes.draw do
   get '/home/index' => 'home#index'
   get '/home' => 'home#home', as: :home
   get '/welcome' => 'home#welcome'
+  get '/home/edit_act/:id' => 'home#edit_activity', as: :edit_act
 
   post  '/home/activity' => 'home#create_activity', as: :create_act
   post '/home/category' => 'home#create_category', as: :create_cat
   post 'home/set_hide/:id' => 'home#hide_activity', as: :hide_act
+  patch 'home/update_act/:id' => 'home#update_activity', as: :update_act
+
 
   delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
 
@@ -43,10 +46,6 @@ Rails.application.routes.draw do
   get '/activities' => 'activities#home'
   get '/activities/list' =>'activities#index'
 
-  # TODO
-  get '/home' => 'home#new'
 
-  resources :categories
-  resources :activities
 
 end

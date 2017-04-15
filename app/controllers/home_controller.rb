@@ -59,6 +59,20 @@ class HomeController < ApplicationController
     end
   end
 
+  def edit_activity
+    @activity = Activity.find(params[:id])
+  end
+
+  def update_activity
+      @activity = Activity.find(params[:id])
+
+      if @activity.update_attributes(activity_params)
+        flash[:success] = 'Activity updated successfully!'
+      else
+        flash[:notice] = 'Activity was not updated'
+
+      end
+  end
 
   private
 

@@ -31,7 +31,6 @@ class ActivitiesController < ApplicationController
        flash[:notice] ='ERROR: Activity could not be create'
       end
     end
-  end
 
 
 
@@ -84,6 +83,5 @@ class ActivitiesController < ApplicationController
   def update_params
     @activity = Activity.find(params[:id, :a_name])
   end
-
 
 end

@@ -53,12 +53,11 @@
     </h1>
 
 
-    < id = 'activity_container' %>
+    <div id = 'activity_container' %>
 
 
 
     <ul class="list-group-sortable" id="Activities" >
-      <h1 align = "center">Activities</h1>
 
       <!-- List each activity in database -->
       <%  @activities.each do |activity| %>
@@ -76,11 +75,9 @@
                     <% end %>
 
                     <!-- Edit activity -->
-                    <!-- link_to 'edit activity', edit_activity_path(activity) do %>-->
-                    <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                    <%= link_to edit_act_path(activity.id)do %>
                       <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                    </button>
-                    <!-- end %>-->
+                     <% end %>
 
                     <!-- Hide activity -->
                     <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true, :id => 'hideActivity' do %>
@@ -122,12 +119,14 @@
                                         <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
                                     <% end %>
 
-                                    <!--
-                                      Edit activity
-                                    <button class="editActivity" style="border:none; padding:0; background-color: transparent">
-                                      <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                                    </button>
-                                    -->
+
+                                    <!--Edit activity-->
+
+                                    <%= link_to edit_act_path(activity.id) do %>
+                                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit">
+                                        </i>
+                                    <% end %>
+
 
                                     <!-- Hide activity -->
                                     <%= link_to hide_act_path(activity.id), method: :post do %>
