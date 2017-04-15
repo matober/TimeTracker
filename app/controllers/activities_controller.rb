@@ -38,15 +38,18 @@ class ActivitiesController < ApplicationController
 
   def update
     @activity = Activity.find(params[:id])
-    @activity.update_attributes(:a_name)
+    # if @activity.update_attributes!(:a_name => 'testing')
+    #   redirect_to root_path
+    # end
     # if @activity.update_attributes(params[:a_name])
     #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
     # else
     #   redirect_to root_path, :notice => "Not updated :("
     # end
-    respond_to do |format|
-      format.js {}
+    if @activity.save!
+      flash[:success] = 'Activity updated successfully!'
     end
+    redirect_to root_path
   end
 
   def destroy
@@ -62,6 +65,7 @@ class ActivitiesController < ApplicationController
       flash[:success] = 'Activity hidden successfully!'
     end
     redirect_to root_path
+
   end
 
   def unhide_all

@@ -48,9 +48,51 @@
 
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
-    <h1 class = 'text-center'>
-      Activities
-    </h1>
+    <h1 align = "center">Activities</h1>
+
+    <div id="activity_container">
+      <ul class="list-group-sortable" id="Activities" >
+
+        <!-- List each activity in database -->
+
+        <% @activities.each do |activity| %>
+            <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
+                <li class="list-group-item" id="item" style="list-style: none;">
+
+
+                  <!-- Display activity name -->
+
+                      <label class="my_label"><%= activity.a_name %></label>
+
+
+
+                      <!-- Delete Activity -->
+                      <%= link_to activity, method: :delete, data: { confirm: "Are you sure?" }, remote: true do %>
+                          <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                      <% end %>
+
+                      <!-- Edit activity -->
+                     <%= link_to "edit", edit_activity_path(activity) %>
+
+                     <%= link_to activity, method: :put, :controller => :activities, :action => :update, id: 'update_link', remote: true do %>
+                      <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                      </button>
+                      <% end %>
+
+                      <!-- Hide activity -->
+                      <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true, remote: true do %>
+                          <button class="hideActivity" style="border:none; padding:0;">
+                            <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                          </button>
+                      <% end %>
+
+                </li> <!-- End of list item -->
+            <% end %> <!-- End of if statement -->
+        <% end %> <!-- End of activity loop -->
+      </ul>
+    </div>
+
 
     <ul>
       <!-- IF STATEMENT FOR THE LOOP BELOW IS NOT WORKING SO IT IS COMMENTED OUT -->
@@ -82,19 +124,19 @@
                                           <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
                                       <% end %>
 
-                                      <!--
-                                        Edit activity
+
+                                        <!-- Edit activity -->
                                       <button class="editActivity" style="border:none; padding:0; background-color: transparent">
                                         <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                                       </button>
-                                      -->
+
 
                                       <!-- Hide activity -->
-                                      <%= link_to hide_act_path(activity.id), method: :post do %>
+                                      <!-- link_to hide_act_path(activity.id), method: :post do %> -->
                                           <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
                                             <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
                                           </button>
-                                      <% end %>
+                                      <!-- % end %> -->
                                     </div> <!-- end of second_child div -->
                                   </div> <!-- end of parent div -->
 

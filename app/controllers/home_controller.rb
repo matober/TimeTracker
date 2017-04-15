@@ -41,10 +41,18 @@ class HomeController < ApplicationController
     end
   end
 
-  def delete_activity
+  # def delete_activity
+  #   @activity = Activity.find(params[:id])
+  #   @activity.destroy
+  #   redirect_to :back
+  # end
+
+  def destroy
     @activity = Activity.find(params[:id])
-    @activity.destroy
-    redirect_to :back
+    respond_to do |format|
+      format.html {redirect_to activities_url}
+      format.js
+    end
   end
 
   def welcome
@@ -54,11 +62,18 @@ class HomeController < ApplicationController
   def hide_activity
     @activity = Activity.find(params[:id])
     @activity.update_attribute(:hidden, true)
-    if @activity.save!
-      flash[:success] = 'Activity hidden successfully!'
+    respond_to do |format|
+      format.html {redirect_to activities_url}
+      format.js
     end
-    redirect_to :back
+
   end
+
+  #   if @activity.save!
+  #     flash[:success] = 'Activity hidden successfully!'
+  #   end
+  #   redirect_to :back
+  # end
 
 
   private
