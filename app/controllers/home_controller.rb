@@ -66,8 +66,24 @@ class HomeController < ApplicationController
       format.html {redirect_to activities_url}
       format.js
     end
-
   end
+
+  #NEW 4/15
+  def edit_activity
+    @activity = Activity.find(params[:id])
+  end
+
+  def update_activity
+    @activity = Activity.find(params[:id])
+
+    if @activity.update_attributes(activity_params)
+      flash[:success] = 'Activity updated successfully!'
+    else
+      flash[:notice] = 'Activity was not updated'
+    end
+  end
+
+  #end of NEW 4/15
 
   #   if @activity.save!
   #     flash[:success] = 'Activity hidden successfully!'
@@ -75,6 +91,11 @@ class HomeController < ApplicationController
   #   redirect_to :back
   # end
 
+  def unhide_all
+    @activities = Activity.all
+    @activities.update_all(hidden: false)
+    # redirect_to root_path
+  end
 
   private
 

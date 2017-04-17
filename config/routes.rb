@@ -35,8 +35,13 @@ Rails.application.routes.draw do
   post  '/home/activity' => 'home#create_activity', as: :create_act
   post '/home/category' => 'home#create_category', as: :create_cat
   post 'home/set_hide/:id' => 'home#hide_activity', as: :hide_act
+  post 'Unhide All' => 'home#unhide_all'
 
   delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
+
+  #NEW 4/15
+  get '/home/edit_act/:id' => 'home#edit_activity', as: :edit_act
+  patch 'home/update_act/:id' => 'home#update_activity', as: :update_act
 
 
 end
