@@ -35,6 +35,7 @@ class HomeController < ApplicationController
   def create_category
     @category = Category.new(category_params)
     @category.user_id = current_user.id
+    @category.priority = @category.id
     if @category.save!
       flash[:success] = 'Category created successfully!'
     else
