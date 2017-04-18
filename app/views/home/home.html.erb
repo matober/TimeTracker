@@ -10,6 +10,7 @@
 
 </head>
 
+<!-- the jScrollPane script -->
 
 
 <!--IF THE USER IS LOGGED IN, DISPLAY THE FOLLOWING -->
@@ -31,7 +32,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">TimeTracker</a>
+          <a class="navbar-brand" href='home'>TimeTracker</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -50,52 +51,15 @@
 
     <h1 align = "center">Activities</h1>
 
-    <div id="activity_container">
-      <ul id="Activities" class="connectedSortable" >
+    <div id= 'acts'>
 
-        <!-- List each activity in database -->
-
-        <% @activities.each do |activity| %>
-            <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
-                <li class="list-group-item" id="item" data-id="<%activity.id%>" style="list-style: none;">
-
-
-                  <!-- Display activity name -->
-
-                      <label class="my_label"><%= activity.a_name %></label>
-
-
-
-                      <!-- Delete Activity -->
-                      <%= link_to activity, method: :delete, data: { confirm: "Are you sure?" }, remote: true do %>
-                          <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
-                      <% end %>
-
-                      <!-- Edit activity -->
-                      <%= link_to edit_act_path(activity.id)do %>
-                      <button class="editActivity" style="border:none; padding:0; background-color: transparent">
-                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                      </button>
-                      <% end %>
-
-                      <!-- Hide activity -->
-                      <%= link_to activity, method: :post, :controller => :activities, :action => :set_hidden_true, remote: true do %>
-                          <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
-                            <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
-                          </button>
-                      <% end %>
-
-                </li> <!-- End of list item -->
-            <% end %> <!-- End of if statement -->
-        <% end %> <!-- End of activity loop -->
-      </ul>
     </div>
+    <div id = 'activity_container'>
 
 
-    <ul id="Categories" class="connectedSortable">
-      <!-- IF STATEMENT FOR THE LOOP BELOW IS NOT WORKING SO IT IS COMMENTED OUT -->
-      <% @categories.each do |cats| %>
-         <!-- <% if cats.user_id == current_user.id || cats.id == 1 %> -->
+      <ul id="Categories" class="connectedSortable">
+        <% @categories.each do |cats| %>
+          <% if cats.user_id == current_user.id%>
                   <div class="panel-group">
                     <div class="panel text-left">
                       <div class="panel-heading">
@@ -114,23 +78,23 @@
                                     <label class="my_label"><%= activity.a_name %></label>
 
                                       <!-- Delete Activity -->
-                                      <%= link_to delete_act_path(activity.id), method: :delete, data: { confirm: "Are you sure?" } do %>
+                                      <%= link_to destroy_act_path(activity.id), method: :delete, data: { confirm: "Are you sure?" } do %>
                                           <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
                                       <% end %>
 
 
                                         <!-- Edit activity -->
+                                  <%= link_to edit_act_path(activity.id)do %>
                                       <button class="editActivity" style="border:none; padding:0; background-color: transparent">
                                         <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                                       </button>
+                                  <% end %>
 
 
                                       <!-- Hide activity -->
-                                      <!-- link_to hide_act_path(activity.id), method: :post do %> -->
-                                          <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
-                                            <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
-                                          </button>
-                                      <!-- % end %> -->
+                                  <%= link_to hide_act_path(activity.id), method: :post do %>
+                                      <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                                  <% end %>
 
                               <% end %>
                           <% end %>
@@ -139,9 +103,47 @@
                       </div>
                     </div>
                   </div>
-          <!--<% end %> -->
-      <% end %>
-    </ul>
+            <% end %>
+        <% end %>
+        </ul>
+
+
+      <ul id="Activities" class="connectedSortable" >
+
+      <!-- List each activity in database -->
+
+        <% @activities.each do |activity| %>
+          <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
+              <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
+
+                <!-- Display activity name -->
+
+                <label class="my_label"><%= activity.a_name %></label>
+
+                <!-- Delete Activity -->
+                <%= link_to destroy_act_path(activity.id), method: :delete, data: { confirm: "Are you sure?" }, remote: true do %>
+                    <i class="fa fa-trash-o" aria-hidden="true" title="Delete"></i>
+                <% end %>
+
+                <!-- Edit activity -->
+                <%= link_to edit_act_path(activity.id)do %>
+                    <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                      <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                    </button>
+                <% end %>
+
+                <!-- Hide activity -->
+                <%= link_to hide_act_path(activity.id), method: :post do %>
+                    <i class="fa fa-eye" aria-hidden="true" title="Hide" id="item"></i>
+                <% end %>
+
+              </li> <!-- End of list item -->
+          <% end %> <!-- End of if statement -->
+      <% end %> <!-- End of activity loop -->
+      </ul>
+
+
+    </div>
 
 
     <ul class="pager">
@@ -221,50 +223,28 @@
 
 <% end %>
 
-<script>
-//    $('.sortActivity').click(function () {
-//        $('#Activities').sortable({
-//            connectWith: ".connectedSortable",
-//            containment: '#activity_container',
-//            cursorAt: {left:event.offsetX, top:event.offsetY}, //to keep item near cursor NOT WORKING
-//            update: function (event, ui) { //to save order NOT WORKING
-//                var data = $(this).sortable('serialize');
-//
-//                // POST to server using $.post or $.ajax
-////                $.ajax({
-////                    data: data,
-////                    type: 'POST',
-////                    url: 'localhost:3000/activities'
-////                });
-//            }
-//        });
-//        $('#Activities').sortable('enable'); //To enable again once disabled
-//        $('#Activities').disableSelection();
-//
-//        $('#Categories').sortable({
-//            connectWith: ".connectedSortable"
-//        });
-//        $('#Categories').sortable('enable');
-//        $('#Categories').disableSelection();
-//
-//        $('#category_activities').sortable({
-//            connectWith: ".connectedSortable"
-//        });
-//        $('#category_activities').sortable('enable');
-//        $('#category_activities').disableSelection();
-//    });
-//
-//    $('.doneSorting').click(function() {
-//        $('#Activities').sortable('disable');
-//        $('#Categories').sortable('disable');
-//        $('#category_activities').sortable('disable');
-//    });
+
+
+<script type="text/javascript">
+    function changeImg(img) {
+        if (img.src == "<%=asset_path('_unfilledbubble.png')%>"){
+            img.src = "<%=asset_path('_filledbubble.png')%>";
+        }
+        else {
+            img.src = "<%=asset_path('_unfilledbubble.png')%>";
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(function () {
+            $('.scroll-pane').jScrollPane({showArrows: true});
+        });
+    });
 </script>
 
-<!-- NEW 4/17 javascript for saving order-->
 <script>
     var ready, set_positions;
-
     set_positions = function(){
         // loop through and give each task a data-pos
         // attribute that holds its position in the DOM
@@ -272,41 +252,89 @@
             $(this).attr("data-pos",i+1);
         });
     }
-
-//    ready = function(){
-
-        // call set_positions function
+    //    ready = function(){
+    // call set_positions function
+    set_positions();
+    // ************NEW execept for #Activities
+    $('#Activities').sortable({
+        connectWith: ".connectedSortable"
+    });
+    $('#Activities').disableSelection();
+    //        $('#Categories').sortable({
+    //            connectWith: ".connectedSortable"
+    //        });
+    //        $('#Categories').disableSelection();
+    $('#category_activities').sortable({
+        connectWith: ".connectedSortable"
+    });
+    $('#category_activities').disableSelection();
+    // *******end of NEW
+    $('#Activities li').click(function (){
+        var myid = $(this).attr('id');
+        alert($(this).attr('id'));
+    });
+    // after the order changes
+    $('#Activities').sortable().bind('sortupdate', function(e, ui) {
+        // array to store new order
+        var updated_order = []
+        // set the updated positions
         set_positions();
-
-        $('#Activities').sortable();
-        $('#Activities').disableSelection();
-
-        // after the order changes
-        $('#Activities').sortable().bind('sortupdate', function(e, ui) {
-            // array to store new order
-            var updated_order = []
-            // set the updated positions
-            set_positions();
-
-            // populate the updated_order array with the new task positions
-            $('.list-group-item').each(function(i){
-                updated_order.push({ id: $(this).data("id"), position: i });
-            });
-
-            // send the updated order via ajax
-            $.ajax({
-                type: "PUT",
-                url: '/home/sort',
-                data: { order: updated_order }
-            });
+        // populate the updated_order array with the new task positions
+        $('#Activities li').each(function(i){
+            updated_order.push({ id: $(this).attr('id'), position: i });
         });
-//    }
+        // send the updated order via ajax
+        $.ajax({
+            type: "PUT",
+            url: '/home/sort',
+            data: { order: updated_order }
+        });
+    });
+    //        ******NEW 4/18/17
+    $('#Categories li').click(function (){
+        var myid = $(this).attr('id');
+        alert($(this).attr('id'));
+    });
+    // after the order changes
+    $('#Categories').sortable().bind('sortupdate', function(e, ui) {
+        // array to store new order
+        var updated_order = []
+        // set the updated positions
+        set_positions();
+        // populate the updated_order array with the new task positions
+        $('#Categories li').each(function(i){
+            updated_order.push({ id: $(this).attr('id'), position: i });
+        });
+        // send the updated order via ajax
+        $.ajax({
+            type: "PUT",
+            url: '/home/sort',
+            data: { order: updated_order }
+        });
+    });
+    $('#category_activities li').click(function (){
+        var myid = $(this).attr('id');
+        alert($(this).attr('id'));
+    });
+    // after the order changes
+    $('#category_activities').sortable().bind('sortupdate', function(e, ui) {
+        // array to store new order
+        var updated_order = []
+        // set the updated positions
+        set_positions();
+        // populate the updated_order array with the new task positions
+        $('#category_activities li').each(function(i){
+            updated_order.push({ id: $(this).attr('id'), position: i });
+        });
+        // send the updated order via ajax
+        $.ajax({
+            type: "PUT",
+            url: '/home/sort',
+            data: { order: updated_order }
+        });
+    });
+    //    *****end of NEW 4/18/17
+    //    }
 </script>
-
-<style>
-  li{
-
-  }
-</style>
 
 </html>
