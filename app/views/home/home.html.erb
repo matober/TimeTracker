@@ -51,9 +51,6 @@
 
     <h1 align = "center">Activities</h1>
 
-    <div id= 'acts'>
-
-    </div>
     <div id = 'activity_container'>
 
 
@@ -154,7 +151,7 @@
       <!-- *****************NEW*********************** -->
       <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
           <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
-          <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true %>
+          <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: "--No Category--" %>
           <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
       <% end %>
 
@@ -279,6 +276,7 @@
         var updated_order = []
         // set the updated positions
         set_positions();
+<<<<<<< HEAD
         // populate the updated_order array with the new task positions
         $('#Activities li').each(function(i){
             updated_order.push({ id: $(this).attr('id'), position: i });
@@ -305,6 +303,7 @@
         $('#Categories li').each(function(i){
             updated_order.push({ id: $(this).attr('id'), position: i });
         });
+		
         // send the updated order via ajax
         $.ajax({
             type: "PUT",
@@ -312,20 +311,26 @@
             data: { order: updated_order }
         });
     });
+
     $('#category_activities li').click(function (){
         var myid = $(this).attr('id');
         alert($(this).attr('id'));
     });
+
+
+
     // after the order changes
     $('#category_activities').sortable().bind('sortupdate', function(e, ui) {
         // array to store new order
         var updated_order = []
         // set the updated positions
         set_positions();
+
         // populate the updated_order array with the new task positions
         $('#category_activities li').each(function(i){
             updated_order.push({ id: $(this).attr('id'), position: i });
         });
+
         // send the updated order via ajax
         $.ajax({
             type: "PUT",
@@ -333,8 +338,17 @@
             data: { order: updated_order }
         });
     });
-    //    *****end of NEW 4/18/17
-    //    }
+
+//    *****end of NEW 4/18/17
+//    }
 </script>
+
+<style>
+  /*removes extra space from collapsible panels*/
+  .panel-group {
+    margin: 0 !important;
+    padding:0 !important;
+  }
+</style>
 
 </html>

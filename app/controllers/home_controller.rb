@@ -21,11 +21,16 @@ class HomeController < ApplicationController
     @activity = Activity.create(activity_params)
     @activity.user_id = current_user.id
     @activity.priority = @activity.id
+<<<<<<< HEAD
 
     @object = Category.all
 
     @activities = Activity.all
     @categories = Category.all
+=======
+    #@activities = Activity.all
+    #@categories = Category.all
+>>>>>>> origin/krisBranchw/andycode
 
     if @activity.save
       flash[:success] = 'Activity created successfully'
@@ -37,6 +42,7 @@ class HomeController < ApplicationController
   def create_category
     @category = Category.new(category_params)
     @category.user_id = current_user.id
+<<<<<<< HEAD
 
 
     #@category.priority = @category.id
@@ -46,6 +52,9 @@ class HomeController < ApplicationController
     @categories = Category.all
 
 
+=======
+    @category.priority = @category.id
+>>>>>>> origin/krisBranchw/andycode
     if @category.save!
       flash[:success] = 'Category created successfully!'
     else
