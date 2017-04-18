@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get '/activities' => 'activities#home'
   post '/activities/:id' => 'activities#set_hidden_true'
   post 'Unhide All' => 'activities#unhide_all'
-  put '/activities/:id' => 'activities#update'
+  # put '/activities/:id' => 'activities#update'
   #post 'update_activity' => 'activities#update'
   get 'activities/:id/edit' => 'activities#edit'
   get 'edit activity' => 'activities#edit'
@@ -39,9 +39,13 @@ Rails.application.routes.draw do
 
   delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
 
-  #NEW 4/15
   get '/home/edit_act/:id' => 'home#edit_activity', as: :edit_act
   patch 'home/update_act/:id' => 'home#update_activity', as: :update_act
+
+  #NEW 4/17
+  resources :home do
+    put :sort, on: :collection
+  end
 
 
 end

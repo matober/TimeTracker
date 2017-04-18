@@ -57,7 +57,7 @@
 
         <% @activities.each do |activity| %>
             <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
-                <li class="list-group-item" id="item" style="list-style: none;">
+                <li class="list-group-item" id="item" data-id="<%activity.id%>" style="list-style: none;">
 
 
                   <!-- Display activity name -->
@@ -222,43 +222,85 @@
 <% end %>
 
 <script>
-    $('.sortActivity').click(function () {
-        $('#Activities').sortable({
-            connectWith: ".connectedSortable",
-            containment: '#activity_container',
-            cursorAt: {left:event.offsetX, top:event.offsetY}, //to keep item near cursor NOT WORKING
-            update: function (event, ui) { //to save order NOT WORKING
-                var data = $(this).sortable('serialize');
+//    $('.sortActivity').click(function () {
+//        $('#Activities').sortable({
+//            connectWith: ".connectedSortable",
+//            containment: '#activity_container',
+//            cursorAt: {left:event.offsetX, top:event.offsetY}, //to keep item near cursor NOT WORKING
+//            update: function (event, ui) { //to save order NOT WORKING
+//                var data = $(this).sortable('serialize');
+//
+//                // POST to server using $.post or $.ajax
+////                $.ajax({
+////                    data: data,
+////                    type: 'POST',
+////                    url: 'localhost:3000/activities'
+////                });
+//            }
+//        });
+//        $('#Activities').sortable('enable'); //To enable again once disabled
+//        $('#Activities').disableSelection();
+//
+//        $('#Categories').sortable({
+//            connectWith: ".connectedSortable"
+//        });
+//        $('#Categories').sortable('enable');
+//        $('#Categories').disableSelection();
+//
+//        $('#category_activities').sortable({
+//            connectWith: ".connectedSortable"
+//        });
+//        $('#category_activities').sortable('enable');
+//        $('#category_activities').disableSelection();
+//    });
+//
+//    $('.doneSorting').click(function() {
+//        $('#Activities').sortable('disable');
+//        $('#Categories').sortable('disable');
+//        $('#category_activities').sortable('disable');
+//    });
+</script>
 
-                // POST to server using $.post or $.ajax
-//                $.ajax({
-//                    data: data,
-//                    type: 'POST',
-//                    url: 'localhost:3000/activities'
-//                });
-            }
+<!-- NEW 4/17 javascript for saving order-->
+<script>
+    var ready, set_positions;
+
+    set_positions = function(){
+        // loop through and give each task a data-pos
+        // attribute that holds its position in the DOM
+        $('.list-group-item').each(function(i){
+            $(this).attr("data-pos",i+1);
         });
-        $('#Activities').sortable('enable'); //To enable again once disabled
+    }
+
+//    ready = function(){
+
+        // call set_positions function
+        set_positions();
+
+        $('#Activities').sortable();
         $('#Activities').disableSelection();
 
-        $('#Categories').sortable({
-            connectWith: ".connectedSortable"
-        });
-        $('#Categories').sortable('enable');
-        $('#Categories').disableSelection();
+        // after the order changes
+        $('#Activities').sortable().bind('sortupdate', function(e, ui) {
+            // array to store new order
+            var updated_order = []
+            // set the updated positions
+            set_positions();
 
-        $('#category_activities').sortable({
-            connectWith: ".connectedSortable"
-        });
-        $('#category_activities').sortable('enable');
-        $('#category_activities').disableSelection();
-    });
+            // populate the updated_order array with the new task positions
+            $('.list-group-item').each(function(i){
+                updated_order.push({ id: $(this).data("id"), position: i });
+            });
 
-    $('.doneSorting').click(function() {
-        $('#Activities').sortable('disable');
-        $('#Categories').sortable('disable');
-        $('#category_activities').sortable('disable');
-    });
+            // send the updated order via ajax
+            $.ajax({
+                type: "PUT",
+                url: '/home/sort',
+                data: { order: updated_order }
+            });
+        });
+//    }
 </script>
 
 <style>

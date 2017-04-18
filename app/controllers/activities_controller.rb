@@ -36,21 +36,21 @@ class ActivitiesController < ApplicationController
     @activity = Activity.find(params[:id])
   end
 
-  def update
-    @activity = Activity.find(params[:id])
-    # if @activity.update_attributes!(:a_name => 'testing')
-    #   redirect_to root_path
-    # end
-    # if @activity.update_attributes(params[:a_name])
-    #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
-    # else
-    #   redirect_to root_path, :notice => "Not updated :("
-    # end
-    if @activity.save!
-      flash[:success] = 'Activity updated successfully!'
-    end
-    redirect_to root_path
-  end
+  # def update
+  #   @activity = Activity.find(params[:id])
+  #   # if @activity.update_attributes!(:a_name => 'testing')
+  #   #   redirect_to root_path
+  #   # end
+  #   # if @activity.update_attributes(params[:a_name])
+  #   #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
+  #   # else
+  #   #   redirect_to root_path, :notice => "Not updated :("
+  #   # end
+  #   if @activity.save!
+  #     flash[:success] = 'Activity updated successfully!'
+  #   end
+  #   redirect_to root_path
+  # end
 
   def destroy
     @activity = Activity.find(params[:id])
@@ -73,6 +73,8 @@ class ActivitiesController < ApplicationController
     @activities.update_all(hidden: false)
     # redirect_to root_path
   end
+
+
 
   private
     def activity_params

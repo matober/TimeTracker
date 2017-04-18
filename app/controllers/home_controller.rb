@@ -97,6 +97,14 @@ class HomeController < ApplicationController
     # redirect_to root_path
   end
 
+  #NEW 4/17
+  def sort
+    params[:order].each do |key, value|
+      Activity.find(value[:id]).update_attribute(:priority, value[:position])
+    end
+    render :nothing => true
+  end
+
   private
 
   def activity_params
