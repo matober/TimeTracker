@@ -21,6 +21,7 @@ class HomeController < ApplicationController
   def create_activity
     @activity = Activity.create(activity_params)
     @activity.user_id = current_user.id
+    @activity.priority = @activity.id
     #@activities = Activity.all
     #@categories = Category.all
 

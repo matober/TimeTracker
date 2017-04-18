@@ -57,7 +57,7 @@
 
         <% @activities.each do |activity| %>
             <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
-                <li class="list-group-item" id="item" data-id="<%activity.id%>" style="list-style: none;">
+                <li class="list-group-item" id='<%=activity.id%>' data-id="<%activity.id%>" style="list-style: none;">
 
 
                   <!-- Display activity name -->
@@ -281,6 +281,11 @@
         $('#Activities').sortable();
         $('#Activities').disableSelection();
 
+        $('#Activities li').click(function (){
+            var myid = $(this).attr('id');
+           alert($(this).attr('id'));
+        });
+
         // after the order changes
         $('#Activities').sortable().bind('sortupdate', function(e, ui) {
             // array to store new order
@@ -288,9 +293,10 @@
             // set the updated positions
             set_positions();
 
+
             // populate the updated_order array with the new task positions
-            $('.list-group-item').each(function(i){
-                updated_order.push({ id: $(this).data("id"), position: i });
+            $('#Activities li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
             });
 
             // send the updated order via ajax

@@ -10,7 +10,7 @@
         <%= a.text_field :a_name, :value => @activity.a_name %>
 
         <label><b>Category</b></label>
-        <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: false,
+        <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true,
                      :selected => @activity.category %>
 
         <br>
