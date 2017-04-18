@@ -15,6 +15,7 @@ class HomeController < ApplicationController
 
     @categories = Category.all
     @category = Category.new
+
   end
 
   def create_activity

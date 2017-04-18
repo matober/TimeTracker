@@ -26,51 +26,33 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Time Tracker</a>
+      <a class="navbar-brand" href="#">TimeTracker</a>
     </div>
   </div>
 </nav>
 
 <div class="loginContainer" align="center">
+  <h1 align="center"><b>Change Password</b></h1>
 
-  <h1 align="center"><b>Log In</b></h1>
-
-  <%= form_for @user_session do |u| %>
+  <%= form_for @user do |u| %>
       <div class="container">
 
-        <%= render 'shared/errors', object:@user_session %>
+        <%= render 'shared/errors', object:@user %>
 
-        <label><b>Email</b></label>
-        <%= u.text_field :email, placeholder: 'Email Address' %>
-        <!--<input type="text" placeholder="Enter Username" name="uname" required> -->
 
-        <br>
-        <label>
-          <b>Password</b>
-        </label>
+        <br><label><b>Password</b></label>
         <%= u.password_field :password, placeholder: 'Password' %>
         <!--<input type="password" placeholder="Enter Password" name="psw" required> -->
 
+        <br><label><b>Confirm </b></label>
+        <%= u.password_field :password_confirmation, placeholder: 'Confirm Password' %>
+
         <br>
-
-        <%= u.label 'Remember me' %>
-        <%= u.check_box :remember_me %>
-
-        <%= u.submit 'Login', class: 'btn btn-primary' %>
+        <%= u.submit 'Change', class: 'btn btn-primary' %>
         <!-- <button type="submit">Login</button> -->
-
 
       </div>
   <% end %>
 
 
-  <div class="container" style="background-color:#D3D3D3">
-    <%= link_to 'Forgot your password?', new_password_reset_path %>
-  </div>
 </div>
-
-<!-- <script src="js/jquery.min.js"></script> -->
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<!-- <script src="js/bootstrap.min.js"></script> -->
-</body>
-</html>

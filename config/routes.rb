@@ -47,5 +47,8 @@ Rails.application.routes.draw do
   get '/activities/list' =>'activities#index'
 
 
+  #Password Reset Routes
+  resources :password_resets, only: [:new, :create, :edit, :update]
+
 
 end
