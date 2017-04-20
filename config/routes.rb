@@ -36,11 +36,17 @@ Rails.application.routes.draw do
   post '/home/category' => 'home#create_category', as: :create_cat
   post 'home/set_hide/:id' => 'home#hide_activity', as: :hide_act
   post 'Unhide All' => 'home#unhide_all'
+  post '/categories/:id' => 'categories#unhide_all_category'
+  #put 'unhide_all_category/:id' => 'categories#unhide_all_category', as: :unhide_all_cat
 
   delete '/activity_delete/:id' => 'home#delete_activity', as: :delete_act
+  delete '/destroy/:id' => 'categories#destroy', as: :delete_cat
 
   get '/home/edit_act/:id' => 'home#edit_activity', as: :edit_act
   patch 'home/update_act/:id' => 'home#update_activity', as: :update_act
+
+  delete '/delete_category/:id' => 'categories#delete_category'
+
 
   #NEW 4/17
   resources :home do

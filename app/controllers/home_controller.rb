@@ -22,6 +22,11 @@ class HomeController < ApplicationController
     @activity = Activity.create(activity_params)
     @activity.user_id = current_user.id
     @activity.priority = @activity.id
+    respond_to do |format|
+      format.html{redirect_to home_url}
+      format.js
+    end
+
     #@activities = Activity.all
     #@categories = Category.all
 
@@ -35,7 +40,7 @@ class HomeController < ApplicationController
   def create_category
     @category = Category.new(category_params)
     @category.user_id = current_user.id
-    @category.priority = @category.id
+    #@category.priority = @category.id TESTING
     if @category.save!
       flash[:success] = 'Category created successfully!'
     else
@@ -43,16 +48,16 @@ class HomeController < ApplicationController
     end
   end
 
-  # def delete_activity
-  #   @activity = Activity.find(params[:id])
-  #   @activity.destroy
-  #   redirect_to :back
-  # end
+  def delete_activity
+    @activity = Activity.find(params[:id])
+    @activity.destroy
+    redirect_to :back
+  end
 
   def destroy
     @activity = Activity.find(params[:id])
     respond_to do |format|
-      format.html {redirect_to activities_url}
+      format.html {redirect_to home_url}
       format.js
     end
   end
@@ -65,7 +70,7 @@ class HomeController < ApplicationController
     @activity = Activity.find(params[:id])
     @activity.update_attribute(:hidden, true)
     respond_to do |format|
-      format.html {redirect_to activities_url}
+      format.html {redirect_to root_path}
       format.js
     end
   end
@@ -93,11 +98,11 @@ class HomeController < ApplicationController
   #   redirect_to :back
   # end
 
-  def unhide_all
-    @activities = Activity.all
-    @activities.update_all(hidden: false)
-    # redirect_to root_path
-  end
+  # def unhide_all ####CURRENTLY BEING USED IN ACTIVITIES CONTROLLER!!
+  #   @activities = Activity.where(:category_id => 9)
+  #   @activities.update(hidden: false)
+  #   # redirect_to root_path
+  # end
 
   #NEW 4/17
   def sort

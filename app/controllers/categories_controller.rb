@@ -22,6 +22,30 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def edit_category
+    @category = Category.find(params[:id])
+  end
+
+  def unhide_all_category
+    @category = Category.find(params[:id])
+    @activities = Activity.where(:category_id => @category.id)
+    @activities.update_all(hidden: false)
+    redirect_to root_path
+    # @category = Category.find(params[:id])Cate
+    # @category.activities.update(hidden: false)
+    # redirect_to root
+  end
+
+  def destroy
+    @category = Category.find(params[:id])
+    @category.destroy
+    redirect_to root_path
+    # respond_to do |format|
+    #   format.html {redirect_to root_path}
+    #   format.js
+    # end
+  end
+
   def edit
     @category = Category.find(params[:id])
   end

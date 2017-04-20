@@ -68,10 +68,11 @@ class ActivitiesController < ApplicationController
 
   end
 
+  # This unhides activities that are not in categories
   def unhide_all
-    @activities = Activity.all
+    @activities = Activity.where(:category_id => nil)
     @activities.update_all(hidden: false)
-    # redirect_to root_path
+    redirect_to root_path
   end
 
 
