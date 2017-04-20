@@ -46,6 +46,5 @@ Rails.application.routes.draw do
     put :sort, on: :collection
   end
 
-  #Password Reset Routes
-  resources :password_resets, :only => [ :new, :create, :edit, :update ]
+
 end
