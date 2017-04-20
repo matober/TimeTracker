@@ -1,21 +1,14 @@
 class CategoriesController < ApplicationController
 
-  def index
-    @categories = Category.all
-  end
-
-  def show
-    @category = Category.find(params[:id])
-    @activities = @category.activities
-  end
 
   def new
     @category = Category.new
   end
 
-  def create
+  def create_category
     @category = Category.new(category_params)
-    if @category.save!
+    @category.user_id = current_user.id
+    if @category.save
       flash[:success] = 'Category created successfully!'
     else
       flash[:error] = 'ERROR: Category was not saved!'
@@ -26,38 +19,31 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
   end
 
-  def unhide_all_category
+  def update_category
+    @category = Category.find(params[:id])
+    if @category.update_attributes(category_params)
+      flash[:success] = 'Activity successfully updated!'
+      redirect_to root_path
+    else
+      flash[:error] = 'ERROR: Activity failed to update'
+    end
+
+  end
+
+  def unhide_cat_activities
     @category = Category.find(params[:id])
     @activities = Activity.where(:category_id => @category.id)
     @activities.update_all(hidden: false)
     redirect_to root_path
-    # @category = Category.find(params[:id])Cate
-    # @category.activities.update(hidden: false)
-    # redirect_to root
   end
 
-  def destroy
+  def destroy_category
     @category = Category.find(params[:id])
     @category.destroy
-    redirect_to root_path
-    # respond_to do |format|
-    #   format.html {redirect_to root_path}
-    #   format.js
-    # end
+    #redirect_to root_path
+
   end
 
-  def edit
-    @category = Category.find(params[:id])
-  end
-
-  def update
-    @category = Category.update(category_params)
-    if @categories.save
-      flash[:success] = 'Activity successfully updated!'
-    else
-      flash[:error] = 'ERROR: Activity failed to update'
-    end
-  end
 
   private
   def category_params

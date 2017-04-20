@@ -1,30 +1,14 @@
 class ActivitiesController < ApplicationController
-  respond_to :html, :js
-  def home
-    @activities = Activity.all
-    @categories = Category.all
-    @activity = Activity.new
-    @category = Category.new
+  #respond_to :html, :js
 
+  #Don't know if need
+  # def new_activity
+  #   @activity = Activity.new
+  # end
 
-  end
-
-  def index
-    @activities = Activity.all
-    @activity = Activity.new
-  end
-
-  def show
-    @activity = Activity.find(params[:id])
-
-  end
-
-  def new
-    @activity = Activity.new
-  end
-
-  def create #Modified all new
+  def create_activity
     @activity = Activity.create(activity_params)
+    @activity.user_id = current_user.id
       if @activity.save
         flash[:success] = 'Activity created successfully'
       else
@@ -32,50 +16,41 @@ class ActivitiesController < ApplicationController
       end
   end
 
-  def edit
+  def edit_activity
     @activity = Activity.find(params[:id])
   end
 
-  # def update
-  #   @activity = Activity.find(params[:id])
-  #   # if @activity.update_attributes!(:a_name => 'testing')
-  #   #   redirect_to root_path
-  #   # end
-  #   # if @activity.update_attributes(params[:a_name])
-  #   #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
-  #   # else
-  #   #   redirect_to root_path, :notice => "Not updated :("
-  #   # end
-  #   if @activity.save!
-  #     flash[:success] = 'Activity updated successfully!'
-  #   end
-  #   redirect_to root_path
-  # end
+  def update_activity
+    @activity = Activity.find(params[:id])
+    if @activity.update_attributes(activity_params)
+      flash[:success] = 'Activity updated successfully!'
+      redirect_to root_path
+    else
+      flash[:notice] = 'Activity was not updated'
+    end
+  end
 
-  def destroy
+  def destroy_activity
     @activity = Activity.find(params[:id])
     @activity.destroy
-    redirect_to root_path
   end
 
-  def set_hidden_true
+  def hide_activity
     @activity = Activity.find(params[:id])
     @activity.update_attribute(:hidden, true)
-    if @activity.save!
+    if @activity.save
       flash[:success] = 'Activity hidden successfully!'
     end
-    redirect_to root_path
+    #redirect_to root_path
 
   end
 
   # This unhides activities that are not in categories
-  def unhide_all
+  def unhide_activity
     @activities = Activity.where(:category_id => nil)
     @activities.update_all(hidden: false)
-    redirect_to root_path
+    redirect_to root_path #Not optimal, fix if possible
   end
-
-
 
   private
     def activity_params
