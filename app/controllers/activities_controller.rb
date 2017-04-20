@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
   respond_to :html, :js
+
   def home
     @activities = Activity.all
     @categories = Category.all
