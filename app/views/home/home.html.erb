@@ -83,7 +83,7 @@
                   <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
                     <ul id="category_activities" class="connectedSortable">
                       <% cats.activities.each do |activity| %>
-                          <li class="list-group-item" id='edit_activity_<%=activity.id%>'>
+                          <li class="list-group-item" id='<%=activity.id%>'>
                             <% if activity.hidden == false || activity.hidden == nil%>
                                 <div id="edit_activity_<%= activity.id%>">
                                 <label class="my_label"><%= activity.a_name %></label>
