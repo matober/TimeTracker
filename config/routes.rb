@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   post  '/create_activity' => 'activities#create_activity', as: :create_act
   post '/activity/set_hide/:id' => 'activities#hide_activity', as: :hide_act
   post '/activity/unhide' => 'activities#unhide_activity', as: :unhide_act
+  post '/activity/increase/:id' => 'activities#increase_total_time', as: :increase_act
+  post '/activity/decrease/:id' => 'activities#decrease_total_time', as: :decrease_act
+
   patch 'activity/update_act/:id' => 'activities#update_activity', as: :update_act
 
 

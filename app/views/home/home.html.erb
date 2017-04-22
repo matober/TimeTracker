@@ -128,6 +128,41 @@
                                     </button>
                                 <% end %>
 
+
+                                  <!-- THIS IS TO DISPLAY TOTAL TIME -->
+                                  <!--<div id="total_time<%=activity.id%>">-->
+                                    <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                                  <!--</div>-->
+
+
+                                  <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
+                                  <!--<div class="scroll-pane">-->
+                                    <!--<% (0..12).each do |am| %>-->
+                                        <!--<% if am < 12 %>-->
+                                            <!--<label><%=am%>:00 AM</label>-->
+                                            <!--<% (1..4).each do |amID| %>-->
+                                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                                <!--</button>-->
+                                            <!--<% end %>-->
+                                        <!--<% else %>-->
+                                            <!--<label><%=am%>:00 PM</label>-->
+                                            <!--<% (1..4).each do |amID| %>-->
+                                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                                <!--</button>-->
+                                            <!--<% end %>-->
+                                        <!--<% end %>-->
+
+                                    <!--<% end %>-->
+
+                                    <!--<% (13..23).each do |pm| %>-->
+                                        <!--<label><%=pm-12%>:00 PM</label>-->
+                                        <!--<% (1..4).each do |pmID| %>-->
+                                            <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
+                                            <!--</button>-->
+                                        <!--<% end %>-->
+                                    <!--<% end %>-->
+                                  <!--</div>-->
+
                             <% end %>
                       <% end %>
                       </div>
@@ -163,14 +198,13 @@
                       <label class="my_label"><%= activity.a_name %></label>
 
 
-
                       <!-- Delete Activity -->
                   <%= link_to destroy_act_path(activity.id), method: :delete, data: { confirm: "Are you sure?" }, remote: true do %>
                         <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
                   <% end %>
 
                       <!-- Edit activity -->
-                      <%= link_to edit_act_path(activity.id) do %>
+                      <%= link_to edit_act_path(activity.id), remote: true do %>
                       <button class="editActivity" style="border:none; padding:0; background-color: transparent">
                         <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                       </button>
@@ -182,11 +216,48 @@
                             <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
                           </button>
                       <% end %>
+
+                    <!-- THIS IS TO DISPLAY TOTAL TIME -->
+                    <!--<div id="total_time<%=activity.id%>">-->
+                      <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                    <!--</div>-->
+
+
+                    <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
+                    <!--<div class="scroll-pane">-->
+                      <!--<% (0..12).each do |am| %>-->
+                          <!--<% if am < 12 %>-->
+                              <!--<label><%=am%>:00 AM</label>-->
+                              <!--<% (1..4).each do |amID| %>-->
+                                  <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                  <!--</button>-->
+                              <!--<% end %>-->
+                          <!--<% else %>-->
+                              <!--<label><%=am%>:00 PM</label>-->
+                              <!--<% (1..4).each do |amID| %>-->
+                                  <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                  <!--</button>-->
+                              <!--<% end %>-->
+                          <!--<% end %>-->
+
+                      <!--<% end %>-->
+
+                      <!--<% (13..23).each do |pm| %>-->
+                          <!--<label><%=pm-12%>:00 PM</label>-->
+                          <!--<% (1..4).each do |pmID| %>-->
+                              <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
+                              <!--</button>-->
+                          <!--<% end %>-->
+                      <!--<% end %>-->
+                    <!--</div>-->
                   </div>
                 </li> <!-- End of list item -->
             <% end %> <!-- End of if statement -->
         <% end %> <!-- End of activity loop -->
       </ul>
+    </div>
+
+    <div id = 'editContainer', align="center">
     </div>
 </body>
 
@@ -344,6 +415,7 @@
             $.ajax({
                 type: "PUT",
                 url: '/home/sort',
+                dataType: 'json',
                 data: { order: updated_order }
             });
         });
@@ -404,6 +476,37 @@
 //    *****end of NEW 4/18/17
 //    }
 
+</script>
+
+<!--BELOW IS THE CODE USED TO SWITCH THE STATE OF BUTTONS AND THE AJAX CALL TO UPDATE TIME-->
+<script>
+//  function changeImages(img,act_id){
+//    var element = document.getElementById(img);
+//    if (element.className == 'unfilled'){
+//        element.className = 'filled';
+//
+//        $.ajax({
+//            type: "POST",
+//            url: '/activity/increase/' + act_id
+//        });
+//    }
+//    else{
+//        element.className = 'unfilled';
+//
+//        $.ajax({
+//            type: "POST",
+//            url: '/activity/decrease/' + act_id
+//        });
+//    }
+//  }
+//
+//  $(document.ready(function () {
+//      $(function()
+//      {
+//          $('.scroll-pane').jScrollPane()
+//      });
+//  }))
+//
 </script>
 
 <style>

@@ -1,6 +1,5 @@
 class ActivitiesController < ApplicationController
-  #respond_to :html, :js
-
+  respond_to :html, :js, :json
   #Don't know if need
   # def new_activity
   #   @activity = Activity.new
@@ -18,6 +17,7 @@ class ActivitiesController < ApplicationController
 
   def edit_activity
     @activity = Activity.find(params[:id])
+    
   end
 
   def update_activity
@@ -52,6 +52,24 @@ class ActivitiesController < ApplicationController
     redirect_to root_path #Not optimal, fix if possible
   end
 
+  def increase_total_time
+
+    puts '--------------------------------'
+    @activity = Activity.find(params[:id])
+    respond_to do |format|
+      format.json {render :json => @activity }
+    end
+    @activity.increment!(:total_time,15)
+    puts (@activity.total_time)
+
+
+  end
+
+  def decrease_total_time
+    @activity = Activity.find(params[:id])
+    @activity.decrement!(:total_time,15)
+  end
+
   private
     def activity_params
   	  params.require(:activity).permit(:a_name, :category_id)
@@ -64,6 +82,7 @@ class ActivitiesController < ApplicationController
   def update_params
     @activity = Activity.find(params[:id, :a_name])
   end
+
 
 
 end

@@ -1,0 +1,32 @@
+<div id = 'hideThis' >
+  <h1 align="center"><b>Edit <%=@activity.a_name%></b></h1>
+
+  <%= form_for @activity, :url => update_act_path, remote: true do |a| %>
+      <div class="container">
+
+        <%= render 'shared/errors', object:@activity %>
+
+        <label><b>Activity Name</b></label>
+        <%= a.text_field :a_name, :value => @activity.a_name %>
+
+        <label><b>Category</b></label>
+        <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true,
+                     :selected => @activity.category %>
+
+        <br>
+        <%= a.submit 'Save', class: 'btn btn-primary' %>
+        <button class = 'btn btn-primary', id = 'doneSave'>Done</button>
+        <!-- <button type="submit">Login</button> -->
+
+      </div>
+  <% end %>
+</div>
+
+<script>
+    $('#doneSave').click(function(e){
+        e.preventDefault(); //to prevent standard click event
+        $('#hideThis').toggle();
+    });
+</script>
+
+
