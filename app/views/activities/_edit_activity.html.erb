@@ -6,15 +6,17 @@
 
         <%= render 'shared/errors', object:@activity %>
 
-        <label><b>Activity Name</b></label>
+        <label><b>Activity Name</b></label> <br>
         <%= a.text_field :a_name, :value => @activity.a_name %>
 
-        <label><b>Category</b></label>
+        <br>
+
+        <label><b>Category</b></label> <br>
         <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true,
                      :selected => @activity.category %>
 
         <br>
-        <%= a.submit 'Save', class: 'btn btn-primary' %>
+        <%= a.submit 'Save', class: 'btn btn-primary'%>
         <button class = 'btn btn-primary', id = 'doneSave'>Done</button>
         <!-- <button type="submit">Login</button> -->
 
@@ -23,7 +25,7 @@
 </div>
 
 <script>
-    $('#doneSave').click(function(e){
+    $('#doneSavea').click(function(e){
         e.preventDefault(); //to prevent standard click event
         $('#hideThis').toggle();
     });

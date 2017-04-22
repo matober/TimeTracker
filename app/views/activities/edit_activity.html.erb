@@ -5,10 +5,10 @@
 
       <%= render 'shared/errors', object:@activity %>
 
-      <label><b>Activity Name</b></label>
+      <label><b>Activity Name</b></label> <br>
       <%= a.text_field :a_name, :value => @activity.a_name %>
 
-      <label><b>Category</b></label>
+      <label><b>Category</b></label> <br>
       <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true,
                    :selected => @activity.category %>
 

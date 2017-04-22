@@ -8,8 +8,12 @@ class ActivitiesController < ApplicationController
   def create_activity
     @activity = Activity.create(activity_params)
     @activity.user_id = current_user.id
+    @activities = Activity.all
       if @activity.save
         flash[:success] = 'Activity created successfully'
+        respond_to do |format|
+          format.js {render 'activity_ajax.js.erb'}
+        end
       else
        flash[:notice] ='ERROR: Activity could not be create'
       end
@@ -21,12 +25,16 @@ class ActivitiesController < ApplicationController
   end
 
   def update_activity
+    @activities = Activity.all
     @activity = Activity.find(params[:id])
     if @activity.update_attributes(activity_params)
       flash[:success] = 'Activity updated successfully!'
-      redirect_to root_path
+      respond_to do |format|
+        format.js {render 'activity_ajax.js.erb'}
+      end
     else
       flash[:notice] = 'Activity was not updated'
+      render 'home/home'
     end
   end
 
@@ -41,7 +49,6 @@ class ActivitiesController < ApplicationController
     if @activity.save
       flash[:success] = 'Activity hidden successfully!'
     end
-    #redirect_to root_path
 
   end
 
@@ -49,20 +56,14 @@ class ActivitiesController < ApplicationController
   def unhide_activity
     @activities = Activity.where(:category_id => nil)
     @activities.update_all(hidden: false)
-    redirect_to root_path #Not optimal, fix if possible
+    respond_to do |format|
+      format.js {render 'activity_ajax.js.erb'}
+    end
   end
 
   def increase_total_time
-
-    puts '--------------------------------'
     @activity = Activity.find(params[:id])
-    respond_to do |format|
-      format.json {render :json => @activity }
-    end
     @activity.increment!(:total_time,15)
-    puts (@activity.total_time)
-
-
   end
 
   def decrease_total_time

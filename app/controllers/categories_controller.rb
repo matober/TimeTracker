@@ -8,8 +8,13 @@ class CategoriesController < ApplicationController
   def create_category
     @category = Category.new(category_params)
     @category.user_id = current_user.id
+    @categories = Category.all
+
     if @category.save
       flash[:success] = 'Category created successfully!'
+      respond_to do |format|
+        format.js {render 'category_ajax.js.erb'}
+      end
     else
       flash[:error] = 'ERROR: Category was not saved!'
     end
@@ -20,10 +25,13 @@ class CategoriesController < ApplicationController
   end
 
   def update_category
+    @categories = Category.all
     @category = Category.find(params[:id])
     if @category.update_attributes(category_params)
       flash[:success] = 'Activity successfully updated!'
-      redirect_to root_path
+      respond_to do |format|
+        format.js {render 'category_ajax.js.erb'}
+      end
     else
       flash[:error] = 'ERROR: Activity failed to update'
     end

@@ -1,2 +1,4 @@
 //$("#activity_container").load(location.href + " #activity_container>*", "");
-location.reload();
+$("#theActivities").html("<%= j (render 'display_activities') %>");
+
+callAll();
