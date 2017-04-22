@@ -53,22 +53,10 @@
       <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
     </ul>
 
-    <div style="padding-left: 70%">
+    <div style="padding-left: 80%">
       <button id="CreateButton" style="background-color: transparent; border: none">
-        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"> Create Activity</i>
+        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create Activity</span></i>
       </button>
-    </div>
-    <div id="form" hidden="true" style="padding-left: 50%">
-      <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
-          <%= a.text_field :a_name, id: 'a_name_field', placeholder: 'Activity Name'%>
-          <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: "--No Category--" %>
-          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
-      <% end %>
-
-      <%= form_for @category, :url => create_cat_path, remote: true do |c| %>
-          <%= c.text_field :c_name, id: 'c_name_field', placeholder: 'Category Name'%>
-          <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
-      <% end %>
     </div>
 
     <h3 style="padding-left: 3%"><u>My Categories</u></h3>
@@ -259,6 +247,19 @@
 
     <div id = 'editContainer', align="center">
     </div>
+
+    <div id="form" hidden="true" style="padding-left: 3%">
+      <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
+          <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%>
+          <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: "--No Category--" %>
+          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+      <% end %>
+
+      <%= form_for @category, :url => create_cat_path, remote: true do |c| %>
+          <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name'%>
+          <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+      <% end %>
+    </div>
 </body>
 
 
@@ -325,6 +326,14 @@
         $('#form').toggle();
     });
 </script>
+
+<style>
+  /*places forms on same line*/
+  form{
+    display: inline-block;
+    padding-bottom: 5%;
+  }
+</style>
 
 <script>
 //    $('.sortActivity').click(function () {

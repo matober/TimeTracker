@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421192610) do
+ActiveRecord::Schema.define(version: 20170418015058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,8 +52,10 @@ ActiveRecord::Schema.define(version: 20170421192610) do
     t.string   "persistence_token"
     t.string   "crypted_password",  null: false
     t.string   "password_salt"
-    t.string   "perishable_token"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "activities", "categories"
+  add_foreign_key "activities", "users"
+  add_foreign_key "categories", "users"
 end
