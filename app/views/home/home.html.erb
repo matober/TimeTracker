@@ -44,7 +44,7 @@
     </nav>
 
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-<body>
+    <body>
     <ul class="pager">
       <h1 align="center">Tuesday, May 2, 2017</h1>
       <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
@@ -208,12 +208,12 @@
 
     <h3 style="padding-left: 2.5%"><u>Other Activities</u>
 
-    <!-- Button for showing all hidden items -->
-    <%= link_to unhide_act_path, method: :post,remote: true do %>
-        <button class="showHidden" style="border:none; background-color: transparent">
-          <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; color: black"></i>
-        </button>
-    <% end %>
+      <!-- Button for showing all hidden items -->
+      <%= link_to unhide_act_path, method: :post,remote: true do %>
+          <button class="showHidden" style="border:none; background-color: transparent">
+            <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; color: black"></i>
+          </button>
+      <% end %>
     </h3>
     <div id="theActivities">
       <ul id="Activities" class="connectedSortable" >
@@ -326,10 +326,10 @@
 
     <div id = 'editCatContainer', align="center">
     </div>
-</body>
+    </body>
 
 
-<!-- IF THE USER IS NOT LOGGED IN, DISPLAY THE FOLLOWING -->
+    <!-- IF THE USER IS NOT LOGGED IN, DISPLAY THE FOLLOWING -->
 <% else %>
 
     <nav class="navbar navbar-default">
@@ -353,26 +353,26 @@
       </div>
     </nav>
 
-      <!--Simple div container to display the welcome message-->
-      <div class="loginContainer" align="center">
-        <h1 align="center">
-          <b>
-            Welcome to the Time Tracker App <br><h2>Please log in or sign up</h2>
-          </b>
-        </h1>
+    <!--Simple div container to display the welcome message-->
+    <div class="loginContainer" align="center">
+      <h1 align="center">
+        <b>
+          Welcome to the Time Tracker App <br><h2>Please log in or sign up</h2>
+        </b>
+      </h1>
 
-        <!--Div container to store the buttons to either login or signup-->
-        <div class="container">
-          <br>
+      <!--Div container to store the buttons to either login or signup-->
+      <div class="container">
+        <br>
 
-          <!--Button to take the user to the login page via a path-->
-          <%= button_to 'Login', sign_in_path, :method => 'get', class: 'btn' %>
-          <br>
+        <!--Button to take the user to the login page via a path-->
+        <%= button_to 'Login', sign_in_path, :method => 'get', class: 'btn' %>
+        <br>
 
-          <!--Button to take the user to the signup page via a path-->
-          <%= button_to 'Sign Up', sign_up_path, :method => 'get', class: 'btn' %>
-        </div>
+        <!--Button to take the user to the signup page via a path-->
+        <%= button_to 'Sign Up', sign_up_path, :method => 'get', class: 'btn' %>
       </div>
+    </div>
 
 
 <% end %>
@@ -394,18 +394,14 @@
   li.list-group-item {
     width: 95%;
   }
-
 </style>
 
 <script>
-
-  $(document).ready(function(){
-    callAll();
-  });
-
+    $(document).ready(function(){
+        callAll();
+    });
     function callAll(){
         var ready, set_positions;
-
         set_positions = function(){
             // loop through and give each task a data-pos
             // attribute that holds its position in the DOM
@@ -413,30 +409,23 @@
                 $(this).attr("data-pos",i+1);
             });
         }
-
         set_positions();
         $('#Activities').sortable();
         $('#Activities').disableSelection();
-
         $('#Categories').sortable();
         $('#Categories').disableSelection();
-
         $('.connectedSortableTest').sortable();
         $('.connectedSortableTest').disableSelection();
-
         // after the order changes
         $('#Activities').sortable().bind('sortupdate', function(e, ui) {
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-
-
             // populate the updated_order array with the new task positions
             $('#Activities li').each(function(i){
                 updated_order.push({ id: $(this).attr('id'), position: i });
             });
-
             // send the updated order via ajax
             $.ajax({
                 type: "PUT",
@@ -445,19 +434,15 @@
                 data: { order: updated_order }
             });
         });
-
         $('#Categories').sortable().bind('sortupdate', function(e, ui) {
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-
-
             // populate the updated_order array with the new task positions
             $('#Categories li').each(function(i){
                 updated_order.push({ id: $(this).attr('id'), position: i });
             });
-
             // send the updated order via ajax
             $.ajax({
                 type: "PUT",
@@ -465,7 +450,6 @@
                 data: { order: updated_order }
             });
         });
-
         // after the order changes
         $('.connectedSortableTest').sortable().bind('sortupdate', function(e, ui) {
             $('')
@@ -473,14 +457,11 @@
             var updated_order = []
             // set the updated positions
             set_positions();
-
-
             // populate the updated_order array with the new task positions
             $('.connectedSortableTest li').each(function(i){
                 alert("YES");
                 updated_order.push({ id: $(this).attr('id'), position: i });
             });
-
             // send the updated order via ajax
             $.ajax({
                 type: "PUT",
@@ -493,39 +474,37 @@
 
 <!-- Javascript for saving order-->
 <script>
-
-
 </script>
 
 <!--BELOW IS THE CODE USED TO SWITCH THE STATE OF BUTTONS AND THE AJAX CALL TO UPDATE TIME-->
 <script>
-//  function changeImages(img,act_id){
-//    var element = document.getElementById(img);
-//    if (element.className == 'unfilled'){
-//        element.className = 'filled';
-//
-//        $.ajax({
-//            type: "POST",
-//            url: '/activity/increase/' + act_id
-//        });
-//    }
-//    else{
-//        element.className = 'unfilled';
-//
-//        $.ajax({
-//            type: "POST",
-//            url: '/activity/decrease/' + act_id
-//        });
-//    }
-//  }
-//
-//  $(document.ready(function () {
-//      $(function()
-//      {
-//          $('.scroll-pane').jScrollPane()
-//      });
-//  }))
-//
+    //  function changeImages(img,act_id){
+    //    var element = document.getElementById(img);
+    //    if (element.className == 'unfilled'){
+    //        element.className = 'filled';
+    //
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/activity/increase/' + act_id
+    //        });
+    //    }
+    //    else{
+    //        element.className = 'unfilled';
+    //
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/activity/decrease/' + act_id
+    //        });
+    //    }
+    //  }
+    //
+    //  $(document.ready(function () {
+    //      $(function()
+    //      {
+    //          $('.scroll-pane').jScrollPane()
+    //      });
+    //  }))
+    //
 </script>
 
 <style>

@@ -37,7 +37,6 @@ Rails.application.routes.draw do
   get '/home/index' => 'home#index'
   get '/home' => 'home#home', as: :home
   get '/welcome' => 'home#welcome'
- e_act
 
   resources :home do
     put :sort, on: :collection
