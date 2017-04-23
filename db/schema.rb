@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418202150) do
+ActiveRecord::Schema.define(version: 20170418015058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,12 +18,13 @@ ActiveRecord::Schema.define(version: 20170418202150) do
   create_table "activities", force: :cascade do |t|
     t.integer  "total_time",  default: 0
     t.string   "a_name"
-    t.boolean  "hidden",      default: false
     t.datetime "date"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.boolean  "hidden",      default: false
     t.integer  "category_id"
     t.integer  "user_id"
+    t.integer  "priority"
     t.index ["category_id"], name: "index_activities_on_category_id", using: :btree
     t.index ["user_id"], name: "index_activities_on_user_id", using: :btree
   end
@@ -43,15 +44,15 @@ ActiveRecord::Schema.define(version: 20170418202150) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "email"
-    t.string   "password_hash"
-    t.string   "password_salt"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "persistence_token"
     t.string   "crypted_password",  null: false
-    t.string   "first_name"
-    t.string   "last_name"
+    t.string   "password_salt"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
   add_foreign_key "activities", "categories"

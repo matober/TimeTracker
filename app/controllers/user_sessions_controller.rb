@@ -11,14 +11,14 @@ class UserSessionsController < ApplicationController
       redirect_to home_path
     else
       flash[:notice] = 'Failed to log in'
-      redirect_to :back
+      render 'user_sessions/new'
     end
   end
 
   def destroy
     current_user_session.destroy
     flash[:success] = 'Goodbye'
-    #redirect_to root_path - Should redirect somewhere after signout
+    redirect_to :back
   end
 
   private

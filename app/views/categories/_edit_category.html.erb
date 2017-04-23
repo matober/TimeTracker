@@ -1,0 +1,34 @@
+<!--The DIV is used by the Javascript near the bottom to hide the contents, or mainly the form-->
+<div id = 'hideThis' >
+  <h1 align="center"><b>Edit <%=@category.c_name%></b></h1>
+
+  <!--This is the form_for editing a category. The ID is automatically passed by the AJAX call-->
+  <%= form_for @category, :url => update_cat_path, remote: true do |c| %>
+
+      <div class="container">
+
+        <!--Field to change category name-->
+        <label><b>Category Name</b></label> <br>
+        <%= c.text_field :c_name, :value => @category.c_name %>
+
+        <br>
+
+        <!--Button to save changes-->
+        <%= c.submit 'Save', class: 'btn btn-primary'%>
+
+        <!--Button to hide the form to make the page look cleaner-->
+        <button class = 'btn btn-primary', id = 'doneSaveCat'>Done</button>
+
+      </div>
+  <% end %>
+</div>
+
+<!--Javascript to hide the contents of the div with the ID of 'hideThis' so the home page looks cleaner-->
+<script>
+    $('#doneSaveCat').click(function(e){
+        e.preventDefault(); //to prevent standard click event
+        $('#hideThis').toggle();
+    });
+</script>
+
+

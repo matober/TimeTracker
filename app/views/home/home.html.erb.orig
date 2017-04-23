@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+
+
+<!--IF THE USER IS LOGGED IN, DISPLAY THE FOLLOWING -->
+<% if current_user %>
+    <!--
+    <style>
+    .navbar {
+      background-color:#2F4F4F
+    }
+    </style>
+    -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="home">TimeTracker</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Signed in as <%=current_user.email %></a></li>
+            <li>
+              <%= link_to 'Sign Out', sign_out_path, method: :delete %>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <body>
+    <ul class="pager">
+
+      <h1 align="center" id="date"></h1>
+      <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
+      <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+
+    <div style="padding-left: 80%">
+      <button id="CreateButton" style="background-color: transparent; border: none">
+        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create Activity</span></i>
+      </button>
+    </div>
+
+<<<<<<< HEAD
+
+    <ul class="list-group-sortable" id="Activities" >
+=======
+    <h3 style="padding-left: 3%"><u>My Categories</u></h3>
+
+    <div id = "theCategories">
+      <ul id="Categories" class="connectedSortable">
+
+        <!-- Each loop to loop through categories -->
+        <% @categories.each do |cats| %>
+
+            <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
+                <div id="edit_category_<%= cats.id%>">
+                <div class="panel-group">
+                  <div class="panel text-left">
+                    <div class="panel-heading" id='<%=cats.id%>'>
+                      <h4 class="panel-title">
+>>>>>>> 329dc4edfebf6f256dbb53bb596435e572e4e40a
+
+                        <!--Collapsible Panel linked to a div "collapse(cat.id)" where ID specifies which
+                            panel gets toggled to collapse or expand-->
+                        <a data-toggle="collapse" href="#collapse<%= cats.id%>">
+                          <%= cats.c_name %>
+
+                          <!--We use paths for the link_tos as routes are easier to maintain and much more readible-->
+
+                          <!-- Link to the destroy category path so users can delete the category -->
+                          <%= link_to destroy_cat_path(cats.id), method: :delete,
+                                      data: { confirm: 'Warning!
+                                    Deleting category will delete activities associated with it.
+                                    Would you like to continue?' }, remote: true do %>
+
+                              <!--Set the icon to look like a trashcan for the link to-->
+                              <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%;color: darkblue"></i>
+                          <% end %>
+
+                          <!--Link to edit the category so users can edit a category -->
+                          <%= link_to edit_cat_path(cats.id), remote:true do %>
+
+                              <!--Set the icon to look like a pencil for the link to-->
+                              <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editCategory" style="color: darkblue"></i>
+
+                          <% end %>
+
+                          <!-- Link to for showing all hidden items in a category-->
+                          <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
+
+                              <!--Set the icon to look like a eye with a slash for the link to-->
+                              <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
+                          <% end %>
+
+                        </a>
+                      </h4>
+
+                    </div>
+
+                    <!--Each panel needs to have a unique ID so the collapsible knows
+                        which div to expand or collapse-->
+                    <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
+                      <ul id="category_activities<%=cats.id%>" class="connectedSortableTest">
+
+                        <!--Each loop for each activity in a category-->
+                        <% cats.activities.each do |activity| %>
+
+                            <!--We place everything in the following div that uses the activity ID
+                                so we can simply hide the entire div when the user requests to hide an activity-->
+                            <% if activity.hidden == false || activity.hidden == nil%>
+
+                                <div id="edit_activity_<%= activity.id%>">
+
+                                  <!--List item used to display the activities in a list order
+                                      Also has a unique ID using the activity ID so we can enable sorting-->
+                                  <li class="list-group-item" id='<%=activity.id%>'>
+
+                                    <!--We do not want to display any hidden activities so we check the hidden boolean-->
+
+                                    <!--Display the activity name -->
+                                    <label class="my_label"><%= activity.a_name %></label>
+
+                                    <!-- Link to delete an activity -->
+                                    <%= link_to destroy_act_path(activity.id), method: :delete,
+                                                data: { confirm: "Are you sure?" }, remote: true do %>
+
+                                        <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
+                                    <% end %>
+
+                                    <!-- Link to edit activity -->
+                                    <%= link_to edit_act_path(activity.id), remote: true do %>
+                                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                                    <% end %>
+
+                                    <!-- Link to hide activity -->
+                                    <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+                                        <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
+                                    <% end %>
+
+                                    <!--We use paths again for the activity link_to as it is easier
+                                        to maintain routes and makes it much more readiable-->
+
+                                    <!-- THIS IS TO DISPLAY TOTAL TIME -->
+                                    <!--<div id="total_time<%=activity.id%>">-->
+                                    <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                                    <!--</div>-->
+
+
+                                    <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
+                                    <!--<div class="scroll-pane">-->
+                                    <!--<% (0..12).each do |am| %>-->
+                                        <!--<% if am < 12 %>-->
+                                            <!--<label><%=am%>:00 AM</label>-->
+                                            <!--<% (1..4).each do |amID| %>-->
+                                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                                <!--</button>-->
+                                                <!--<% end %>-->
+                                            <!--<% else %>-->
+                                            <!--<label><%=am%>:00 PM</label>-->
+                                            <!--<% (1..4).each do |amID| %>-->
+                                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                                <!--</button>-->
+                                                <!--<% end %>-->
+                                            <!--<% end %>-->
+
+                                        <!--<% end %>-->
+
+                                    <!--<% (13..23).each do |pm| %>-->
+                                        <!--<label><%=pm-12%>:00 PM</label>-->
+                                        <!--<% (1..4).each do |pmID| %>-->
+                                            <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
+                                            <!--</button>-->
+                                            <!--<% end %>-->
+                                        <!--<% end %>-->
+                                    <!--</div>-->
+
+                                  </li>
+
+                                </div>
+
+                            <% end %>
+
+                      <% end %>
+
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                </div>
+            <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+
+
+    <!--*************************************************************************************************************-->
+    <!--Here is where we place activities that do not belong to any categories-->
+
+
+    <h3 style="padding-left: 2.5%"><u>Other Activities</u>
+
+      <!-- Button for showing all hidden items -->
+      <%= link_to unhide_act_path, method: :post,remote: true do %>
+          <button class="showHidden" style="border:none; background-color: transparent">
+            <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; color: black"></i>
+          </button>
+      <% end %>
+    </h3>
+    <div id="theActivities">
+      <ul id="Activities" class="connectedSortable" >
+
+        <!-- List each activity in database -->
+
+        <% @activities.each do |activity| %>
+            <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
+                <% if(activity.user_id == current_user.id) %>
+
+                    <div id="edit_activity_<%= activity.id%>">
+
+                      <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
+                        <!-- Display activity name -->
+
+                        <label class="my_label"><%= activity.a_name %></label>
+
+
+                        <!-- Link to delete an activity -->
+                        <%= link_to destroy_act_path(activity.id), method: :delete,
+                                    data: { confirm: "Are you sure?" }, remote: true do %>
+                            <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
+                        <% end %>
+
+                        <!-- Link to edit an activity -->
+                        <%= link_to edit_act_path(activity.id), remote: true do %>
+                            <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                              <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                            </button>
+                        <% end %>
+
+                        <!-- Link to hide an activity -->
+                        <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+                            <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                              <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
+                            </button>
+                        <% end %>
+
+                        <!-- THIS IS TO DISPLAY TOTAL TIME -->
+                        <!--<div id="total_time<%=activity.id%>">-->
+                        <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                        <!--</div>-->
+
+
+                        <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
+                        <!--<div class="scroll-pane">-->
+                        <!--<% (0..12).each do |am| %>-->
+                            <!--<% if am < 12 %>-->
+                                <!--<label><%=am%>:00 AM</label>-->
+                                <!--<% (1..4).each do |amID| %>-->
+                                    <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                    <!--</button>-->
+                                    <!--<% end %>-->
+                                <!--<% else %>-->
+                                <!--<label><%=am%>:00 PM</label>-->
+                                <!--<% (1..4).each do |amID| %>-->
+                                    <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                    <!--</button>-->
+                                    <!--<% end %>-->
+                                <!--<% end %>-->
+
+                            <!--<% end %>-->
+
+                        <!--<% (13..23).each do |pm| %>-->
+                            <!--<label><%=pm-12%>:00 PM</label>-->
+                            <!--<% (1..4).each do |pmID| %>-->
+                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
+                                <!--</button>-->
+                                <!--<% end %>-->
+                            <!--<% end %>-->
+                      </li> <!-- End of list item -->
+
+                    </div>
+
+                <% end %>
+            <% end %> <!-- End of if statement -->
+        <% end %> <!-- End of activity loop -->
+      </ul>
+    </div>
+
+
+    <!--The div where the forms for creating activities and categories will be to keep things organized-->
+    <div id="form" hidden="true" style="padding-left: 3%">
+
+      <!--The form for creating an activity
+          We once again use paths as they are easier to maintain as well as more readable-->
+        <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
+            <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
+
+            <!--Assign a category to an activity
+                We use a drop down list to allow the selection of a category
+                We also allow the assigning of no category-->
+            <%= a.select :category_id,
+                         Category.where(:user_id => current_user.id).collect {|c| [c.c_name, c.id]}, include_blank: '--No Category--' %>
+
+            <!--The submit button to create the activity-->
+            <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+        <% end %>
+
+      <!--The form for creating a category -->
+
+      <%= form_for @category, :url => create_cat_path, remote: true do |c| %>
+
+          <!--Text field to input a category name-->
+          <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name'%>
+
+          <!--Button to submit the inputs for the fields and create a category-->
+          <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+      <% end %>
+    </div>
+
+    <!--This div is used to render the edit form of an activity-->
+    <div id = 'editContainer', align="center">
+    </div>
+
+    <!--This div is used to render the edit form of a category-->
+    <div id = 'editCatContainer', align="center">
+    </div>
+    </body>
+
+
+    <!-- IF THE USER IS NOT LOGGED IN, DISPLAY THE FOLLOWING -->
+<% else %>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">TimeTracker</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!--Simple div container to display the welcome message-->
+    <div class="loginContainer" align="center">
+      <h1 align="center">
+        <b>
+          Welcome to the Time Tracker App <br><h2>Please log in or sign up</h2>
+        </b>
+      </h1>
+
+      <!--Div container to store the buttons to either login or signup-->
+      <div class="container">
+        <br>
+
+        <!--Button to take the user to the login page via a path-->
+        <%= button_to 'Login', sign_in_path, :method => 'get', class: 'btn' %>
+        <br>
+
+        <!--Button to take the user to the signup page via a path-->
+        <%= button_to 'Sign Up', sign_up_path, :method => 'get', class: 'btn' %>
+      </div>
+    </div>
+
+
+<% end %>
+
+<script>
+    $('#CreateButton').click(function(e){
+        e.preventDefault(); //to prevent standard click event
+        $('#form').toggle();
+    });
+
+    //    displays current day
+    var d = new Date();
+    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    document.getElementById("date").innerHTML = (days[d.getUTCDay()]  + ", " + months[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear());
+
+</script>
+
+<style>
+  /*places forms on same line*/
+  form{
+    display: inline-block;
+    padding-bottom: 5%;
+  }
+  /*list item size*/
+  li.list-group-item {
+    width: 95%;
+  }
+</style>
+
+<script>
+    $(document).ready(function(){
+        callAll();
+    });
+    function callAll(){
+        var ready, set_positions;
+        set_positions = function(){
+            // loop through and give each task a data-pos
+            // attribute that holds its position in the DOM
+            $('.list-group-item').each(function(i){
+                $(this).attr("data-pos",i+1);
+            });
+        }
+        set_positions();
+        $('#Activities').sortable();
+        $('#Activities').disableSelection();
+        $('#Categories').sortable();
+        $('#Categories').disableSelection();
+        $('.connectedSortableTest').sortable();
+        $('.connectedSortableTest').disableSelection();
+        // after the order changes
+        $('#Activities').sortable().bind('sortupdate', function(e, ui) {
+            // array to store new order
+            var updated_order = []
+            // set the updated positions
+            set_positions();
+            // populate the updated_order array with the new task positions
+            $('#Activities li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
+            });
+            // send the updated order via ajax
+            $.ajax({
+                type: "PUT",
+                url: '/home/sort',
+                dataType: 'json',
+                data: { order: updated_order }
+            });
+        });
+        $('#Categories').sortable().bind('sortupdate', function(e, ui) {
+            // array to store new order
+            var updated_order = []
+            // set the updated positions
+            set_positions();
+            // populate the updated_order array with the new task positions
+            $('#Categories li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
+            });
+            // send the updated order via ajax
+            $.ajax({
+                type: "PUT",
+                url: '/home/sort',
+                data: { order: updated_order }
+            });
+        });
+        // after the order changes
+        $('.connectedSortableTest').sortable().bind('sortupdate', function(e, ui) {
+            // array to store new order
+            var updated_order = []
+            // set the updated positions
+            set_positions();
+            // populate the updated_order array with the new task positions
+            $('.connectedSortableTest li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
+            });
+            // send the updated order via ajax
+            $.ajax({
+                type: "PUT",
+                url: '/home/sort',
+                data: { order: updated_order }
+            });
+        });
+    }
+</script>
+
+<!-- Javascript for saving order-->
+<script>
+</script>
+
+<!--BELOW IS THE CODE USED TO SWITCH THE STATE OF BUTTONS AND THE AJAX CALL TO UPDATE TIME-->
+<script>
+    //  function changeImages(img,act_id){
+    //    var element = document.getElementById(img);
+    //    if (element.className == 'unfilled'){
+    //        element.className = 'filled';
+    //
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/activity/increase/' + act_id
+    //        });
+    //    }
+    //    else{
+    //        element.className = 'unfilled';
+    //
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/activity/decrease/' + act_id
+    //        });
+    //    }
+    //  }
+    //
+    //  $(document.ready(function () {
+    //      $(function()
+    //      {
+    //          $('.scroll-pane').jScrollPane()
+    //      });
+    //  }))
+    //
+</script>
+
+<style>
+  /*removes extra space from collapsible panels*/
+  .panel-group {
+    margin: 0 !important;
+    padding:0 !important;
+    /*border-style: groove;*/
+  }
+  li.list-group-item:nth-child(even) {background: lightgray}
+  /*li:nth-child(odd) {background: #FFF}*/
+</style>
+
+</html>

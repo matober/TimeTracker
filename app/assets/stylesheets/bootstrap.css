@@ -9,6 +9,7 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+
 body {
   margin: 0;
 }
@@ -6768,3 +6769,29 @@ collapse-small{
 
 }
 
+.unfilled {
+    background-color: #ffffff;
+    color: #ffffff;
+    width: 15px;
+    height: 15px;
+}
+
+.filled {
+    background-color: #000000;
+    color: #000000;
+    width: 15px;
+    height: 15px;
+}
+
+.scroll-pane{
+    white-space: nowrap;
+    height: 50px;
+}
+
+.total_time_display{
+    text-transform: uppercase;
+    font-style: oblique;
+    font-family: "Arial Black";
+    font-size: 30px;
+    font-weight: bold;
+}
