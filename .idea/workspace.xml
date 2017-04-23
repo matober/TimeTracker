@@ -6,6 +6,18 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20170212013914_create_users.rb" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20170316203549_create_categories.rb" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20170406142057_create_user_sessions.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170212023824_set_default.rb" afterPath="$PROJECT_DIR$/db/migrate/20170212023824_set_default.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170220161648_fix_activity_column_name.rb" afterPath="$PROJECT_DIR$/db/migrate/20170220161648_fix_activity_column_name.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170310031418_set_more_defaults.rb" afterPath="$PROJECT_DIR$/db/migrate/20170310031418_set_more_defaults.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170316203804_add_category_fields.rb" afterPath="$PROJECT_DIR$/db/migrate/20170316203804_add_category_fields.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170328210529_add_category_to_activity.rb" afterPath="$PROJECT_DIR$/db/migrate/20170328210529_add_category_to_activity.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170406143854_add_persistence_to_users.rb" afterPath="$PROJECT_DIR$/db/migrate/20170406143854_add_persistence_to_users.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170406162220_add_pass_confirm_to_users.rb" afterPath="$PROJECT_DIR$/db/migrate/20170406162220_add_pass_confirm_to_users.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170409013323_remove_password_from_user.rb" afterPath="$PROJECT_DIR$/db/migrate/20170409013323_remove_password_from_user.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170412155553_add_user_to_category.rb" afterPath="$PROJECT_DIR$/db/migrate/20170412155553_add_user_to_category.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170412155922_add_user_to_activity.rb" afterPath="$PROJECT_DIR$/db/migrate/20170412155922_add_user_to_activity.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170412160022_fix_reference_for_activity.rb" afterPath="$PROJECT_DIR$/db/migrate/20170412160022_fix_reference_for_activity.rb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/db/migrate_backup/20170412172315_fix_references.rb" afterPath="$PROJECT_DIR$/db/migrate/20170412172315_fix_references.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
@@ -75,11 +87,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="schema.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="schema.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/schema.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="260">
               <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20170411140543_add_crypted_password.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate_backup/20170411140543_add_crypted_password.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -126,8 +148,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="165" />
-    <option name="y" value="35" />
+    <option name="x" value="805" />
+    <option name="y" value="28" />
     <option name="width" value="1373" />
     <option name="height" value="921" />
   </component>
@@ -170,6 +192,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TimeTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migrate_backup" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -298,6 +338,9 @@
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.web.browsers" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/db/migrate" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/db/migrate" />
     </key>
@@ -609,15 +652,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1492977294851</updated>
-      <workItem from="1492977307681" duration="1489000" />
+      <workItem from="1492977307681" duration="1733000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1563000" />
+    <option name="totallyTimeSpent" value="1807000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="165" y="35" width="1373" height="921" extended-state="0" />
+    <frame x="805" y="28" width="1373" height="921" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2381668" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -651,13 +694,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/controllers/activities_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="68" column="7" lean-forward="true" selection-start-line="68" selection-start-column="7" selection-end-line="68" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20170412172315_fix_references.rb" />
     <entry file="file://$PROJECT_DIR$/db/migrate/20170316203804_add_category_fields.rb" />
     <entry file="file://$PROJECT_DIR$/db/schema.rb">
@@ -863,6 +899,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
           <caret line="48" column="22" lean-forward="true" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate_backup/20170411140543_add_crypted_password.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
