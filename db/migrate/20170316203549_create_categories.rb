@@ -1,5 +1,7 @@
 class CreateCategories < ActiveRecord::Migration[5.0]
   def change
-    add_reference :categories, :users, foreign_key: true
+    create_table :categories do |t|
+      t.timestamps
+    end
   end
 end
