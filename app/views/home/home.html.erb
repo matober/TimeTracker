@@ -118,14 +118,15 @@
 
                             <!--We place everything in the following div that uses the activity ID
                                 so we can simply hide the entire div when the user requests to hide an activity-->
-                            <div id="edit_activity_<%= activity.id%>">
+                            <% if activity.hidden == false || activity.hidden == nil%>
 
-                              <!--List item used to display the activities in a list order
-                                  Also has a unique ID using the activity ID so we can enable sorting-->
-                              <li class="list-group-item" id='<%=activity.id%>'>
+                                <div id="edit_activity_<%= activity.id%>">
 
-                                <!--We do not want to display any hidden activities so we check the hidden boolean-->
-                                <% if activity.hidden == false || activity.hidden == nil%>
+                                  <!--List item used to display the activities in a list order
+                                      Also has a unique ID using the activity ID so we can enable sorting-->
+                                  <li class="list-group-item" id='<%=activity.id%>'>
+
+                                    <!--We do not want to display any hidden activities so we check the hidden boolean-->
 
                                     <!--Display the activity name -->
                                     <label class="my_label"><%= activity.a_name %></label>
@@ -184,11 +185,13 @@
                                         <!--<% end %>-->
                                     <!--</div>-->
 
-                                <% end %>
-                              </li>
+                                  </li>
 
-                            </div>
-                        <% end %>
+                                </div>
+
+                            <% end %>
+
+                      <% end %>
 
 
                       </ul>
@@ -300,17 +303,18 @@
 
       <!--The form for creating an activity
           We once again use paths as they are easier to maintain as well as more readable-->
-      <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
-          <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
+        <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
+            <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
 
-          <!--Assign a category to an activity
-              We use a drop down list to allow the selection of a category
-              We also allow the assigning of no category-->
-          <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: '--No Category--' %>
+            <!--Assign a category to an activity
+                We use a drop down list to allow the selection of a category
+                We also allow the assigning of no category-->
+            <%= a.select :category_id,
+                         Category.where(:user_id => current_user.id).collect {|c| [c.c_name, c.id]}, include_blank: '--No Category--' %>
 
-          <!--The submit button to create the activity-->
-          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
-      <% end %>
+            <!--The submit button to create the activity-->
+            <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+        <% end %>
 
       <!--The form for creating a category -->
 

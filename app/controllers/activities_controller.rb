@@ -8,7 +8,9 @@ class ActivitiesController < ApplicationController
   def create_activity
     @activity = Activity.create(activity_params)
     @activity.user_id = current_user.id #set the user id to the current user's id that is logged in
+
     @activities = Activity.all #This is here so the display render works as it requires an instance of all activities
+    @categories = Category.all
 
     #If the activity is saved, run the ajax JS
     if @activity.save
