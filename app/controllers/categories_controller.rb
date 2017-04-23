@@ -1,6 +1,5 @@
 class CategoriesController < ApplicationController
 
-
   def new
     @category = Category.new
   end
@@ -9,6 +8,8 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
     @category.user_id = current_user.id
     @categories = Category.all
+
+    @activity = Activity.new
 
     if @category.save
       flash[:success] = 'Category created successfully!'
@@ -26,6 +27,7 @@ class CategoriesController < ApplicationController
 
   def update_category
     @categories = Category.all
+
     @category = Category.find(params[:id])
     if @category.update_attributes(category_params)
       flash[:success] = 'Activity successfully updated!'
@@ -56,5 +58,10 @@ class CategoriesController < ApplicationController
   private
   def category_params
     params.require(:category).permit(:c_name)
+  end
+
+  #The parameters that are required and allowed for an activity
+  def activity_params
+    params.require(:activity).permit(:a_name, :category_id)
   end
 end

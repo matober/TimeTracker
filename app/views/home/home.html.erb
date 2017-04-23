@@ -118,14 +118,15 @@
 
                             <!--We place everything in the following div that uses the activity ID
                                 so we can simply hide the entire div when the user requests to hide an activity-->
-                            <div id="edit_activity_<%= activity.id%>">
+                            <% if activity.hidden == false || activity.hidden == nil%>
 
-                              <!--List item used to display the activities in a list order
-                                  Also has a unique ID using the activity ID so we can enable sorting-->
-                              <li class="list-group-item" id='<%=activity.id%>'>
+                                <div id="edit_activity_<%= activity.id%>">
 
-                                <!--We do not want to display any hidden activities so we check the hidden boolean-->
-                                <% if activity.hidden == false || activity.hidden == nil%>
+                                  <!--List item used to display the activities in a list order
+                                      Also has a unique ID using the activity ID so we can enable sorting-->
+                                  <li class="list-group-item" id='<%=activity.id%>'>
+
+                                    <!--We do not want to display any hidden activities so we check the hidden boolean-->
 
                                     <!--Display the activity name -->
                                     <label class="my_label"><%= activity.a_name %></label>
@@ -184,11 +185,13 @@
                                         <!--<% end %>-->
                                     <!--</div>-->
 
-                                <% end %>
-                              </li>
+                                  </li>
 
-                            </div>
-                        <% end %>
+                                </div>
+
+                            <% end %>
+
+                      <% end %>
 
 
                       </ul>
@@ -222,69 +225,73 @@
 
         <% @activities.each do |activity| %>
             <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
-                <div id="edit_activity_<%= activity.id%>">
+                <% if(activity.user_id == current_user.id) %>
 
-                  <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
-                    <!-- Display activity name -->
+                    <div id="edit_activity_<%= activity.id%>">
 
-                    <label class="my_label"><%= activity.a_name %></label>
+                      <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
+                        <!-- Display activity name -->
 
-
-                    <!-- Link to delete an activity -->
-                    <%= link_to destroy_act_path(activity.id), method: :delete,
-                                data: { confirm: "Are you sure?" }, remote: true do %>
-                        <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
-                    <% end %>
-
-                    <!-- Link to edit an activity -->
-                    <%= link_to edit_act_path(activity.id), remote: true do %>
-                        <button class="editActivity" style="border:none; padding:0; background-color: transparent">
-                          <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                        </button>
-                    <% end %>
-
-                    <!-- Link to hide an activity -->
-                    <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
-                        <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
-                          <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
-                        </button>
-                    <% end %>
-
-                    <!-- THIS IS TO DISPLAY TOTAL TIME -->
-                    <!--<div id="total_time<%=activity.id%>">-->
-                    <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
-                    <!--</div>-->
+                        <label class="my_label"><%= activity.a_name %></label>
 
 
-                    <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
-                    <!--<div class="scroll-pane">-->
-                    <!--<% (0..12).each do |am| %>-->
-                        <!--<% if am < 12 %>-->
-                            <!--<label><%=am%>:00 AM</label>-->
-                            <!--<% (1..4).each do |amID| %>-->
-                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                <!--</button>-->
+                        <!-- Link to delete an activity -->
+                        <%= link_to destroy_act_path(activity.id), method: :delete,
+                                    data: { confirm: "Are you sure?" }, remote: true do %>
+                            <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
+                        <% end %>
+
+                        <!-- Link to edit an activity -->
+                        <%= link_to edit_act_path(activity.id), remote: true do %>
+                            <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                              <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                            </button>
+                        <% end %>
+
+                        <!-- Link to hide an activity -->
+                        <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+                            <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                              <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
+                            </button>
+                        <% end %>
+
+                        <!-- THIS IS TO DISPLAY TOTAL TIME -->
+                        <!--<div id="total_time<%=activity.id%>">-->
+                        <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                        <!--</div>-->
+
+
+                        <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
+                        <!--<div class="scroll-pane">-->
+                        <!--<% (0..12).each do |am| %>-->
+                            <!--<% if am < 12 %>-->
+                                <!--<label><%=am%>:00 AM</label>-->
+                                <!--<% (1..4).each do |amID| %>-->
+                                    <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                    <!--</button>-->
+                                    <!--<% end %>-->
+                                <!--<% else %>-->
+                                <!--<label><%=am%>:00 PM</label>-->
+                                <!--<% (1..4).each do |amID| %>-->
+                                    <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                    <!--</button>-->
+                                    <!--<% end %>-->
                                 <!--<% end %>-->
-                            <!--<% else %>-->
-                            <!--<label><%=am%>:00 PM</label>-->
-                            <!--<% (1..4).each do |amID| %>-->
-                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+
+                            <!--<% end %>-->
+
+                        <!--<% (13..23).each do |pm| %>-->
+                            <!--<label><%=pm-12%>:00 PM</label>-->
+                            <!--<% (1..4).each do |pmID| %>-->
+                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
                                 <!--</button>-->
                                 <!--<% end %>-->
                             <!--<% end %>-->
+                      </li> <!-- End of list item -->
 
-                        <!--<% end %>-->
+                    </div>
 
-                    <!--<% (13..23).each do |pm| %>-->
-                        <!--<label><%=pm-12%>:00 PM</label>-->
-                        <!--<% (1..4).each do |pmID| %>-->
-                            <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
-                            <!--</button>-->
-                            <!--<% end %>-->
-                        <!--<% end %>-->
-                  </li> <!-- End of list item -->
-
-                </div>
+                <% end %>
             <% end %> <!-- End of if statement -->
         <% end %> <!-- End of activity loop -->
       </ul>
@@ -296,17 +303,18 @@
 
       <!--The form for creating an activity
           We once again use paths as they are easier to maintain as well as more readable-->
-      <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
-          <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
+        <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
+            <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
 
-          <!--Assign a category to an activity
-              We use a drop down list to allow the selection of a category
-              We also allow the assigning of no category-->
-          <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: '--No Category--' %>
+            <!--Assign a category to an activity
+                We use a drop down list to allow the selection of a category
+                We also allow the assigning of no category-->
+            <%= a.select :category_id,
+                         Category.where(:user_id => current_user.id).collect {|c| [c.c_name, c.id]}, include_blank: '--No Category--' %>
 
-          <!--The submit button to create the activity-->
-          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
-      <% end %>
+            <!--The submit button to create the activity-->
+            <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+        <% end %>
 
       <!--The form for creating a category -->
 
@@ -324,6 +332,7 @@
     <div id = 'editContainer', align="center">
     </div>
 
+    <!--This div is used to render the edit form of a category-->
     <div id = 'editCatContainer', align="center">
     </div>
     </body>

@@ -1,0 +1,25 @@
+<!--The form for creating an activity
+          We once again use paths as they are easier to maintain as well as more readable-->
+<%= form_for @activity, :url => create_act_path, remote: true do |a| %>
+    <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
+
+    <!--Assign a category to an activity
+        We use a drop down list to allow the selection of a category
+        We also allow the assigning of no category-->
+    <%= a.select :category_id,
+                 Category.where(:user_id => current_user.id).collect {|c| [c.c_name, c.id]}, include_blank: '--No Category--' %>
+
+    <!--The submit button to create the activity-->
+    <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+<% end %>
+
+<!--The form for creating a category -->
+
+<%= form_for @category, :url => create_cat_path, remote: true do |c| %>
+
+    <!--Text field to input a category name-->
+    <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name'%>
+
+    <!--Button to submit the inputs for the fields and create a category-->
+    <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+<% end %>
