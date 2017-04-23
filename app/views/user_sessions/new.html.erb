@@ -1,67 +1,67 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-  <!--<meta charset="utf-8">-->
-  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!--<title>Bootstrap 101 Template</title>-->
+  <title>Bootstrap 101 Template</title>
 
-<!--</head>-->
-<!--<body>-->
+</head>
+<body>
 
-<!--<nav class="navbar navbar-default">-->
-  <!--<div class="container-fluid">-->
-    <!--<div class="navbar-header">-->
-      <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
-        <!--<span class="sr-only"></span>-->
-        <!--<span class="icon-bar"></span>-->
-        <!--<span class="icon-bar"></span>-->
-        <!--<span class="icon-bar"></span>-->
-      <!--</button>-->
-      <!--<a class="navbar-brand" href="home">Time Tracker</a>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</nav>-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="home">Time Tracker</a>
+    </div>
+  </div>
+</nav>
 
-<!--<div class="loginContainer" align="center">-->
+<div class="loginContainer" align="center">
 
-  <!--<h1 align="center"><b>Log In</b></h1>-->
+  <h1 align="center"><b>Log In</b></h1>
 
-  <!--<%= form_for @user_session do |u| %>-->
-      <!--<div class="container">-->
-
-
-        <!--<%= render 'shared/errors', object:@user_session %>-->
-
-        <!--<label><b>Email</b></label>-->
-        <!--<br>-->
-        <!--<%= u.text_field :email, placeholder: 'Email Address' %>-->
-        <!--&lt;!&ndash;<input type="text" placeholder="Enter Username" name="uname" required> &ndash;&gt;-->
-
-        <!--<br>-->
-        <!--<label>-->
-          <!--<b>Password</b>-->
-        <!--</label>-->
-        <!--<br>-->
-        <!--<%= u.password_field :password, placeholder: 'Password' %>-->
-        <!--<br>-->
-
-        <!--&lt;!&ndash; Feature not working, left in there just in case &ndash;&gt;-->
-        <!--&lt;!&ndash;<%= u.label 'Remember me' %> &ndash;&gt;-->
-        <!--&lt;!&ndash;<%= u.check_box :remember_me %> &ndash;&gt;-->
-
-        <!--<%= u.submit 'Login', class: 'btn btn-primary' %>-->
+  <%= form_for @user_session do |u| %>
+      <div class="container">
 
 
-      <!--</div>-->
-  <!--<% end %>-->
+        <%= render 'shared/errors', object:@user_session %>
+
+        <label><b>Email</b></label>
+        <br>
+        <%= u.text_field :email, placeholder: 'Email Address' %>
+        <!--<input type="text" placeholder="Enter Username" name="uname" required> -->
+
+        <br>
+        <label>
+          <b>Password</b>
+        </label>
+        <br>
+        <%= u.password_field :password, placeholder: 'Password' %>
+        <br>
+
+        <!-- Feature not working, left in there just in case -->
+        <!--<%= u.label 'Remember me' %> -->
+        <!--<%= u.check_box :remember_me %> -->
+
+        <%= u.submit 'Login', class: 'btn btn-primary' %>
 
 
-  <!--<div class="container" style="background-color:#D3D3D3">-->
-    <!--<%= link_to 'Forgot your password?', new_password_reset_path %>-->
-  <!--</div>-->
-<!--</div>-->
+      </div>
+  <% end %>
 
-<!--</body>-->
-<!--</html>-->
+
+  <div class="container" style="background-color:#D3D3D3">
+    <%= link_to 'Forgot your password?', new_password_reset_path %>
+  </div>
+</div>
+
+</body>
+</html>
