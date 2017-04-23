@@ -27,7 +27,6 @@ class CategoriesController < ApplicationController
 
   def update_category
     @categories = Category.all
-
     @category = Category.find(params[:id])
     if @category.update_attributes(category_params)
       flash[:success] = 'Activity successfully updated!'

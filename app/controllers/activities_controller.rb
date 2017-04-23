@@ -31,6 +31,7 @@ class ActivitiesController < ApplicationController
 
   #This function is where the actual updates to the activity happen
   def update_activity
+    @categories = Category.all
     @activities = Activity.all #We need this so the display_activity render works properly
     @activity = Activity.find(params[:id]) #Finds the activity to edit using the ID
 
@@ -67,6 +68,7 @@ class ActivitiesController < ApplicationController
 
   # This unhides activities that are not in categories
   def unhide_activity
+    @categories = Category.all
     @activities = Activity.where(:category_id => nil)
     @activities.update_all(hidden: false)
 

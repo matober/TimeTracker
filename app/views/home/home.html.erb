@@ -46,7 +46,8 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <body>
     <ul class="pager">
-      <h1 align="center">Tuesday, May 2, 2017</h1>
+
+      <h1 align="center" id="date"></h1>
       <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
       <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
     </ul>
@@ -66,6 +67,7 @@
         <% @categories.each do |cats| %>
 
             <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
+                <div id="edit_category_<%= cats.id%>">
                 <div class="panel-group">
                   <div class="panel text-left">
                     <div class="panel-heading" id='<%=cats.id%>'>
@@ -100,7 +102,7 @@
                           <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
 
                               <!--Set the icon to look like a eye with a slash for the link to-->
-                              <i class="fa fa-eye-slash" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
+                              <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
                           <% end %>
 
                         </a>
@@ -197,6 +199,7 @@
                       </ul>
                     </div>
                   </div>
+                </div>
                 </div>
             <% end %>
         <% end %>
@@ -391,6 +394,14 @@
         e.preventDefault(); //to prevent standard click event
         $('#form').toggle();
     });
+
+    //    displays current day
+    var d = new Date();
+    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    document.getElementById("date").innerHTML = (days[d.getUTCDay()]  + ", " + months[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear());
+
 </script>
 
 <style>
@@ -461,14 +472,12 @@
         });
         // after the order changes
         $('.connectedSortableTest').sortable().bind('sortupdate', function(e, ui) {
-            $('')
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
             // populate the updated_order array with the new task positions
             $('.connectedSortableTest li').each(function(i){
-                alert("YES");
                 updated_order.push({ id: $(this).attr('id'), position: i });
             });
             // send the updated order via ajax
@@ -523,7 +532,7 @@
     padding:0 !important;
     /*border-style: groove;*/
   }
-  li:nth-child(even) {background: lightgray}
+  li.list-group-item:nth-child(even) {background: lightgray}
   /*li:nth-child(odd) {background: #FFF}*/
 </style>
 
