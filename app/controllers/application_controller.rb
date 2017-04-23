@@ -1,6 +1,4 @@
-require "application_responder"
-
-require "application_responder"
+require 'application_responder'
 
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
@@ -10,8 +8,6 @@ class ApplicationController < ActionController::Base
   respond_to :html
 
   protect_from_forgery with: :exception
-
-  #---------------New stuff below ------------------------------------
 
   private
 

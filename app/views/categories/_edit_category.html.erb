@@ -1,0 +1,30 @@
+<div id = 'hideThis' >
+  <h1 align="center"><b>Edit <%=@category.c_name%></b></h1>
+
+  <%= form_for @category, :url => update_cat_path, remote: true do |c| %>
+
+      <div class="container">
+
+        <%= render 'shared/errors', object:@category %>
+
+        <label><b>Category Name</b></label> <br>
+        <%= c.text_field :c_name, :value => @category.c_name %>
+
+        <br>
+
+        <%= c.submit 'Save', class: 'btn btn-primary'%>
+        <button class = 'btn btn-primary', id = 'doneSaveCat'>Done</button>
+        <!-- <button type="submit">Login</button> -->
+
+      </div>
+  <% end %>
+</div>
+
+<script>
+    $('#doneSaveCat').click(function(e){
+        e.preventDefault(); //to prevent standard click event
+        $('#hideThis').toggle();
+    });
+</script>
+
+

@@ -1,0 +1,72 @@
+<ul id="Activities" class="connectedSortable" >
+
+  <!-- List each activity in database -->
+
+  <% @activities.each do |activity| %>
+      <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
+          <div id="edit_activity_<%= activity.id%>">
+
+            <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
+              <!-- Display activity name -->
+
+              <label class="my_label"><%= activity.a_name %></label>
+
+
+              <!-- Link to delete an activity -->
+              <%= link_to destroy_act_path(activity.id), method: :delete,
+                          data: { confirm: "Are you sure?" }, remote: true do %>
+                  <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
+              <% end %>
+
+              <!-- Link to edit an activity -->
+              <%= link_to edit_act_path(activity.id), remote: true do %>
+                  <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                    <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                  </button>
+              <% end %>
+
+              <!-- Link to hide an activity -->
+              <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+                  <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                    <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
+                  </button>
+              <% end %>
+
+              <!-- THIS IS TO DISPLAY TOTAL TIME -->
+              <!--<div id="total_time<%=activity.id%>">-->
+              <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+              <!--</div>-->
+
+
+              <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
+              <!--<div class="scroll-pane">-->
+              <!--<% (0..12).each do |am| %>-->
+                  <!--<% if am < 12 %>-->
+                      <!--<label><%=am%>:00 AM</label>-->
+                      <!--<% (1..4).each do |amID| %>-->
+                          <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                          <!--</button>-->
+                          <!--<% end %>-->
+                      <!--<% else %>-->
+                      <!--<label><%=am%>:00 PM</label>-->
+                      <!--<% (1..4).each do |amID| %>-->
+                          <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                          <!--</button>-->
+                          <!--<% end %>-->
+                      <!--<% end %>-->
+
+                  <!--<% end %>-->
+
+              <!--<% (13..23).each do |pm| %>-->
+                  <!--<label><%=pm-12%>:00 PM</label>-->
+                  <!--<% (1..4).each do |pmID| %>-->
+                      <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
+                      <!--</button>-->
+                      <!--<% end %>-->
+                  <!--<% end %>-->
+            </li> <!-- End of list item -->
+
+          </div>
+      <% end %> <!-- End of if statement -->
+  <% end %> <!-- End of activity loop -->
+</ul>

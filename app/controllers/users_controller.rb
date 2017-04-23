@@ -9,8 +9,7 @@ class UsersController < ApplicationController
       flash[:success] = 'Account created'
       redirect_to home_path
     else
-      flash[:notice] ='ERROR: Account was not created'
-      redirect_to :back
+      render 'users/new'
     end
   end
 

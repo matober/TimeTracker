@@ -1,77 +1,74 @@
 class ActivitiesController < ApplicationController
-  respond_to :html, :js
-  def home
-    @activities = Activity.all
-    @categories = Category.all
-    @activity = Activity.new
-    @category = Category.new
-  end
+  respond_to :html, :js, :json
+  #Don't know if need
+  # def new_activity
+  #   @activity = Activity.new
+  # end
 
-  def index
-    @activities = Activity.all
-    @activity = Activity.new
-  end
-
-  def show
-    @activity = Activity.find(params[:id])
-  end
-
-  def new
-    @activity = Activity.new
-  end
-
-  def create #Modified all new
+  def create_activity
     @activity = Activity.create(activity_params)
+    @activity.user_id = current_user.id
+    @activities = Activity.all
       if @activity.save
         flash[:success] = 'Activity created successfully'
+        respond_to do |format|
+          format.js {render 'activity_ajax.js.erb'}
+        end
       else
        flash[:notice] ='ERROR: Activity could not be create'
       end
-    end
   end
 
-
-
-  def edit
+  def edit_activity
     @activity = Activity.find(params[:id])
+    
   end
 
-  def update
-    @activity = Activity.update(activity_params)
-    if @activity.save
-      flash[:success] = "Activity successfully updated!"
+  def update_activity
+    @activities = Activity.all
+    @activity = Activity.find(params[:id])
+    if @activity.update_attributes(activity_params)
+      flash[:success] = 'Activity updated successfully!'
+      respond_to do |format|
+        format.js {render 'activity_ajax.js.erb'}
+      end
     else
-      flash[:error] = "ERROR: Activity failed to update"
-    @activity = Activity.find(params[:id])
-    @activity.update_attributes(:a_name)
-    # if @activity.update_attributes(params[:a_name])
-    #   redirect_to root_path, :notice => "Your activity has successfully been updated!"
-    # else
-    #   redirect_to root_path, :notice => "Not updated :("
-    # end
-    respond_to do |format|
-      format.js {}
+      flash[:notice] = 'Activity was not updated'
+      render 'home/home'
     end
   end
 
-  def destroy
+  def destroy_activity
     @activity = Activity.find(params[:id])
     @activity.destroy
-    redirect_to root_path
   end
 
-  def set_hidden_true
+  def hide_activity
     @activity = Activity.find(params[:id])
     @activity.update_attribute(:hidden, true)
-    if @activity.save!
+    if @activity.save
       flash[:success] = 'Activity hidden successfully!'
+    end
+
+  end
+
+  # This unhides activities that are not in categories
+  def unhide_activity
+    @activities = Activity.where(:category_id => nil)
+    @activities.update_all(hidden: false)
+    respond_to do |format|
+      format.js {render 'activity_ajax.js.erb'}
     end
   end
 
-  def unhide_all
-    @activities = Activity.all
-    @activities.update_all(hidden: false)
-    # redirect_to root_path
+  def increase_total_time
+    @activity = Activity.find(params[:id])
+    @activity.increment!(:total_time,15)
+  end
+
+  def decrease_total_time
+    @activity = Activity.find(params[:id])
+    @activity.decrement!(:total_time,15)
   end
 
   private
@@ -86,6 +83,7 @@ class ActivitiesController < ApplicationController
   def update_params
     @activity = Activity.find(params[:id, :a_name])
   end
+
 
 
 end

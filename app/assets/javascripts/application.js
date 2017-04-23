@@ -16,4 +16,5 @@
 //= require turbolinks
 //= require bootstrap
 //= require bootstrap-sprockets
+//= require jquery.jscrollpane.min
 //= require_tree .

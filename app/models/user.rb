@@ -3,41 +3,37 @@ class User < ApplicationRecord
   has_many :activities, dependent: :destroy
   has_many :categories, dependent: :destroy
 
-  acts_as_authentic
+  attr_accessor :password_confirmation
 
-    validates :first_name, presence: true, length: {minimum: 1}
-    validates :last_name, presence: true, length: {minimum: 1}
-    validates :email, presence: true, uniqueness: true, length: {minimum: 5}
-    validates :password, :confirmation => true, length: {minimum: 4}
-    validates :password_confirmation, presence: true
-
-    #-----------------------New Stuff ---------------------------------------
-
-    before_save :encrypt_password
-    before_save { self.email = email.downcase }
-
-    #------------------------------------------------------------------------
-
-    #---------------Unsure if working--------------
-    #validates_presence_of :password, :on => :create
-    #validates_presence_of :email
-    #validates_uniqueness_of :email
-    #----------------------------------------------
-
-    def self.authenticate(email, password)
-      user = find_by_email(email)
-      if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-        user
-      else
-        nil
-      end
-    end
-
-    def encrypt_password
-      if password.present?
-        self.password_salt = BCrypt::Engine.generate_salt
-        self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
-      end
-    end
+  acts_as_authentic do |config|
+    config.validate_password_field = false
   end
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, presence: true, uniqueness: true
+  validates :password, :confirmation => true, length: {minimum: 4}
+  validates :password_confirmation, length: {minimum:4}
+
+  # def self.authenticate(email, password)
+  #   user = find_by_email(email)
+  #   if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
+  #     user
+  #   else
+  #     nil
+  #   end
+  # end
+  #
+  # def encrypt_password
+  #   if password.present?
+  #     self.password_salt = BCrypt::Engine.generate_salt
+  #     self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+  #   end
+  # end
+
+  def deliver_password_reset_instructions
+    reset_perishable_token!
+    PasswordResetMailer.reset_email(self).deliver_now
+  end
+end
 
