@@ -8,6 +8,7 @@
   <% @categories.each do |cats| %>
 
       <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
+          <div id="edit_category_<%= cats.id%>">
           <div class="panel-group">
             <div class="panel text-left">
               <div class="panel-heading" id='<%=cats.id%>'>
@@ -42,7 +43,7 @@
                     <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
 
                         <!--Set the icon to look like a eye with a slash for the link to-->
-                        <i class="fa fa-eye-slash" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
+                        <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
                     <% end %>
 
                   </a>
@@ -136,6 +137,7 @@
                 </ul>
               </div>
             </div>
+          </div>
           </div>
       <% end %>
   <% end %>
