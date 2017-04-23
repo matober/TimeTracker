@@ -1,31 +1,42 @@
+<!--I place the form to edit an activity inside a div called "hideThis" so I can hide the contents using the ID-->
 <div id = 'hideThis' >
   <h1 align="center"><b>Edit <%=@activity.a_name%></b></h1>
 
+  <!-- The form_for editing an activity
+       No need to pass an ID as it is automatically passed as we are rendering this from the controller method-->
   <%= form_for @activity, :url => update_act_path, remote: true do |a| %>
       <div class="container">
 
-        <%= render 'shared/errors', object:@activity %>
-
+        <!--Field to change the name of an activity
+             The default value is the current name of the activity-->
         <label><b>Activity Name</b></label> <br>
         <%= a.text_field :a_name, :value => @activity.a_name %>
 
         <br>
 
+        <!--Field to change the category of an activity
+            Default category is the current category the activity is-->
         <label><b>Category</b></label> <br>
         <%= a.select :category_id, Category.all.collect { |c| [c.c_name, c.id] }, include_blank: true,
                      :selected => @activity.category %>
 
         <br>
+
+        <!--Submit Button to save changes-->
         <%= a.submit 'Save', class: 'btn btn-primary'%>
+
+        <!--The edit form will not disappear so I added this so users can hide the edit form so the page
+            looks cleaner-->
         <button class = 'btn btn-primary', id = 'doneSave'>Done</button>
-        <!-- <button type="submit">Login</button> -->
 
       </div>
   <% end %>
 </div>
 
+<!--Javascript to link the button with the doneSave id to the function that hides the contents of the
+    "hideThis" div-->
 <script>
-    $('#doneSavea').click(function(e){
+    $('#doneSave').click(function(e){
         e.preventDefault(); //to prevent standard click event
         $('#hideThis').toggle();
     });

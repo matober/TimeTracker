@@ -1,4 +1,10 @@
-//$("#activity_container").load(location.href + " #activity_container>*", "");
+//AJAX JS file for the Ajax calls
+//Mainly used for the create and edit functions for the Activity Controller
+
+//This tells the home view to replace the contents of the DOM element with an ID of "theActivities" with the render
 $("#theActivities").html("<%= j (render 'display_activities') %>");
 
+//This is to re-initialize the Jquery script that allows the user to sort the activities
+//Without this, the sortable ability stops working as the newly rendered activity are no longer linked
+//to the sortable script
 callAll();
