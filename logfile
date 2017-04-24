@@ -12,3 +12,16 @@ WARNING:  terminating connection because of crash of another server process
 DETAIL:  The postmaster has commanded this server process to roll back the current transaction and exit, because another server process exited abnormally and possibly corrupted shared memory.
 HINT:  In a moment you should be able to reconnect to the database and repeat your command.
 LOG:  database system is shut down
+LOG:  database system was shut down at 2017-04-24 14:30:20 EDT
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  role "postgres" does not exist
+FATAL:  database "development" does not exist
+ERROR:  column categories.user_id does not exist at character 47
+HINT:  Perhaps you meant to reference the column "categories.users_id".
+STATEMENT:  SELECT "categories".* FROM "categories" WHERE "categories"."user_id" = $1
+ERROR:  column "users" of relation "categories" does not exist
+STATEMENT:  ALTER TABLE "categories" DROP "users"
+ERROR:  column "users" of relation "categories" does not exist
+STATEMENT:  ALTER TABLE "categories" DROP "users"
