@@ -79,15 +79,15 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # def increase_total_time
-  #   @activity = Activity.find(params[:id])
-  #   @activity.increment!(:total_time,15)
-  # end
-  #
-  # def decrease_total_time
-  #   @activity = Activity.find(params[:id])
-  #   @activity.decrement!(:total_time,15)
-  # end
+  def increase_total_time
+    @activity = Activity.find(params[:id])
+    @activity.increment!(:total_time,15)
+  end
+
+  def decrease_total_time
+    @activity = Activity.find(params[:id])
+    @activity.decrement!(:total_time,15)
+  end
 
   private
 
