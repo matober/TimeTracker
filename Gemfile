@@ -59,3 +59,5 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'responders'
 
 gem 'authlogic', '3.5.0'
+
+gem 'font-awesome-rails'
