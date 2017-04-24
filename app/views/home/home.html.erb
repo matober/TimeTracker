@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="utf-8">
+  <!-- If IE use the latest rendering engine -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Set the page to the width of the device and set the zoon level -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
 </head>
-
 
 
 <!--IF THE USER IS LOGGED IN, DISPLAY THE FOLLOWING -->
 <% if current_user %>
-    <!--
-    <style>
-    .navbar {
-      background-color:#2F4F4F
-    }
-    </style>
-    -->
+    <!-- Navigation Bar-->
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -34,7 +29,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Signed in as <%=current_user.email %></a></li>
+            <li><a href="#">Hi <%=current_user.first_name %></a></li>
             <li>
               <%= link_to 'Sign Out', sign_out_path, method: :delete %>
             </li>
@@ -43,115 +38,108 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- TO DELETE!!!  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">-->
     <body>
+    <!--Display Date and next/previous buttons-->
     <ul class="pager">
-
-      <h1 align="center" id="date"></h1>
+      <div class="dateHeading"><b><h1 align="center" id="date"></h1></b></div>
       <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
       <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
     </ul>
 
+    <!--Button to create activity/category-->
     <div style="padding-left: 80%">
       <button id="CreateButton" style="background-color: transparent; border: none">
-        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create Activity</span></i>
+        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create</span></i>
       </button>
     </div>
 
+    <!--Categories Heading-->
     <h3 style="padding-left: 3%"><u>My Categories</u></h3>
 
+    <!--Display Categories-->
     <div id = "theCategories">
       <ul id="Categories" class="connectedSortable">
-
-        <!-- Each loop to loop through categories -->
+        <!--Loop through categories in database-->
         <% @categories.each do |cats| %>
 
-            <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
+            <!--Display only categories belonging to the user-->
+            <% if cats.user_id == current_user.id %>
+
+                <!--Link category to its id, needed for edit, hide, destroy-->
                 <div id="edit_category_<%= cats.id%>">
+
+                  <!--Create panels to store activities-->
                 <div class="panel-group">
                   <div class="panel text-left">
                     <div class="panel-heading" id='<%=cats.id%>'>
                       <h4 class="panel-title">
 
-                        <!--Collapsible Panel linked to a div "collapse(cat.id)" where ID specifies which
+                        <!--Collapsible Panel linked to div collapse where ID specifies which
                             panel gets toggled to collapse or expand-->
                         <a data-toggle="collapse" href="#collapse<%= cats.id%>">
                           <%= cats.c_name %>
 
-                          <!--We use paths for the link_tos as routes are easier to maintain and much more readible-->
-
-                          <!-- Link to the destroy category path so users can delete the category -->
+                          <!-- Link to destroy category path to delete category -->
                           <%= link_to destroy_cat_path(cats.id), method: :delete,
-                                      data: { confirm: 'Warning!
-                                    Deleting category will delete activities associated with it.
-                                    Would you like to continue?' }, remote: true do %>
-
-                              <!--Set the icon to look like a trashcan for the link to-->
+                                      data: { confirm: 'Warning! Deleting this category will delete all activities associated with it. Would you like to continue?' }, remote: true do %>
+                              <!--Set trashcan icon as delete link_to-->
                               <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%;color: darkblue"></i>
                           <% end %>
 
-                          <!--Link to edit the category so users can edit a category -->
+                          <!--Link to edit category path to edit category -->
                           <%= link_to edit_cat_path(cats.id), remote:true do %>
-
-                              <!--Set the icon to look like a pencil for the link to-->
+                              <!--Set pencil icon as edit link_to-->
                               <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editCategory" style="color: darkblue"></i>
-
                           <% end %>
 
-                          <!-- Link to for showing all hidden items in a category-->
+                          <!--Link to unhide category path to unhide category-->
                           <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
-
-                              <!--Set the icon to look like a eye with a slash for the link to-->
+                              <!--Set eye icon as unhide link_to-->
                               <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
                           <% end %>
-
                         </a>
                       </h4>
-
                     </div>
 
                     <!--Each panel needs to have a unique ID so the collapsible knows
                         which div to expand or collapse-->
                     <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
+                      <!--Give id to categories with activities, used for hide, destroy-->
                       <ul id="category_activities<%=cats.id%>" class="connectedSortableTest">
 
-                        <!--Each loop for each activity in a category-->
+                        <!--Loop through each activity within category-->
                         <% cats.activities.each do |activity| %>
 
-                            <!--We place everything in the following div that uses the activity ID
-                                so we can simply hide the entire div when the user requests to hide an activity-->
+                            <!--Display activities that are not hidden-->
                             <% if activity.hidden == false || activity.hidden == nil%>
-
+                                <!--Give id to activities inside of category, used for hide-->
                                 <div id="edit_activity_<%= activity.id%>">
 
-                                  <!--List item used to display the activities in a list order
-                                      Also has a unique ID using the activity ID so we can enable sorting-->
+                                  <!--Display activities, pass activity id to enable sorting-->
                                   <li class="list-group-item" id='<%=activity.id%>'>
-
-                                    <!--We do not want to display any hidden activities so we check the hidden boolean-->
 
                                     <!--Display the activity name -->
                                     <label class="my_label"><%= activity.a_name %></label>
 
-                                    <!-- Link to delete an activity -->
+                                    <!-- Link to delete activity path to delete activity -->
                                     <%= link_to destroy_act_path(activity.id), method: :delete,
                                                 data: { confirm: "Are you sure?" }, remote: true do %>
-
+                                        <!--Set trash can icon to delete link_to-->
                                         <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
                                     <% end %>
 
-                                    <!-- Link to edit activity -->
+                                    <!-- Link to edit activity path to edit activity -->
                                     <%= link_to edit_act_path(activity.id), remote: true do %>
+                                        <!--Set pencil icon to edit link_to-->
                                         <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                                     <% end %>
 
-                                    <!-- Link to hide activity -->
+                                    <!-- Link to hide activity path to hide activity -->
                                     <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+                                        <!--Set eye slash icon to hide link_to-->
                                         <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
                                     <% end %>
-
-                                    <!--We use paths again for the activity link_to as it is easier
-                                        to maintain routes and makes it much more readiable-->
 
                                     <!-- THIS IS TO DISPLAY TOTAL TIME -->
                                     <!--<div id="total_time<%=activity.id%>">-->
@@ -209,54 +197,60 @@
 
 
     <!--*************************************************************************************************************-->
-    <!--Here is where we place activities that do not belong to any categories-->
-
-
+    <!--Activities without cagetories heading-->
     <h3 style="padding-left: 2.5%"><u>Other Activities</u>
 
-      <!-- Button for showing all hidden items -->
+      <!--Link to unhide path to unhide activity  -->
       <%= link_to unhide_act_path, method: :post,remote: true do %>
           <button class="showHidden" style="border:none; background-color: transparent">
+            <!--Set eye icon to unhide link_to-->
             <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; color: black"></i>
           </button>
       <% end %>
     </h3>
+
+    <!--Display activities with no category-->
     <div id="theActivities">
       <ul id="Activities" class="connectedSortable" >
 
-        <!-- List each activity in database -->
-
+        <!-- Display each activity in database -->
         <% @activities.each do |activity| %>
+            <!--Check if activity is not hidden and does not a part of a category-->
             <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
+
+                <!--Display only categories belonging to the user-->
                 <% if(activity.user_id == current_user.id) %>
 
+                    <!--Pass activity id, used for hide and destroy-->
                     <div id="edit_activity_<%= activity.id%>">
-
                       <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
-                        <!-- Display activity name -->
 
+                        <!-- Display activity name -->
                         <label class="my_label"><%= activity.a_name %></label>
 
-
-                        <!-- Link to delete an activity -->
+                        <!-- Link to delete activity path to delete activity -->
                         <%= link_to destroy_act_path(activity.id), method: :delete,
                                     data: { confirm: "Are you sure?" }, remote: true do %>
+                            <!--Set trash can icon to delete link_to-->
                             <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
                         <% end %>
 
-                        <!-- Link to edit an activity -->
+                        <!-- Link to edit activity path to edit activity-->
                         <%= link_to edit_act_path(activity.id), remote: true do %>
                             <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                              <!--Set pencil icon to edit link_to-->
                               <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                             </button>
                         <% end %>
 
-                        <!-- Link to hide an activity -->
+                        <!-- Link to hide activity path to hide activity -->
                         <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
                             <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                              <!--Set eye slash icon to hide link_to-->
                               <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
                             </button>
                         <% end %>
+
 
                         <!-- THIS IS TO DISPLAY TOTAL TIME -->
                         <!--<div id="total_time<%=activity.id%>">-->
@@ -300,12 +294,10 @@
       </ul>
     </div>
 
-
-    <!--The div where the forms for creating activities and categories will be to keep things organized-->
+    <!--Set forms for creating activities and categories to hidden -->
     <div id="form" hidden="true" style="padding-left: 3%">
 
-      <!--The form for creating an activity
-          We once again use paths as they are easier to maintain as well as more readable-->
+      <!--Create activity-->
         <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
             <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
 
@@ -413,6 +405,17 @@
   /*list item size*/
   li.list-group-item {
     width: 95%;
+  }
+
+  .dateHeading{
+    margin: 0 auto;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: darkblue;
+    padding: 10px;
+    width: 50%;
+  }
+  #date{
   }
 </style>
 
