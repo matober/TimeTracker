@@ -57,7 +57,7 @@
     <!--Categories Heading-->
     <h3 style="padding-left: 3%"><u>My Categories</u></h3>
 
-      <ul id="Categories" class="connectedSortable">
+      <ul id="theCategories" class="connectedSortable">
         <!--Loop through categories in database-->
         <% @categories.each do |cats| %>
             <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->

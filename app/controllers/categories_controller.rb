@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-
+  respond_to :html, :js, :json
   #Function that creates the category with the given parameters
   def create_category
     @category = Category.new(category_params)

@@ -13,7 +13,7 @@
 <% end %>
 
 <!--Form for creating a category-->
-<%= form_for @category, :url => create_cat_path, remote: true do |c| %>
+<%= form_for @category, :url => create_cat_path, method:'POST', remote: true do |c| %>
     <!--Text field to input a category name-->
     <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name'%>
 
