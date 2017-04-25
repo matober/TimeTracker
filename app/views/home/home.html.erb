@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <meta charset="utf-8">
+  <!-- If IE use the latest rendering engine -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Set the page to the width of the device and set the zoon level -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 
 <!--IF THE USER IS LOGGED IN, DISPLAY THE FOLLOWING -->
 <% if current_user %>
-    <!--
-    <style>
-    .navbar {
-      background-color:#2F4F4F
-    }
-    </style>
-    -->
+    <!-- Navigation Bar-->
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
+            <!--Displays three bars-->
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -33,7 +30,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Signed in as <%= current_user.email %></a></li>
+            <li><a href="#">Hi <%=current_user.first_name %></a></li>
             <li>
               <%= link_to 'Sign Out', sign_out_path, method: :delete %>
             </li>
@@ -43,27 +40,26 @@
     </nav>
 
     <body>
+    <!--Display Date and next/previous buttons-->
     <ul class="pager">
-
-      <h1 align="center" id="date"></h1>
+      <div class="dateHeading"><b><h1 align="center" id="date"></h1></b></div>
       <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
       <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
     </ul>
 
+    <!--Button to create activity/category-->
     <div style="padding-left: 80%">
       <button id="CreateButton" style="background-color: transparent; border: none">
-        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create Activity</span></i>
+        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create</span></i>
       </button>
     </div>
 
+    <!--Categories Heading-->
     <h3 style="padding-left: 3%"><u>My Categories</u></h3>
 
-    <div id="theCategories">
       <ul id="Categories" class="connectedSortable">
-
-        <!-- Each loop to loop through categories -->
+        <!--Loop through categories in database-->
         <% @categories.each do |cats| %>
-
             <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
                 <div id="edit_category_<%= cats.id %>">
                   <div class="panel-group">
@@ -393,54 +389,62 @@
       </ul>
     </div>
 
-
-    <!--*************************************************************************************************************-->
-    <!--Here is where we place activities that do not belong to any categories-->
-
-
+    <!--Activities without categories-->
     <h3 style="padding-left: 2.5%"><u>Other Activities</u>
 
-      <!-- Button for showing all hidden items -->
-      <%= link_to unhide_act_path, method: :post, remote: true do %>
+      <!--Link to unhide path to show hidden activities-->
+      <%= link_to unhide_act_path, method: :post,remote: true do %>
           <button class="showHidden" style="border:none; background-color: transparent">
+            <!--Set eye icon to unhide link_to-->
             <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; color: black"></i>
           </button>
       <% end %>
     </h3>
+
+    <!--Display activities with no category-->
     <div id="theActivities">
-      <ul id="Activities" class="connectedSortable">
-        <!-- List each activity in database -->
+      <ul id="Activities" class="connectedSortable" >
+
+        <!-- Display each activity in database -->
         <% @activities.each do |activity| %>
+            <!--Check if activity is not hidden and does not a part of a category-->
             <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
-                <% if (activity.user_id == current_user.id) %>
 
-                    <div id="edit_activity_<%= activity.id %>">
+                <!--Display only categories belonging to the user-->
+                <% if(activity.user_id == current_user.id) %>
 
-                      <li class="list-group-item" id='<%= activity.id %>' style="list-style: none;">
+                    <!--Pass activity id, used for hide and destroy js-->
+                    <div id="edit_activity_<%= activity.id%>">
+                      <!--Pass activity id, used for sortable-->
+                      <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
                         <!-- Display activity name -->
-
                         <label class="my_label"><%= activity.a_name %></label>
 
-
-                        <!-- Link to delete an activity -->
+                        <!-- Link to delete activity path to delete activity -->
                         <%= link_to destroy_act_path(activity.id), method: :delete,
-                                    data: {confirm: "Are you sure?"}, remote: true do %>
+                                    data: { confirm: "Are you sure?" }, remote: true do %>
+                            <!--Set trash can icon to delete link_to-->
                             <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
                         <% end %>
 
-                        <!-- Link to edit an activity -->
+                        <!-- Link to edit activity path to edit activity-->
                         <%= link_to edit_act_path(activity.id), remote: true do %>
                             <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                              <!--Set pencil icon to edit link_to-->
                               <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                             </button>
                         <% end %>
 
-                        <!-- Link to hide an activity -->
-                        <%= link_to hide_act_path(activity.id), method: :post, remote: true do %>
+
+                        <!-- Link to hide activity path to hide activity -->
+                        <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+
                             <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                              <!--Set eye slash icon to hide link_to-->
                               <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
                             </button>
                         <% end %>
+
 
                         <!-- THIS IS TO DISPLAY TOTAL TIME -->
                         <!--<div id="total_time<%= activity.id %>">-->
@@ -672,22 +676,22 @@
                           </div>
                         </label>
                       </li>
-                    </div>
 
-                <% end %>
-            <% end %> <!-- End of if statement -->
+
+                    </div>
+                <% end %> <!--End of user if statement-->
+            <% end %> <!-- End of hidden if statement -->
         <% end %> <!-- End of activity loop -->
       </ul>
     </div>
 
-
-    <!--The div where the forms for creating activities and categories will be to keep things organized-->
+    <!--Set forms for creating activities and categories to hidden -->
     <div id="form" hidden="true" style="padding-left: 3%">
 
-      <!--The form for creating an activity
-          We once again use paths as they are easier to maintain as well as more readable-->
-      <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
-          <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name' %> <!--Input for activity name-->
+
+      <!--Create activity-->
+        <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
+            <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
 
           <!--Assign a category to an activity
               We use a drop down list to allow the selection of a category
@@ -695,38 +699,39 @@
           <%= a.select :category_id,
                        Category.where(:user_id => current_user.id).collect { |c| [c.c_name, c.id] }, include_blank: '--No Category--' %>
 
-          <!--The submit button to create the activity-->
-          <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary' %>
-      <% end %>
+
+            <!--Submit button to create activity-->
+            <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
+        <% end %>
+
 
       <!--The form for creating a category -->
-
       <%= form_for @category, :url => create_cat_path, remote: true do |c| %>
 
-          <!--Text field to input a category name-->
-          <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name' %>
-
-          <!--Button to submit the inputs for the fields and create a category-->
-          <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary' %>
+          <!--Text field to input category name-->
+          <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name'%>
+          <!--Button to submit the inputs and create a category-->
+          <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
       <% end %>
     </div>
 
-    <!--This div is used to render the edit form of an activity-->
-    <div id='editContainer' , align="center">
-    </div>
+    <!--Render the edit form of an activity-->
+    <div id = 'editContainer', align="center"></div>
 
-    <!--This div is used to render the edit form of a category-->
-    <div id='editCatContainer' , align="center">
-    </div>
+    <!--Render the edit form of a category-->
+    <div id = 'editCatContainer', align="center"></div>
+
     </body>
 
 
     <!-- IF THE USER IS NOT LOGGED IN, DISPLAY THE FOLLOWING -->
 <% else %>
 
+    <!--Navigation bar-->
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only"></span>
             <span class="icon-bar"></span>
@@ -735,7 +740,6 @@
           </button>
           <a class="navbar-brand" href="#">TimeTracker</a>
         </div>
-
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li class="active">
@@ -745,7 +749,7 @@
       </div>
     </nav>
 
-    <!--Simple div container to display the welcome message-->
+    <!--Display the welcome message-->
     <div class="loginContainer" align="center">
       <h1 align="center">
         <b>
@@ -754,34 +758,35 @@
         </b>
       </h1>
 
-      <!--Div container to store the buttons to either login or signup-->
+      <!--Buttons to login or signup-->
       <div class="container">
         <br>
-
-        <!--Button to take the user to the login page via a path-->
+        <!--Button to take the user to the login page via path-->
         <%= button_to 'Login', sign_in_path, :method => 'get', class: 'btn' %>
         <br>
 
-        <!--Button to take the user to the signup page via a path-->
+        <!--Button to take the user to the signup page via path-->
         <%= button_to 'Sign Up', sign_up_path, :method => 'get', class: 'btn' %>
       </div>
     </div>
-
-
 <% end %>
 
 <script>
-    $('#CreateButton').click(function (e) {
+
+//  Show create new activity and category forms
+    $('#CreateButton').click(function(e){
+
         e.preventDefault(); //to prevent standard click event
         $('#form').toggle();
     });
 
-    //    displays current day
+    //    Display current day
     var d = new Date();
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     document.getElementById("date").innerHTML = (days[d.getUTCDay()] + ", " + months[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear());
+
 
 </script>
 
@@ -799,10 +804,15 @@
 </style>
 
 <script>
-    $(document).ready(function () {
+
+    //call function to keep track of sorted activity positions
+    $(document).ready(function(){
         callAll();
     });
-    function callAll() {
+
+    //Save sorted activities position
+    function callAll(){
+
         var ready, set_positions;
         set_positions = function () {
             // loop through and give each task a data-pos
@@ -811,22 +821,32 @@
                 $(this).attr("data-pos", i + 1);
             });
         }
+
+        //call function to save positions
         set_positions();
+        //Make activities without categories sortable
         $('#Activities').sortable();
         $('#Activities').disableSelection();
+        //Make categories sortable
         $('#Categories').sortable();
         $('#Categories').disableSelection();
-        $('.connectedSortableTest').sortable();
-        $('.connectedSortableTest').disableSelection();
-        // after the order changes
-        $('#Activities').sortable().bind('sortupdate', function (e, ui) {
+
+        //Make activities under a category sortable
+        $('.activitiesWithCat').sortable();
+        $('.activitiesWithCat').disableSelection()
+
+        // Save new sorted position (activities without a category)
+        $('#Activities').sortable().bind('sortupdate', function(e, ui) {
+
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-            // populate the updated_order array with the new task positions
-            $('#Activities li').each(function (i) {
-                updated_order.push({id: $(this).attr('id'), position: i});
+
+            // push new position into array
+            $('#Activities li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
+
             });
             // send the updated order via ajax
             $.ajax({
@@ -836,14 +856,20 @@
                 data: {order: updated_order}
             });
         });
-        $('#Categories').sortable().bind('sortupdate', function (e, ui) {
+
+
+        // Save new sorted position (Categories) --Does not currently work
+        $('#Categories').sortable().bind('sortupdate', function(e, ui) {
+
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-            // populate the updated_order array with the new task positions
-            $('#Categories li').each(function (i) {
-                updated_order.push({id: $(this).attr('id'), position: i});
+
+            // push new position into array
+            $('#Categories li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
+
             });
             // send the updated order via ajax
             $.ajax({
@@ -852,15 +878,21 @@
                 data: {order: updated_order}
             });
         });
-        // after the order changes
-        $('.connectedSortableTest').sortable().bind('sortupdate', function (e, ui) {
+
+
+        // Save new sorted position (activities with category)
+        $('.activitiesWithCat').sortable().bind('sortupdate', function(e, ui) {
+
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-            // populate the updated_order array with the new task positions
-            $('.connectedSortableTest li').each(function (i) {
-                updated_order.push({id: $(this).attr('id'), position: i});
+
+
+            // push new positions into array
+            $('.activitiesWithCat li').each(function(i){
+                updated_order.push({ id: $(this).attr('id'), position: i });
+
             });
             // send the updated order via ajax
             $.ajax({
@@ -872,10 +904,7 @@
     }
 </script>
 
-<!-- Javascript for saving order-->
-<script>
-</script>
-
+<!--############MAY NEED TO DELETE ##########################-->
 <!--BELOW IS THE CODE USED TO SWITCH THE STATE OF BUTTONS AND THE AJAX CALL TO UPDATE TIME-->
 <script>
     function changeImg(img) {
@@ -901,12 +930,36 @@
         });
     }))
 
+
 </script>
+<!--################################-->
 
 <style>
-  /*removes extra space from collapsible panels*/
+  /*Place create activity and category forms on same line*/
+  form{
+    display: inline-block;
+    padding-bottom: 5%;
+  }
+
+  /*Set list item width*/
+  li.list-group-item {
+    width: 95%;
+  }
+
+  /*Create border around current date*/
+  .dateHeading{
+    margin: 0 auto;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: darkblue;
+    padding: 10px;
+    width: 50%;
+  }
+
+  /*Remove extra space from collapsible panels*/
   .panel-group {
     margin: 0 !important;
+
     padding: 0 !important;
     /*border-style: groove;*/
   }

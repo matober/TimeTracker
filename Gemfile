@@ -54,9 +54,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'bcrypt-ruby', :require => 'bcrypt'
+gem 'bcrypt-ruby', :require => 'bcrypt' #We use this to encrypt the passwords
 
-gem 'responders'
+gem 'responders' #We use this to allow every method in the controller to respond to Ajax calls
 
 gem 'authlogic', '3.5.0'
 

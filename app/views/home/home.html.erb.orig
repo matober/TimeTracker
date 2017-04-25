@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="utf-8">
+  <!-- If IE use the latest rendering engine -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Set the page to the width of the device and set the zoon level -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
 </head>
-
 
 
 <!--IF THE USER IS LOGGED IN, DISPLAY THE FOLLOWING -->
 <% if current_user %>
-    <!--
-    <style>
-    .navbar {
-      background-color:#2F4F4F
-    }
-    </style>
-    -->
+    <!-- Navigation Bar-->
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
+            <!--Displays three bars-->
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -34,7 +30,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Signed in as <%=current_user.email %></a></li>
+            <li><a href="#">Hi <%=current_user.first_name %></a></li>
             <li>
               <%= link_to 'Sign Out', sign_out_path, method: :delete %>
             </li>
@@ -43,315 +39,699 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <body>
+    <!--Display Date and next/previous buttons-->
     <ul class="pager">
-
-      <h1 align="center" id="date"></h1>
+      <div class="dateHeading"><b><h1 align="center" id="date"></h1></b></div>
       <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous </a></li>
       <li class="next"><a href="#"> Next<span aria-hidden="true">&rarr;</span></a></li>
     </ul>
 
+    <!--Button to create activity/category-->
     <div style="padding-left: 80%">
       <button id="CreateButton" style="background-color: transparent; border: none">
-        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create Activity</span></i>
+        <i class="fa fa-plus-circle fa-2x" aria-hidden="true" style="color: green"><span style="color: black"> Create</span></i>
       </button>
     </div>
 
-<<<<<<< HEAD
-
-    <ul class="list-group-sortable" id="Activities" >
-=======
+    <!--Categories Heading-->
     <h3 style="padding-left: 3%"><u>My Categories</u></h3>
 
-    <div id = "theCategories">
       <ul id="Categories" class="connectedSortable">
-
-        <!-- Each loop to loop through categories -->
+        <!--Loop through categories in database-->
         <% @categories.each do |cats| %>
-
             <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
-                <div id="edit_category_<%= cats.id%>">
-                <div class="panel-group">
-                  <div class="panel text-left">
-                    <div class="panel-heading" id='<%=cats.id%>'>
-                      <h4 class="panel-title">
->>>>>>> 329dc4edfebf6f256dbb53bb596435e572e4e40a
+                <div id="edit_category_<%= cats.id %>">
+                  <div class="panel-group">
+                    <div class="panel text-left">
+                      <div class="panel-heading" id='<%= cats.id %>'>
+                        <h4 class="panel-title">
 
-                        <!--Collapsible Panel linked to a div "collapse(cat.id)" where ID specifies which
-                            panel gets toggled to collapse or expand-->
-                        <a data-toggle="collapse" href="#collapse<%= cats.id%>">
-                          <%= cats.c_name %>
+                          <!--Collapsible Panel linked to a div "collapse(cat.id)" where ID specifies which
+                              panel gets toggled to collapse or expand-->
+                          <a data-toggle="collapse" href="#collapse<%= cats.id %>">
+                            <%= cats.c_name %>
 
-                          <!--We use paths for the link_tos as routes are easier to maintain and much more readible-->
+                            <!--We use paths for the link_tos as routes are easier to maintain and much more readible-->
 
-                          <!-- Link to the destroy category path so users can delete the category -->
-                          <%= link_to destroy_cat_path(cats.id), method: :delete,
-                                      data: { confirm: 'Warning!
+                            <!-- Link to the destroy category path so users can delete the category -->
+                            <%= link_to destroy_cat_path(cats.id), method: :delete,
+                                        data: {confirm: 'Warning!
                                     Deleting category will delete activities associated with it.
-                                    Would you like to continue?' }, remote: true do %>
+                                    Would you like to continue?'}, remote: true do %>
 
-                              <!--Set the icon to look like a trashcan for the link to-->
-                              <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%;color: darkblue"></i>
-                          <% end %>
+                                <!--Set the icon to look like a trashcan for the link to-->
+                                <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%;color: darkblue"></i>
+                            <% end %>
 
-                          <!--Link to edit the category so users can edit a category -->
-                          <%= link_to edit_cat_path(cats.id), remote:true do %>
+                            <!--Link to edit the category so users can edit a category -->
+                            <%= link_to edit_cat_path(cats.id), remote: true do %>
 
-                              <!--Set the icon to look like a pencil for the link to-->
-                              <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editCategory" style="color: darkblue"></i>
-
-                          <% end %>
-
-                          <!-- Link to for showing all hidden items in a category-->
-                          <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
-
-                              <!--Set the icon to look like a eye with a slash for the link to-->
-                              <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
-                          <% end %>
-
-                        </a>
-                      </h4>
-
-                    </div>
-
-                    <!--Each panel needs to have a unique ID so the collapsible knows
-                        which div to expand or collapse-->
-                    <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
-                      <ul id="category_activities<%=cats.id%>" class="connectedSortableTest">
-
-                        <!--Each loop for each activity in a category-->
-                        <% cats.activities.each do |activity| %>
-
-                            <!--We place everything in the following div that uses the activity ID
-                                so we can simply hide the entire div when the user requests to hide an activity-->
-                            <% if activity.hidden == false || activity.hidden == nil%>
-
-                                <div id="edit_activity_<%= activity.id%>">
-
-                                  <!--List item used to display the activities in a list order
-                                      Also has a unique ID using the activity ID so we can enable sorting-->
-                                  <li class="list-group-item" id='<%=activity.id%>'>
-
-                                    <!--We do not want to display any hidden activities so we check the hidden boolean-->
-
-                                    <!--Display the activity name -->
-                                    <label class="my_label"><%= activity.a_name %></label>
-
-                                    <!-- Link to delete an activity -->
-                                    <%= link_to destroy_act_path(activity.id), method: :delete,
-                                                data: { confirm: "Are you sure?" }, remote: true do %>
-
-                                        <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
-                                    <% end %>
-
-                                    <!-- Link to edit activity -->
-                                    <%= link_to edit_act_path(activity.id), remote: true do %>
-                                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                                    <% end %>
-
-                                    <!-- Link to hide activity -->
-                                    <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
-                                        <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
-                                    <% end %>
-
-                                    <!--We use paths again for the activity link_to as it is easier
-                                        to maintain routes and makes it much more readiable-->
-
-                                    <!-- THIS IS TO DISPLAY TOTAL TIME -->
-                                    <!--<div id="total_time<%=activity.id%>">-->
-                                    <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
-                                    <!--</div>-->
-
-
-                                    <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
-                                    <!--<div class="scroll-pane">-->
-                                    <!--<% (0..12).each do |am| %>-->
-                                        <!--<% if am < 12 %>-->
-                                            <!--<label><%=am%>:00 AM</label>-->
-                                            <!--<% (1..4).each do |amID| %>-->
-                                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                                <!--</button>-->
-                                                <!--<% end %>-->
-                                            <!--<% else %>-->
-                                            <!--<label><%=am%>:00 PM</label>-->
-                                            <!--<% (1..4).each do |amID| %>-->
-                                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                                <!--</button>-->
-                                                <!--<% end %>-->
-                                            <!--<% end %>-->
-
-                                        <!--<% end %>-->
-
-                                    <!--<% (13..23).each do |pm| %>-->
-                                        <!--<label><%=pm-12%>:00 PM</label>-->
-                                        <!--<% (1..4).each do |pmID| %>-->
-                                            <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
-                                            <!--</button>-->
-                                            <!--<% end %>-->
-                                        <!--<% end %>-->
-                                    <!--</div>-->
-
-                                  </li>
-
-                                </div>
+                                <!--Set the icon to look like a pencil for the link to-->
+                                <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editCategory" style="color: darkblue"></i>
 
                             <% end %>
 
-                      <% end %>
+                            <!-- Link to for showing all hidden items in a category-->
+                            <%= link_to unhide_cat_path(cats.id), method: :post, remote: true do %>
 
+                                <!--Set the icon to look like a eye with a slash for the link to-->
+                                <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
+                            <% end %>
 
-                      </ul>
+                          </a>
+                        </h4>
+
+                      </div>
+
+                      <!--Each panel needs to have a unique ID so the collapsible knows
+                          which div to expand or collapse-->
+                      <div id="collapse<%= cats.id %>" class="panel-collapse collapse">
+                        <ul id="category_activities<%= cats.id %>" class="connectedSortableTest">
+                          <!--Each loop for each activity in a category-->
+                          <% cats.activities.each do |activity| %>
+
+                              <!--We place everything in the following div that uses the activity ID
+                                  so we can simply hide the entire div when the user requests to hide an activity-->
+                              <% if activity.hidden == false || activity.hidden == nil %>
+
+                                  <div id="edit_activity_<%= activity.id %>">
+
+                                    <!--List item used to display the activities in a list order
+                                        Also has a unique ID using the activity ID so we can enable sorting-->
+                                    <li class="list-group-item" id='<%= activity.id %>'>
+
+                                      <!--We do not want to display any hidden activities so we check the hidden boolean-->
+
+                                      <!--Display the activity name -->
+                                      <label class="my_label"><%= activity.a_name %></label>
+
+                                      <!-- Link to delete an activity -->
+                                      <%= link_to destroy_act_path(activity.id), method: :delete,
+                                                  data: {confirm: "Are you sure?"}, remote: true do %>
+
+                                          <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
+                                      <% end %>
+
+                                      <!-- Link to edit activity -->
+                                      <%= link_to edit_act_path(activity.id), remote: true do %>
+                                          <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                                      <% end %>
+
+                                      <!-- Link to hide activity -->
+                                      <%= link_to hide_act_path(activity.id), method: :post, remote: true do %>
+                                          <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
+                                      <% end %>
+
+                                      <!--We use paths again for the activity link_to as it is easier
+                                          to maintain routes and makes it much more readiable-->
+
+                                      <!-- THIS IS TO DISPLAY TOTAL TIME -->
+                                      <!--<div id="total_time<%= activity.id %>">-->
+                                        <!--<p class='total_time_display'><%= activity.total_time %> minutes</p>-->
+                                      <!--</div>-->
+
+                                      <div class="scroll-pane">
+                                        <div class="container1">
+                                          <div class="times1" style="display:inline; float:left">
+                                            <b>12:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled1', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled1', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled2', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled2', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled3', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled3', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled4', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled4', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>1:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled5', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled5', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled6', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled6', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled7', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled7', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled8', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled8', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>2:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled9', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled9', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled10', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled10', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled11', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled11', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled12', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled12', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>3:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled13', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled13', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled14', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled14', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled15', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled15', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled16', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled16', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>4:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled17', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled17', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled18', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled18', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled19', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled19', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled20', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled20', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>5:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled21', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled21', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled22', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled22', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled23', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled23', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled24', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled24', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>6:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled25', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled25', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled26', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled26', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled27', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled27', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled28', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled28', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>7:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled29', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled29', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled30', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled30', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled31', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled31', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled32', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled32', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>8:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled33', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled33', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled34', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled34', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled35', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled35', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled36', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled36', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>9:00 PM</b>
+
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled37', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled37', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled38', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled38', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled39', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled39', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled40', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled40', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>10:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled41', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled41', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled42', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled42', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled43', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled43', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled44', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled44', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>11:00 PM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled45', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled45', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled46', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled46', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled47', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled47', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled48', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled48', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>12:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled49', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled49', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled50', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled50', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled51', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled51', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled52', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled52', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>1:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled53', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled53', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled54', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled54', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled55', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled55', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled56', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled56', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>2:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled57', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled57', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled58', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled58', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled59', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled59', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled60', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled60', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>3:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled61', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled61', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled62', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled62', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled63', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled63', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled64', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled64', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>4:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled65', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled65', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled66', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled66', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled67', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled68', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled69', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled69', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>5:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled70', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled70', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled71', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled71', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled72', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled72', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled73', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled73', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>6:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled74', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled74', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled75', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled75', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled76', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled76', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled77', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled77', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>7:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled78', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled78', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled79', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled79', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled80', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled80', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled81', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled81', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>8:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled82', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled82', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled83', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled83', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled84', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled84', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled85', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled85', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>9:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled86', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled86', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled87', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled87', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled88', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled88', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled89', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled89', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>10:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled90', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled90', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled91', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled91', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled92', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled92', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled93', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled93', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <b>11:00 AM</b>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled94', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled94', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled95', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled95', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled96', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled96', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                            <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled97', :onclick => 'changeImg(this)', remote: true) %>
+                                            <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled97', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  </li>
+                              <% end %>
+
+                          <% end %>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
             <% end %>
         <% end %>
       </ul>
     </div>
 
-
-
-    <!--*************************************************************************************************************-->
-    <!--Here is where we place activities that do not belong to any categories-->
-
-
+    <!--Activities without categories-->
     <h3 style="padding-left: 2.5%"><u>Other Activities</u>
 
-      <!-- Button for showing all hidden items -->
+      <!--Link to unhide path to show hidden activities-->
       <%= link_to unhide_act_path, method: :post,remote: true do %>
           <button class="showHidden" style="border:none; background-color: transparent">
+            <!--Set eye icon to unhide link_to-->
             <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; color: black"></i>
           </button>
       <% end %>
     </h3>
+
+    <!--Display activities with no category-->
     <div id="theActivities">
       <ul id="Activities" class="connectedSortable" >
 
-        <!-- List each activity in database -->
-
+        <!-- Display each activity in database -->
         <% @activities.each do |activity| %>
+            <!--Check if activity is not hidden and does not a part of a category-->
             <% if (activity.hidden == false || activity.hidden == nil) && activity.category_id == nil %>
+
+                <!--Display only categories belonging to the user-->
                 <% if(activity.user_id == current_user.id) %>
 
+                    <!--Pass activity id, used for hide and destroy js-->
                     <div id="edit_activity_<%= activity.id%>">
-
+                      <!--Pass activity id, used for sortable-->
                       <li class="list-group-item" id='<%=activity.id%>' style="list-style: none;">
                         <!-- Display activity name -->
-
                         <label class="my_label"><%= activity.a_name %></label>
 
-
-                        <!-- Link to delete an activity -->
+                        <!-- Link to delete activity path to delete activity -->
                         <%= link_to destroy_act_path(activity.id), method: :delete,
                                     data: { confirm: "Are you sure?" }, remote: true do %>
+                            <!--Set trash can icon to delete link_to-->
                             <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
                         <% end %>
 
-                        <!-- Link to edit an activity -->
+                        <!-- Link to edit activity path to edit activity-->
                         <%= link_to edit_act_path(activity.id), remote: true do %>
                             <button class="editActivity" style="border:none; padding:0; background-color: transparent">
+                              <!--Set pencil icon to edit link_to-->
                               <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
                             </button>
                         <% end %>
 
-                        <!-- Link to hide an activity -->
+
+                        <!-- Link to hide activity path to hide activity -->
                         <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+
                             <button class="hideActivity" style="border:none; padding:0; background-color: transparent">
+                              <!--Set eye slash icon to hide link_to-->
                               <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
                             </button>
                         <% end %>
 
+
                         <!-- THIS IS TO DISPLAY TOTAL TIME -->
-                        <!--<div id="total_time<%=activity.id%>">-->
-                        <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                        <!--<div id="total_time<%= activity.id %>">-->
+                          <!--<p class='total_time_display'><%= activity.total_time %> minutes</p>-->
                         <!--</div>-->
 
 
                         <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
-                        <!--<div class="scroll-pane">-->
-                        <!--<% (0..12).each do |am| %>-->
-                            <!--<% if am < 12 %>-->
-                                <!--<label><%=am%>:00 AM</label>-->
-                                <!--<% (1..4).each do |amID| %>-->
-                                    <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                    <!--</button>-->
-                                    <!--<% end %>-->
-                                <!--<% else %>-->
-                                <!--<label><%=am%>:00 PM</label>-->
-                                <!--<% (1..4).each do |amID| %>-->
-                                    <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                    <!--</button>-->
-                                    <!--<% end %>-->
-                                <!--<% end %>-->
+                        <label class="scroll-pane">
+                          <div class="container2">
+                            <div class="times2" style="float:left">
+                              <b>12:00 PM</b>
+                              <%= link_to(image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled1', :onclick => 'changeImg(this)', remote: true)) %>
+                              <%= link_to(image_tag('filledbubble.png', :size => '15x15', :id => 'filled1', :onclick => 'changeImg(this)', :style => 'display:none', remote: true)) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled2', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled2', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled3', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled3', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled4', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled4', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>1:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled5', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled5', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled6', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled6', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled7', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled7', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled8', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled8', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>2:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled9', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled9', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled10', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled10', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled11', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled11', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled12', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled12', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>3:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled13', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled13', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled14', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled14', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled15', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled15', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled16', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled16', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>4:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled17', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled17', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled18', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled18', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled19', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled19', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled20', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled20', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>5:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled21', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled21', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled22', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled22', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled23', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled23', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled24', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled24', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>6:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled25', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled25', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled26', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled26', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled27', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled27', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled28', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled28', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>7:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled29', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled29', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled30', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled30', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled31', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled31', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled32', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled32', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>8:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled33', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled33', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled34', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled34', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled35', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled35', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled36', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled36', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>9:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled37', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled37', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled38', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled38', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled39', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled39', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled40', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled40', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>10:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled41', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled41', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled42', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled42', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled43', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled43', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled44', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled44', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>11:00 PM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled45', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled45', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled46', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled46', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled47', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled47', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled48', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled48', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>12:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled49', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled49', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled50', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled50', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled51', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled51', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled52', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled52', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>1:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled53', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled53', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled54', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled54', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled55', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled55', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled56', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled56', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>2:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled57', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled57', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled58', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled58', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled59', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled59', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled60', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled60', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>3:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled61', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled61', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled62', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled62', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled63', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled63', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled64', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled64', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>4:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled65', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled65', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled66', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled66', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled67', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled68', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled69', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled69', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>5:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled70', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled70', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled71', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled71', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled72', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled72', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled73', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled73', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>6:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled74', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled74', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled75', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled75', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled76', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled76', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled77', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled77', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>7:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled78', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled78', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled79', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled79', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled80', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled80', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled81', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled81', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>8:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled82', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled82', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled83', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled83', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled84', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled84', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled85', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled85', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>9:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled86', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled86', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled87', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled87', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled88', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled88', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled89', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled89', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>10:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled90', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled90', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled91', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled91', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled92', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled92', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled93', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled93', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <b>11:00 AM</b>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled94', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled94', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled95', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled95', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled96', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled96', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                              <%= image_tag('unfilledbubble.png', :size => '15x15', :id => 'unfilled97', :onclick => 'changeImg(this)', remote: true) %>
+                              <%= image_tag('filledbubble.png', :size => '15x15', :id => 'filled97', :onclick => 'changeImg(this)', :style => 'display:none', remote: true) %>
+                            </div>
+                          </div>
+                        </label>
+                      </li>
 
-                            <!--<% end %>-->
-
-                        <!--<% (13..23).each do |pm| %>-->
-                            <!--<label><%=pm-12%>:00 PM</label>-->
-                            <!--<% (1..4).each do |pmID| %>-->
-                                <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
-                                <!--</button>-->
-                                <!--<% end %>-->
-                            <!--<% end %>-->
-                      </li> <!-- End of list item -->
 
                     </div>
-
-                <% end %>
-            <% end %> <!-- End of if statement -->
+                <% end %> <!--End of user if statement-->
+            <% end %> <!-- End of hidden if statement -->
         <% end %> <!-- End of activity loop -->
       </ul>
     </div>
 
-
-    <!--The div where the forms for creating activities and categories will be to keep things organized-->
+    <!--Set forms for creating activities and categories to hidden -->
     <div id="form" hidden="true" style="padding-left: 3%">
 
-      <!--The form for creating an activity
-          We once again use paths as they are easier to maintain as well as more readable-->
+
+      <!--Create activity-->
         <%= form_for @activity, :url => create_act_path, remote: true do |a| %>
             <%= a.text_field :a_name, id: 'a_name_field', placeholder: ' Activity Name'%> <!--Input for activity name-->
 
-            <!--Assign a category to an activity
-                We use a drop down list to allow the selection of a category
-                We also allow the assigning of no category-->
-            <%= a.select :category_id,
-                         Category.where(:user_id => current_user.id).collect {|c| [c.c_name, c.id]}, include_blank: '--No Category--' %>
+          <!--Assign a category to an activity
+              We use a drop down list to allow the selection of a category
+              We also allow the assigning of no category-->
+          <%= a.select :category_id,
+                       Category.where(:user_id => current_user.id).collect { |c| [c.c_name, c.id] }, include_blank: '--No Category--' %>
 
-            <!--The submit button to create the activity-->
+
+            <!--Submit button to create activity-->
             <%= a.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
         <% end %>
 
-      <!--The form for creating a category -->
 
+      <!--The form for creating a category -->
       <%= form_for @category, :url => create_cat_path, remote: true do |c| %>
 
-          <!--Text field to input a category name-->
+          <!--Text field to input category name-->
           <%= c.text_field :c_name, id: 'c_name_field', placeholder: ' Category Name'%>
-
-          <!--Button to submit the inputs for the fields and create a category-->
+          <!--Button to submit the inputs and create a category-->
           <%= c.submit 'Create', id: 'submitButton', class: 'btn btn-primary'%>
       <% end %>
     </div>
 
-    <!--This div is used to render the edit form of an activity-->
-    <div id = 'editContainer', align="center">
-    </div>
+    <!--Render the edit form of an activity-->
+    <div id = 'editContainer', align="center"></div>
 
-    <!--This div is used to render the edit form of a category-->
-    <div id = 'editCatContainer', align="center">
-    </div>
+    <!--Render the edit form of a category-->
+    <div id = 'editCatContainer', align="center"></div>
+
     </body>
 
 
     <!-- IF THE USER IS NOT LOGGED IN, DISPLAY THE FOLLOWING -->
 <% else %>
 
+    <!--Navigation bar-->
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only"></span>
             <span class="icon-bar"></span>
@@ -360,7 +740,6 @@
           </button>
           <a class="navbar-brand" href="#">TimeTracker</a>
         </div>
-
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li class="active">
@@ -370,51 +749,54 @@
       </div>
     </nav>
 
-    <!--Simple div container to display the welcome message-->
+    <!--Display the welcome message-->
     <div class="loginContainer" align="center">
       <h1 align="center">
         <b>
-          Welcome to the Time Tracker App <br><h2>Please log in or sign up</h2>
+          Welcome to the Time Tracker App <br>
+          <h2>Please log in or sign up</h2>
         </b>
       </h1>
 
-      <!--Div container to store the buttons to either login or signup-->
+      <!--Buttons to login or signup-->
       <div class="container">
         <br>
-
-        <!--Button to take the user to the login page via a path-->
+        <!--Button to take the user to the login page via path-->
         <%= button_to 'Login', sign_in_path, :method => 'get', class: 'btn' %>
         <br>
 
-        <!--Button to take the user to the signup page via a path-->
+        <!--Button to take the user to the signup page via path-->
         <%= button_to 'Sign Up', sign_up_path, :method => 'get', class: 'btn' %>
       </div>
     </div>
-
-
 <% end %>
 
 <script>
+
+//  Show create new activity and category forms
     $('#CreateButton').click(function(e){
+
         e.preventDefault(); //to prevent standard click event
         $('#form').toggle();
     });
 
-    //    displays current day
+    //    Display current day
     var d = new Date();
-    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    document.getElementById("date").innerHTML = (days[d.getUTCDay()]  + ", " + months[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear());
+    document.getElementById("date").innerHTML = (days[d.getUTCDay()] + ", " + months[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear());
+
 
 </script>
 
 <style>
   /*places forms on same line*/
-  form{
+  form {
     display: inline-block;
     padding-bottom: 5%;
   }
+
   /*list item size*/
   li.list-group-item {
     width: 95%;
@@ -422,123 +804,181 @@
 </style>
 
 <script>
+
+    //call function to keep track of sorted activity positions
     $(document).ready(function(){
         callAll();
     });
+
+    //Save sorted activities position
     function callAll(){
+
         var ready, set_positions;
-        set_positions = function(){
+        set_positions = function () {
             // loop through and give each task a data-pos
             // attribute that holds its position in the DOM
-            $('.list-group-item').each(function(i){
-                $(this).attr("data-pos",i+1);
+            $('.list-group-item').each(function (i) {
+                $(this).attr("data-pos", i + 1);
             });
         }
+
+        //call function to save positions
         set_positions();
+        //Make activities without categories sortable
         $('#Activities').sortable();
         $('#Activities').disableSelection();
+        //Make categories sortable
         $('#Categories').sortable();
         $('#Categories').disableSelection();
-        $('.connectedSortableTest').sortable();
-        $('.connectedSortableTest').disableSelection();
-        // after the order changes
+
+        //Make activities under a category sortable
+        $('.activitiesWithCat').sortable();
+        $('.activitiesWithCat').disableSelection()
+
+        // Save new sorted position (activities without a category)
         $('#Activities').sortable().bind('sortupdate', function(e, ui) {
+
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-            // populate the updated_order array with the new task positions
+
+            // push new position into array
             $('#Activities li').each(function(i){
                 updated_order.push({ id: $(this).attr('id'), position: i });
+
             });
             // send the updated order via ajax
             $.ajax({
                 type: "PUT",
                 url: '/home/sort',
                 dataType: 'json',
-                data: { order: updated_order }
+                data: {order: updated_order}
             });
         });
+
+
+        // Save new sorted position (Categories) --Does not currently work
         $('#Categories').sortable().bind('sortupdate', function(e, ui) {
+
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-            // populate the updated_order array with the new task positions
+
+            // push new position into array
             $('#Categories li').each(function(i){
                 updated_order.push({ id: $(this).attr('id'), position: i });
+
             });
             // send the updated order via ajax
             $.ajax({
                 type: "PUT",
                 url: '/home/sort',
-                data: { order: updated_order }
+                data: {order: updated_order}
             });
         });
-        // after the order changes
-        $('.connectedSortableTest').sortable().bind('sortupdate', function(e, ui) {
+
+
+        // Save new sorted position (activities with category)
+        $('.activitiesWithCat').sortable().bind('sortupdate', function(e, ui) {
+
             // array to store new order
             var updated_order = []
             // set the updated positions
             set_positions();
-            // populate the updated_order array with the new task positions
-            $('.connectedSortableTest li').each(function(i){
+
+
+            // push new positions into array
+            $('.activitiesWithCat li').each(function(i){
                 updated_order.push({ id: $(this).attr('id'), position: i });
+
             });
             // send the updated order via ajax
             $.ajax({
                 type: "PUT",
                 url: '/home/sort',
-                data: { order: updated_order }
+                data: {order: updated_order}
             });
         });
     }
 </script>
 
-<!-- Javascript for saving order-->
-<script>
-</script>
-
+<!--############MAY NEED TO DELETE ##########################-->
 <!--BELOW IS THE CODE USED TO SWITCH THE STATE OF BUTTONS AND THE AJAX CALL TO UPDATE TIME-->
 <script>
-    //  function changeImages(img,act_id){
-    //    var element = document.getElementById(img);
-    //    if (element.className == 'unfilled'){
-    //        element.className = 'filled';
-    //
-    //        $.ajax({
-    //            type: "POST",
-    //            url: '/activity/increase/' + act_id
-    //        });
-    //    }
-    //    else{
-    //        element.className = 'unfilled';
-    //
-    //        $.ajax({
-    //            type: "POST",
-    //            url: '/activity/decrease/' + act_id
-    //        });
-    //    }
-    //  }
-    //
-    //  $(document.ready(function () {
-    //      $(function()
-    //      {
-    //          $('.scroll-pane').jScrollPane()
-    //      });
-    //  }))
-    //
+    function changeImg(img) {
+        if (img.src.match("unfilled")) {
+            img.src = "<%=asset_path('filledbubble.png')%>";
+            $.ajax({
+                type: "POST",
+                url: '/activity/increase' + act_id
+            });
+        }
+        else {
+            img.src = "<%=asset_path('unfilledbubble.png')%>";
+            $.ajax({
+                type: "POST",
+                url: '/activity/decrease' + act_id
+            });
+        }
+    }
+
+    $(document.ready(function () {
+        $(function () {
+            $('.scroll-pane').jScrollPane({showArrows: true});
+        });
+    }))
+
+
 </script>
+<!--################################-->
 
 <style>
-  /*removes extra space from collapsible panels*/
+  /*Place create activity and category forms on same line*/
+  form{
+    display: inline-block;
+    padding-bottom: 5%;
+  }
+
+  /*Set list item width*/
+  li.list-group-item {
+    width: 95%;
+  }
+
+  /*Create border around current date*/
+  .dateHeading{
+    margin: 0 auto;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: darkblue;
+    padding: 10px;
+    width: 50%;
+  }
+
+  /*Remove extra space from collapsible panels*/
   .panel-group {
     margin: 0 !important;
-    padding:0 !important;
+
+    padding: 0 !important;
     /*border-style: groove;*/
   }
-  li.list-group-item:nth-child(even) {background: lightgray}
+
+  li.list-group-item:nth-child(even) {
+    background: lightgray
+  }
+
   /*li:nth-child(odd) {background: #FFF}*/
+
+  .scroll-pane {
+    width: 100%;
+    height: 100px;
+    overflow: auto;
+  }
+
+  .total_time_display {
+    float: right;
+  }
 </style>
 
 </html>

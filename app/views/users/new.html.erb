@@ -4,12 +4,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Bootstrap 101 Template</title>
-
 </head>
-<body>
 
+<body>
+<!--Navigation bar-->
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -24,6 +22,8 @@
   </div>
 </nav>
 
+
+<!--Sign up page to create account-->
 <div class="loginContainer" align="center">
   <h1 align="center"><b>Sign Up</b></h1>
 
@@ -49,7 +49,6 @@
 
         <br>
         <%= u.text_field :email, placeholder: 'Email Address' %>
-        <!--<input type="text" placeholder="Enter Username" name="uname" required> -->
 
         <br>
 
@@ -57,7 +56,6 @@
 
         <br>
         <%= u.password_field :password, placeholder: 'Password' %>
-        <!--<input type="password" placeholder="Enter Password" name="psw" required> -->
 
         <br><label><b>Confirm </b></label>
         <br>

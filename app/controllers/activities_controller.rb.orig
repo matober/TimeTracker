@@ -1,15 +1,4 @@
 class ActivitiesController < ApplicationController
-<<<<<<< HEAD
-  respond_to :html, :js
-
-  def home
-    @activities = Activity.all
-    @categories = Category.all
-    @activity = Activity.new
-    @category = Category.new
-  end
-=======
->>>>>>> 329dc4edfebf6f256dbb53bb596435e572e4e40a
 
   #This is here to make the code look cleaner
   #This makes it so every function responds to html, js, and/or json when prompted by "remote: true"
@@ -90,15 +79,36 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # def increase_total_time
-  #   @activity = Activity.find(params[:id])
-  #   @activity.increment!(:total_time,15)
-  # end
-  #
-  # def decrease_total_time
-  #   @activity = Activity.find(params[:id])
-  #   @activity.decrement!(:total_time,15)
-  # end
+<<<<<<< HEAD
+  def increase
+    @activity = Activity.find(params[:id])
+    @activity.increment!(:total_time,15)
+
+    #Rerenders the page after a button is pressed
+    respond_to do |format|
+      format.js{render 'time_ajax.js.erb'}
+    end
+  end
+
+  def decrease
+    @activity = Activity.find(params[:id])
+    @activity.decrement!(:total_time,15)
+
+    #Rerenders the page after a button is pressed
+    respond_to do |format|
+      format.js{render 'time_ajax.js.erb'}
+    end
+=======
+  def increase_total_time
+    @activity = Activity.find(params[:id])
+    @activity.increment!(:total_time,15)
+  end
+
+  def decrease_total_time
+    @activity = Activity.find(params[:id])
+    @activity.decrement!(:total_time,15)
+>>>>>>> e44d77f32279ee896835386a7959820d7371a996
+  end
 
   private
 
