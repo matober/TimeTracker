@@ -17,4 +17,5 @@
 //= require bootstrap
 //= require bootstrap-sprockets
 //= require jquery.jscrollpane.min
+//= require jquery.mousewheel
 //= require_tree .

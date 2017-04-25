@@ -79,15 +79,25 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # def increase_total_time
-  #   @activity = Activity.find(params[:id])
-  #   @activity.increment!(:total_time,15)
-  # end
-  #
-  # def decrease_total_time
-  #   @activity = Activity.find(params[:id])
-  #   @activity.decrement!(:total_time,15)
-  # end
+  def increase
+    @activity = Activity.find(params[:id])
+    @activity.increment!(:total_time,15)
+
+    #Rerenders the page after a button is pressed
+    respond_to do |format|
+      format.js{render 'time_ajax.js.erb'}
+    end
+  end
+
+  def decrease
+    @activity = Activity.find(params[:id])
+    @activity.decrement!(:total_time,15)
+
+    #Rerenders the page after a button is pressed
+    respond_to do |format|
+      format.js{render 'time_ajax.js.erb'}
+    end
+  end
 
   private
 

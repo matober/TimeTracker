@@ -1,0 +1,6 @@
+<% @activities.each do |activity| %>
+<!--THIS IS TO DISPLAY TOTAL TIME -->
+<div id="total_time<%= activity.id %>">
+  <p class='total_time_display'><%= activity.total_time %> minutes</p>
+</div>
+<% end %>
