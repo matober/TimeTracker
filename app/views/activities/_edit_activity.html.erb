@@ -1,9 +1,9 @@
-<!--I place the form to edit an activity inside a div called "hideThis" so I can hide the contents using the ID-->
+<!--Place form to edit an activity inside a div called "hideThis" to hide contents using the ID-->
 <div id = 'hideThis' >
   <h1 align="center"><b>Edit <%=@activity.a_name%></b></h1>
 
   <!-- The form_for editing an activity
-       No need to pass an ID as it is automatically passed as we are rendering this from the controller method-->
+       No need to pass an ID as it is automatically passed as we are rendering this from to the controller method-->
   <%= form_for @activity, :url => update_act_path, remote: true do |a| %>
       <div class="container">
 
@@ -25,8 +25,7 @@
         <!--Submit Button to save changes-->
         <%= a.submit 'Save', class: 'btn btn-primary'%>
 
-        <!--The edit form will not disappear so I added this so users can hide the edit form so the page
-            looks cleaner-->
+        <!--Hide edit form after selecting done button-->
         <button class = 'btn btn-primary', id = 'doneSave'>Done</button>
 
       </div>

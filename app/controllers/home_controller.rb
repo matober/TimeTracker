@@ -8,6 +8,7 @@ class HomeController < ApplicationController
     @category = Category.new
   end
 
+  # Save sorted activities position
   def sort
     params[:order].each do |key, value|
       Activity.find(value[:id]).update_attribute(:priority, value[:position])

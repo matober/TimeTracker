@@ -1,5 +1,6 @@
 class User < ApplicationRecord
 
+  # Destroys all activities and categories if user is destroyed
   has_many :activities, dependent: :destroy
   has_many :categories, dependent: :destroy
 
@@ -8,7 +9,7 @@ class User < ApplicationRecord
   acts_as_authentic do |config|
     config.validate_password_field = false
   end
-
+  # Users require the following
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true, uniqueness: true

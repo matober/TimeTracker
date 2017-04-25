@@ -1,17 +1,18 @@
 <div class="editContainer" align="center">
   <h1 align="center"><b>Edit Category</b></h1>
-
+  <!--Update category path-->
   <%= form_for @category, :url => update_cat_path, remote: true do |c| %>
       <div class="container">
 
         <%= render 'shared/errors', object:@category %>
 
         <label><b>Category Name</b></label>
+        <!--Set category name-->
         <%= c.text_field :c_name, :value => @category.c_name %>
 
         <br>
+        <!--Save button -->
         <%= c.submit 'Save', class: 'btn btn-primary' %>
-        <!-- <button type="submit">Login</button> -->
 
       </div>
   <% end %>
