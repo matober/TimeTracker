@@ -3,142 +3,131 @@
     This is used to update the categories without requiring a page refresh-->
 
 <ul id="Categories" class="connectedSortable">
-
-  <!-- Each loop to loop through categories -->
+  <!--Loop through categories in database-->
   <% @categories.each do |cats| %>
 
-      <% if cats.user_id == current_user.id %>  <!--Display only categories belonging to the user-->
+      <!--Display only categories belonging to the user-->
+      <% if cats.user_id == current_user.id %>
+
+          <!--Link category to its id, needed for hide and destroy js-->
           <div id="edit_category_<%= cats.id%>">
-          <div class="panel-group">
-            <div class="panel text-left">
-              <div class="panel-heading" id='<%=cats.id%>'>
-                <h4 class="panel-title">
 
-                  <!--Collapsible Panel linked to a div "collapse(cat.id)" where ID specifies which
-                      panel gets toggled to collapse or expand-->
-                  <a data-toggle="collapse" href="#collapse<%= cats.id%>">
-                    <%= cats.c_name %>
+            <!--Create panels to store activities-->
+            <div class="panel-group">
+              <div class="panel text-left">
+                <div class="panel-heading" id='<%=cats.id%>'>
+                  <h4 class="panel-title">
 
-                    <!--We use paths for the link_tos as routes are easier to maintain and much more readible-->
+                    <!--Collapsible Panel linked to div "collapse" where ID specifies which
+                        panel gets toggled to collapse or expand-->
+                    <a data-toggle="collapse" href="#collapse<%= cats.id%>">
+                      <%= cats.c_name %>
 
-                    <!-- Link to the destroy category path so users can delete the category -->
-                    <%= link_to destroy_cat_path(cats.id), method: :delete,
-                                data: { confirm: 'Warning!
-                                    Deleting category will delete activities associated with it.
-                                    Would you like to continue?' }, remote: true do %>
+                      <!-- Link to destroy category path to delete category -->
+                      <%= link_to destroy_cat_path(cats.id), method: :delete,
+                                  data: { confirm: 'Warning! Deleting this category will delete all activities associated with it. Would you like to continue?' }, remote: true do %>
+                          <!--Set trashcan icon as delete link_to-->
+                          <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%;color: darkblue"></i>
+                      <% end %>
 
-                        <!--Set the icon to look like a trashcan for the link to-->
-                        <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%;color: darkblue"></i>
-                    <% end %>
+                      <!--Link to edit category path to edit category -->
+                      <%= link_to edit_cat_path(cats.id), remote:true do %>
+                          <!--Set pencil icon as edit link_to-->
+                          <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editCategory" style="color: darkblue"></i>
+                      <% end %>
 
-                    <!--Link to edit the category so users can edit a category -->
-                    <%= link_to edit_cat_path(cats.id) do %>
+                      <!--Link to unhide category path to unhide category-->
+                      <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
+                          <!--Set eye icon as unhide link_to-->
+                          <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
+                      <% end %>
+                    </a>
+                  </h4>
+                </div>
 
-                        <!--Set the icon to look like a pencil for the link to-->
-                        <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editCategory" style="color: darkblue"></i>
+                <!--Each panel needs to have a unique ID so the collapsible knows
+                    which div to expand or collapse-->
+                <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
+                  <!--Give id to category with activities, used for destroy js-->
+                  <ul id="category_activities<%=cats.id%>" class="activitiesWithCat">
 
-                    <% end %>
+                    <!--Loop through each activity within category-->
+                    <% cats.activities.each do |activity| %>
 
-                    <!-- Link to for showing all hidden items in a category-->
-                    <%= link_to unhide_cat_path(cats.id), method: :post,remote: true do %>
+                        <!--Display activities that are not hidden-->
+                        <% if activity.hidden == false || activity.hidden == nil%>
+                            <!--Give id to activities inside of category, used for hide js-->
+                            <div id="edit_activity_<%= activity.id%>">
 
-                        <!--Set the icon to look like a eye with a slash for the link to-->
-                        <i class="fa fa-eye" aria-hidden="true" title="Show Hidden" style="border:none; background-color: transparent; padding:0; color: darkblue"></i>
-                    <% end %>
+                              <!--Display activities, pass activity id to enable sorting-->
+                              <li class="list-group-item" id='<%=activity.id%>'>
 
-                  </a>
-                </h4>
+                                <!--Display activity name -->
+                                <label class="my_label"><%= activity.a_name %></label>
 
-              </div>
+                                <!-- Link to delete activity path to delete activity -->
+                                <%= link_to destroy_act_path(activity.id), method: :delete,
+                                            data: { confirm: "Are you sure?" }, remote: true do %>
+                                    <!--Set trash can icon to destroy link_to-->
+                                    <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
+                                <% end %>
 
-              <!--Each panel needs to have a unique ID so the collapsible knows
-                  which div to expand or collapse-->
-              <div id="collapse<%= cats.id%>" class="panel-collapse collapse">
-                <ul id="category_activities<%=cats.id%>" class="connectedSortableTest">
+                                <!-- Link to edit activity path to edit activity -->
+                                <%= link_to edit_act_path(activity.id), remote: true do %>
+                                    <!--Set pencil icon to edit link_to-->
+                                    <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
+                                <% end %>
 
-                  <!--Each loop for each activity in a category-->
-                  <% cats.activities.each do |activity| %>
+                                <!-- Link to hide activity path to hide activity -->
+                                <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
+                                    <!--Set eye slash icon to hide link_to-->
+                                    <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
+                                <% end %>
 
-                      <!--We place everything in the following div that uses the activity ID
-                          so we can simply hide the entire div when the user requests to hide an activity-->
-                      <div id="edit_activity_<%= activity.id%>">
-
-                        <!--List item used to display the activities in a list order
-                            Also has a unique ID using the activity ID so we can enable sorting-->
-                        <li class="list-group-item" id='<%=activity.id%>'>
-
-                          <!--We do not want to display any hidden activities so we check the hidden boolean-->
-                          <% if activity.hidden == false || activity.hidden == nil%>
-
-                              <!--Display the activity name -->
-                              <label class="my_label"><%= activity.a_name %></label>
-
-                              <!-- Link to delete an activity -->
-                              <%= link_to destroy_act_path(activity.id), method: :delete,
-                                          data: { confirm: "Are you sure?" }, remote: true do %>
-
-                                  <i class="fa fa-trash-o" aria-hidden="true" title="Delete" style="padding-left: 2%"></i>
-                              <% end %>
-
-                              <!-- Link to edit activity -->
-                              <%= link_to edit_act_path(activity.id), remote: true do %>
-                                  <i class="fa fa-pencil fa-fw" aria-hidden="true" title="Edit" id="editActivity"></i>
-                              <% end %>
-
-                              <!-- Link to hide activity -->
-                              <%= link_to hide_act_path(activity.id),method: :post, remote: true do %>
-                                  <i class="fa fa-eye-slash" aria-hidden="true" title="Hide" id="item"></i>
-                              <% end %>
-
-                              <!--We use paths again for the activity link_to as it is easier
-                                  to maintain routes and makes it much more readiable-->
-
-                              <!-- THIS IS TO DISPLAY TOTAL TIME -->
-                              <!--<div id="total_time<%=activity.id%>">-->
-                              <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
-                              <!--</div>-->
+                                <!--######################MABYE DELETE? #########################-->
+                                <!--THIS IS TO DISPLAY TOTAL TIME -->
+                                <!--<div id="total_time<%=activity.id%>">-->
+                                <!--<p class = 'total_time_display'><%=activity.total_time%> minutes</p>-->
+                                <!--</div>-->
 
 
-                              <!-- CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS -->
-                              <!--<div class="scroll-pane">-->
-                              <!--<% (0..12).each do |am| %>-->
-                                  <!--<% if am < 12 %>-->
-                                      <!--<label><%=am%>:00 AM</label>-->
-                                      <!--<% (1..4).each do |amID| %>-->
-                                          <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                          <!--</button>-->
-                                          <!--<% end %>-->
-                                      <!--<% else %>-->
-                                      <!--<label><%=am%>:00 PM</label>-->
-                                      <!--<% (1..4).each do |amID| %>-->
-                                          <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
-                                          <!--</button>-->
-                                          <!--<% end %>-->
-                                      <!--<% end %>-->
+                                <!--&lt;!&ndash;CODE TO DYNAMICALLY CREATE BUTTONS WITH UNIQUE IDS &ndash;&gt;-->
+                                <!--<div class="scroll-pane">-->
+                                <!--<% (0..12).each do |am| %>-->
+                                    <!--<% if am < 12 %>-->
+                                        <!--<label><%=am%>:00 AM</label>-->
+                                        <!--<% (1..4).each do |amID| %>-->
+                                            <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                            <!--</button>-->
+                                            <!--<% end %>-->
+                                        <!--<% else %>-->
+                                        <!--<label><%=am%>:00 PM</label>-->
+                                        <!--<% (1..4).each do |amID| %>-->
+                                            <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=am%><%=amID%>', onclick="changeImages(this.id,<%=activity.id%>)">-->
+                                            <!--</button>-->
+                                            <!--<% end %>-->
+                                        <!--<% end %>-->
 
-                                  <!--<% end %>-->
+                                    <!--<% end %>-->
 
-                              <!--<% (13..23).each do |pm| %>-->
-                                  <!--<label><%=pm-12%>:00 PM</label>-->
-                                  <!--<% (1..4).each do |pmID| %>-->
-                                      <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
-                                      <!--</button>-->
-                                      <!--<% end %>-->
-                                  <!--<% end %>-->
-                              <!--</div>-->
+                                <!--<% (13..23).each do |pm| %>-->
+                                    <!--<label><%=pm-12%>:00 PM</label>-->
+                                    <!--<% (1..4).each do |pmID| %>-->
+                                        <!--<button class = 'unfilled', id = 'timeAct<%=activity.id%><%=pm%><%=pmID%>', onclick="changeImages(this.id)">-->
+                                        <!--</button>-->
+                                        <!--<% end %>-->
+                                    <!--<% end %>-->
+                                <!--</div>-->
 
-                          <% end %>
-                        </li>
-
-                      </div>
-                  <% end %>
-
-
-                </ul>
+                              </li>
+                            </div>
+                        <% end %> <!--End of hidden if statement-->
+                    <% end %> <!--End of activities loop-->
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-          </div>
-      <% end %>
-  <% end %>
+      <% end %> <!--End of user if statement-->
+  <% end %> <!--End of categories loop-->
 </ul>

@@ -1,12 +1,9 @@
 class CategoriesController < ApplicationController
 
-  def new
-    @category = Category.new
-  end
-
+  #Function that creates the category with the given parameters
   def create_category
     @category = Category.new(category_params)
-    @category.user_id = current_user.id
+    @category.user_id = current_user.id #
     @categories = Category.all
 
     @activity = Activity.new
